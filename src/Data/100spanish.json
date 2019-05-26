@@ -1,0 +1,406 @@
+{
+  "name": "Spanish 100",
+  "editable": false,
+  "data": [
+    {
+      "front": "semana",
+      "back": "week"
+    },
+    {
+      "front": "año",
+      "back": "year"
+    },
+    {
+      "front": "hoy",
+      "back": "today"
+    },
+    {
+      "front": "mañana",
+      "back": "tomorrow"
+    },
+    {
+      "front": "ayer",
+      "back": "yesterday"
+    },
+    {
+      "front": "calendario",
+      "back": "calendar"
+    },
+    {
+      "front": "segundo",
+      "back": "second"
+    },
+    {
+      "front": "hora",
+      "back": "hour"
+    },
+    {
+      "front": "minuto",
+      "back": "minute"
+    },
+    {
+      "front": "en punto",
+      "back": "o'clock"
+    },
+    {
+      "front": "reloj",
+      "back": "clock"
+    },
+    {
+      "front": "poder",
+      "back": "can"
+    },
+    {
+      "front": "usar",
+      "back": "use"
+    },
+    {
+      "front": "hacer",
+      "back": "do"
+    },
+    {
+      "front": "ir",
+      "back": "go"
+    },
+    {
+      "front": "venir",
+      "back": "come"
+    },
+    {
+      "front": "reírse",
+      "back": "laugh"
+    },
+    {
+      "front": "hacer",
+      "back": "make"
+    },
+    {
+      "front": "ver",
+      "back": "see"
+    },
+    {
+      "front": "lejos",
+      "back": "far"
+    },
+    {
+      "front": "pequeño",
+      "back": "small"
+    },
+    {
+      "front": "bueno",
+      "back": "good"
+    },
+    {
+      "front": "hermoso",
+      "back": "beautiful"
+    },
+    {
+      "front": "feo",
+      "back": "ugly"
+    },
+    {
+      "front": "difícil",
+      "back": "difficult"
+    },
+    {
+      "front": "fácil",
+      "back": "easy"
+    },
+    {
+      "front": "malo",
+      "back": "bad"
+    },
+    {
+      "front": "cerca",
+      "back": "near"
+    },
+    {
+      "front": "Encantado de conocerte.",
+      "back": "Nice to meet you"
+    },
+    {
+      "front": "Hola.",
+      "back": "Hello."
+    },
+    {
+      "front": "Buenos días.",
+      "back": "Good morning."
+    },
+    {
+      "front": "Buenas tardes.",
+      "back": "Good afternoon."
+    },
+    {
+      "front": "Buenas noches.",
+      "back": "Good night"
+    },
+    {
+      "front": "¿Cómo estás?",
+      "back": "How are you?"
+    },
+    {
+      "front": "Gracias.",
+      "back": "Thank you!"
+    },
+    {
+      "front": "No.",
+      "back": "No."
+    },
+    {
+      "front": "¡Delicioso!",
+      "back": "Delicious!"
+    },
+    {
+      "front": "Soy... (nombre)",
+      "back": "I'm...(name)."
+    },
+    {
+      "front": "Adiós.",
+      "back": "Goodbye."
+    },
+    {
+      "front": "Sí.",
+      "back": "Yes."
+    },
+    {
+      "front": "lunes",
+      "back": "Monday"
+    },
+    {
+      "front": "martes",
+      "back": "Tuesday"
+    },
+    {
+      "front": "miércoles",
+      "back": "Wednesday"
+    },
+    {
+      "front": "jueves",
+      "back": "Thursday"
+    },
+    {
+      "front": "viernes",
+      "back": "Friday"
+    },
+    {
+      "front": "sábado",
+      "back": "Saturday"
+    },
+    {
+      "front": "domingo",
+      "back": "Sunday"
+    },
+    {
+      "front": "mayo",
+      "back": "May"
+    },
+    {
+      "front": "enero",
+      "back": "January"
+    },
+    {
+      "front": "febrero",
+      "back": "February"
+    },
+    {
+      "front": "marzo",
+      "back": "March"
+    },
+    {
+      "front": "abril",
+      "back": "April"
+    },
+    {
+      "front": "junio",
+      "back": "June"
+    },
+    {
+      "front": "julio",
+      "back": "July"
+    },
+    {
+      "front": "agosto",
+      "back": "August"
+    },
+    {
+      "front": "septiembre",
+      "back": "September"
+    },
+    {
+      "front": "octubre",
+      "back": "October"
+    },
+    {
+      "front": "noviembre",
+      "back": "November"
+    },
+    {
+      "front": "diciembre",
+      "back": "December"
+    },
+    {
+      "front": "cero",
+      "back": "zero"
+    },
+    {
+      "front": "uno",
+      "back": "one"
+    },
+    {
+      "front": "dos",
+      "back": "two"
+    },
+    {
+      "front": "tres",
+      "back": "three"
+    },
+    {
+      "front": "cuatro",
+      "back": "four"
+    },
+    {
+      "front": "cinco",
+      "back": "five"
+    },
+    {
+      "front": "seis",
+      "back": "six"
+    },
+    {
+      "front": "siete",
+      "back": "seven"
+    },
+    {
+      "front": "ocho",
+      "back": "eight"
+    },
+    {
+      "front": "nueve",
+      "back": "nine"
+    },
+    {
+      "front": "diez",
+      "back": "ten"
+    },
+    {
+      "front": "café",
+      "back": "coffee"
+    },
+    {
+      "front": "cerveza",
+      "back": "beer"
+    },
+    {
+      "front": "té",
+      "back": "tea"
+    },
+    {
+      "front": "vino",
+      "back": "wine"
+    },
+    {
+      "front": "agua",
+      "back": "water"
+    },
+    {
+      "front": "ternera",
+      "back": "beef"
+    },
+    {
+      "front": "carne de cerdo",
+      "back": "pork"
+    },
+    {
+      "front": "pollo",
+      "back": "chicken"
+    },
+    {
+      "front": "cordero",
+      "back": "lamb"
+    },
+    {
+      "front": "pescado",
+      "back": "fish"
+    },
+    {
+      "front": "pie",
+      "back": "foot"
+    },
+    {
+      "front": "pierna",
+      "back": "leg"
+    },
+    {
+      "front": "cabeza",
+      "back": "head"
+    },
+    {
+      "front": "brazo",
+      "back": "arm"
+    },
+    {
+      "front": "mano",
+      "back": "hand"
+    },
+    {
+      "front": "dedo",
+      "back": "finger"
+    },
+    {
+      "front": "cuerpo",
+      "back": "body"
+    },
+    {
+      "front": "estómago",
+      "back": "stomach"
+    },
+    {
+      "front": "espalda",
+      "back": "back"
+    },
+    {
+      "front": "pecho",
+      "back": "chest"
+    },
+    {
+      "front": "enfermera",
+      "back": "nurse"
+    },
+    {
+      "front": "empleado",
+      "back": "employee"
+    },
+    {
+      "front": "oficial de policía",
+      "back": "police officer"
+    },
+    {
+      "front": "cocinero",
+      "back": "cook"
+    },
+    {
+      "front": "ingeniero",
+      "back": "engineer"
+    },
+    {
+      "front": "médico",
+      "back": "doctor"
+    },
+    {
+      "front": "encargado",
+      "back": "manager"
+    },
+    {
+      "front": "profesora",
+      "back": "teacher"
+    },
+    {
+      "front": "programador",
+      "back": "programmer"
+    },
+    {
+      "front": "vendedor",
+      "back": "salesman"
+    }
+  ]
+}

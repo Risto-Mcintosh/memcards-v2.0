@@ -1,0 +1,286 @@
+{
+  "name": "Web Development Acronyms",
+  "editable": false,
+  "data": [
+    {
+      "front": "CSS",
+      "back": "Cascading Style Sheets"
+    },
+    {
+      "front": "DHTML",
+      "back": "Dynamic HyperText Markup Language"
+    },
+    {
+      "front": "HTML",
+      "back": "HyperText Markup Language"
+    },
+    {
+      "front": "WML",
+      "back": "Wireless Markup Language"
+    },
+    {
+      "front": "XHTML",
+      "back": "Extensible HyperText Markup Language"
+    },
+    {
+      "front": "XML",
+      "back": "Extensible Markup Language"
+    },
+    {
+      "front": "ASP",
+      "back": "Active Server Pages"
+    },
+    {
+      "front": "CGI",
+      "back": "Common Gateway Interface"
+    },
+    {
+      "front": "JSP",
+      "back": "JavaServer Pages"
+    },
+    {
+      "front": "PHP",
+      "back": "PHP Hypertext Preprocessor/Personal Home Page"
+    },
+    {
+      "front": "RoR",
+      "back": "Ruby on Rails"
+    },
+    {
+      "front": "SSI",
+      "back": "Server Side Includes"
+    },
+    {
+      "front": "ASP",
+      "back": "Application Service Provider"
+    },
+    {
+      "front": "AWS",
+      "back": "Amazon Web Services"
+    },
+    {
+      "front": "RSS",
+      "back": "Really Simple Syndication"
+    },
+    {
+      "front": "S3",
+      "back": "Amazon Simple Storage Service"
+    },
+    {
+      "front": "YUI",
+      "back": "Yahoo! User Interface"
+    },
+    {
+      "front": "CRUD",
+      "back": "Create, Read, Update and Delete"
+    },
+    {
+      "front": "DBMS",
+      "back": "Database Management System"
+    },
+    {
+      "front": "SQL",
+      "back": "Structured Query Language"
+    },
+    {
+      "front": "CRON",
+      "back": "Command Run ON"
+    },
+    {
+      "front": "IIS",
+      "back": "Internet Information Services"
+    },
+    {
+      "front": "VPS",
+      "back": "Virtual Private Server"
+    },
+    {
+      "front": "FTP",
+      "back": "File Transfer Protocol"
+    },
+    {
+      "front": "HTTP",
+      "back": "HyperText Transfer Protocol"
+    },
+    {
+      "front": "HTTPS",
+      "back": "Secure HypterText Transfer Protocol"
+    },
+    {
+      "front": "SSH",
+      "back": "Secure Shell"
+    },
+    {
+      "front": "SSL",
+      "back": "Secure Sockets Layer"
+    },
+    {
+      "front": "WAP",
+      "back": "Wireless Application Protocol"
+    },
+    {
+      "front": "W3C",
+      "back": "World Wide Web Consortium"
+    },
+    {
+      "front": "WAI",
+      "back": "Web Accessibility Initiative"
+    },
+    {
+      "front": "WCAG",
+      "back": "Web Content Accessibility Guidelines"
+    },
+    {
+      "front": "AJAX",
+      "back": "Asynchronous JavaScript And XML"
+    },
+    {
+      "front": "DOM",
+      "back": "Document Object Model"
+    },
+    {
+      "front": "JS",
+      "back": "JavaScript"
+    },
+    {
+      "front": "CRAP",
+      "back": "Contrast, Repetition, Alignment, Proximity"
+    },
+    {
+      "front": "CVS",
+      "back": "Concurrent Versions System"
+    },
+    {
+      "front": "GUI",
+      "back": "Graphical User Interface"
+    },
+    {
+      "front": "SVN",
+      "back": "Subversion"
+    },
+    {
+      "front": "WYSIWYG",
+      "back": "What You See Is What You Get"
+    },
+    {
+      "front": "CMYK",
+      "back": "Cyan Magenta Yellow Key"
+    },
+    {
+      "front": "FLA",
+      "back": "Flash Authoring File"
+    },
+    {
+      "front": "GIF",
+      "back": "Graphics Interchange Format"
+    },
+    {
+      "front": "JPEG",
+      "back": "Joint Photographic Experts Group"
+    },
+    {
+      "front": "PNG",
+      "back": "Portable Network Graphics"
+    },
+    {
+      "front": "PSD",
+      "back": "PhotoShop Document"
+    },
+    {
+      "front": "RGB",
+      "back": "Red Green Blue"
+    },
+    {
+      "front": "SVG",
+      "back": "Scalable Vector Graphics"
+    },
+    {
+      "front": "SWF",
+      "back": "Small Web Format/ShockWave Flash"
+    },
+    {
+      "front": "AVS",
+      "back": "Address Verification System"
+    },
+    {
+      "front": "CSC/CVV",
+      "back": "Card Security Code/Card Verification Value"
+    },
+    {
+      "front": "MID",
+      "back": "Merchant ID"
+    },
+    {
+      "front": "FAQ",
+      "back": "Frequently Asked Questions"
+    },
+    {
+      "front": "CPC",
+      "back": "Cost Per Click"
+    },
+    {
+      "front": "CPM",
+      "back": "Cost Per 1000 Impressions"
+    },
+    {
+      "front": "CTR",
+      "back": "Click Through Rate/Ratio"
+    },
+    {
+      "front": "PPC",
+      "back": "Pay Per Click"
+    },
+    {
+      "front": "PR",
+      "back": "PageRank"
+    },
+    {
+      "front": "SEO",
+      "back": "Search Engine Optimization"
+    },
+    {
+      "front": "SERP",
+      "back": "Search Engine Results Page"
+    },
+    {
+      "front": "XSS",
+      "back": "Cross-Site Scripting"
+    },
+    {
+      "front": "CSRF",
+      "back": "Cross-Site Request Forgery"
+    },
+    {
+      "front": "CNAME",
+      "back": "Canonical Name"
+    },
+    {
+      "front": "DNS",
+      "back": "Domain Name System"
+    },
+    {
+      "front": "DTD",
+      "back": "Document Type Definition"
+    },
+    {
+      "front": "ICANN",
+      "back": "Internet Corporation for Assigned Names and Numbers"
+    },
+    {
+      "front": "IP",
+      "back": "Internet Protocol"
+    },
+    {
+      "front": "TLD",
+      "back": "Top-Level Domain"
+    },
+    {
+      "front": "URL",
+      "back": "Uniform Resource Locator"
+    },
+    {
+      "front": "WWW",
+      "back": "World Wide Web"
+    }
+  ]
+}
