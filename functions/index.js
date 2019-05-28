@@ -20,16 +20,42 @@ const doc = {
   data: { front: "front", back: "back" }
 };
 
-// app.get("/api", async (req, res) => {
-//   let results = [];
-//   await db
-//     .collection(newDeck)
-//     .get()
-//     .then(snapshot =>
-//       snapshot.forEach(doc => results.push({ id: doc.id, ...doc.data() }))
-//     );
-//   res.json({ results });
-// });
+async function getCard(docId) {
+  let results = [];
+
+  await db
+    .collection(`users/ByEwGojiQUML6HqdntGx/decks/${docId}/data/`)
+    .get()
+    .then(snapshot =>
+      snapshot.forEach(doc =>
+        results.push({ deckId: docId, id: doc.id, ...doc.data() })
+      )
+    );
+
+  return results;
+}
+
+app.get("/api", async (req, res) => {
+  let results = [];
+  const deckSnapshot = await db.collection(newDeck).get();
+  const promises = [];
+  deckSnapshot.forEach(doc => {
+    const p = getCard(doc.id);
+    promises.push(p);
+    results.push({ id: doc.id, ...doc.data() });
+  });
+
+  const cardData = await Promise.all(promises);
+
+  const dataModel = results.map((deck, index) => ({
+    id: deck.id,
+    name: deck.name,
+    editable: deck.editable,
+    data: cardData[index].filter(doc => deck.id === doc.deckId)
+  }));
+
+  res.send({ dataModel });
+});
 
 app.get("/api/edit", async (req, res) => {
   await db
@@ -43,23 +69,23 @@ app.get("/api/edit", async (req, res) => {
   res.json({ what: "up!" });
 });
 
-app.get("/api/delete", async (req, res) => {
-  await db
-    .collection(`users/ByEwGojiQUML6HqdntGx/decks/${doc.name}/data/`)
-    .doc("eoleRJc8FvRATn3p4FVM")
-    .delete();
-  res.json({ what: "up!" });
-});
+// app.get("/api/delete", async (req, res) => {
+//   await db
+//     .collection(`users/ByEwGojiQUML6HqdntGx/decks/${doc.name}/data/`)
+//     .doc("eoleRJc8FvRATn3p4FVM")
+//     .delete();
+//   res.json({ what: "up!" });
+// });
 
-app.post("/api", (req, res) => {
-  db.collection(newDeck)
-    .doc(doc.name)
-    .set({ name: doc.name, editable: true });
-  db.collection(`users/ByEwGojiQUML6HqdntGx/decks/${doc.name}/data`).add({
-    front: "front",
-    back: "back"
-  });
-  res.json({ what: "up!" });
-});
+// app.post("/api", (req, res) => {
+//   db.collection(newDeck)
+//     .doc(doc.name)
+//     .set({ name: doc.name, editable: true });
+//   db.collection(`users/ByEwGojiQUML6HqdntGx/decks/${doc.name}/data`).add({
+//     front: "front",
+//     back: "back"
+//   });
+//   res.json({ what: "up!" });
+// });
 
 exports.memcards = functions.https.onRequest(app);

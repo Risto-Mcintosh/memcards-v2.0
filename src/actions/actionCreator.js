@@ -1,16 +1,17 @@
 import {
-  getAllLocalDecks,
+  getAllDecks,
   createNewDeck,
+  getAllCards,
   addCardToDB,
   editCardInDB,
   deleteDeckInDB,
   deleteCardInDB
-} from "../utils/pouchDB";
+} from "../utils/firestore";
 import history from "../history";
 
 export function hydrate() {
   return async dispatch => {
-    const localStorage = await getAllLocalDecks();
+    const localStorage = await getAllDecks();
 
     dispatch({
       type: "HYDRATE",
@@ -47,14 +48,14 @@ export function deleteDeck(deckId) {
   };
 }
 
-export function setCurrentDeck(deckName) {
-  return (dispatch, getState) => {
-    let deck = getState().decks.find(item => item.name === deckName);
+export function setCurrentDeck(deckName, editable) {
+  return async dispatch => {
+    let cards = await getAllCards(deckName);
     dispatch({
       type: "SET_CURRENT_DECK",
-      payload: deck
+      payload: { name: deckName, editable, data: cards }
     });
-    if (deck.data <= 0) {
+    if (cards.length <= 0) {
       history.push(`/decks`);
     }
   };
@@ -64,6 +65,8 @@ export function getCard(cardId) {
   return (dispatch, getState) => {
     let deck = getState().deck;
     let card;
+    console.log("deck: ", deck);
+
     const randomNumber = Math.floor(Math.random() * deck.data.length);
 
     if (cardId === "random") {

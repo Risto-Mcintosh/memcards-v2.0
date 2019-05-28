@@ -28,8 +28,8 @@ const store = createStore(
 
 store.dispatch(hydrate());
 
-changes.on("change", () => {
-  store.dispatch(hydrate());
-});
+// changes.on("change", () => {
+//   store.dispatch(hydrate());
+// });
 
 export default store;
