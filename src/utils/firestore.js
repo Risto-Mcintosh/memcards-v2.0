@@ -12,6 +12,7 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+firebase.firestore().enablePersistence();
 
 const db = firebase.firestore();
 const newDeck = "users/ByEwGojiQUML6HqdntGx/decks";
@@ -24,12 +25,17 @@ export async function createNewDeck(values) {
       .collection(newDeck)
       .doc(deckName)
       .set({ name: deckName, editable: true });
-    await db
+    const cardId = await db
       .collection(`users/ByEwGojiQUML6HqdntGx/decks/${deckName}/data`)
       .add({
         front,
         back
+      })
+      .then(function(docRef) {
+        return docRef.id;
       });
+
+    return cardId;
   } catch (error) {
     console.log(error);
   }
@@ -74,12 +80,17 @@ export async function addCardToDB(newCard) {
   const { deckName, frontOfCard: front, backOfCard: back } = newCard;
 
   try {
-    await db
-      .collection(`users/ByEwGojiQUML6HqdntGx/decks/${deckName}/data/`)
+    const cardId = await db
+      .collection(`users/ByEwGojiQUML6HqdntGx/decks/${deckName}/data`)
       .add({
         front,
         back
+      })
+      .then(function(docRef) {
+        return docRef.id;
       });
+
+    return cardId;
   } catch (err) {
     console.log(err);
   }
@@ -120,3 +131,8 @@ export async function deleteDeckInDB(deckId) {
     console.log(err);
   }
 }
+
+// let newDeckCreated
+// db.collection(newDeck).onSnapshot(snapshot => {
+
+// })

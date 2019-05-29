@@ -22,17 +22,16 @@ export default function AllDecks({
               key={deck.name}
               onClick={async e => {
                 e.stopPropagation();
-                await setCurrentDeck(deck.name, deck.editable);
+                await setCurrentDeck(deck);
                 getCard("random");
               }}
               action
-              className={`d-flex justify-content-between `}
-              // ${
-              //   deck.data.length <= 0 ? "text-muted" : null
-              // }
-              // style={{
-              //   pointerEvents: `${deck.data.length <= 0 ? "none" : "auto"} `
-              // }}
+              className={`d-flex justify-content-between ${
+                deck.data.length <= 0 ? "text-muted" : null
+              }`}
+              style={{
+                pointerEvents: `${deck.data.length <= 0 ? "none" : "auto"} `
+              }}
             >
               <div className="d-flex align-items-center">
                 {deck.editable && toggle.toggleDelete && (
@@ -42,13 +41,13 @@ export default function AllDecks({
                     onClick={e => {
                       e.stopPropagation();
                       e.preventDefault();
-                      deleteDeck(deck._id);
+                      deleteDeck(deck.id);
                     }}
                   />
                 )}
                 <div className="h5">{deck.name}</div>
               </div>
-              {/* <div className=" font-weight-bold">{deck.data.length}</div> */}
+              <div className=" font-weight-bold">{deck.data.length}</div>
             </ListGroup.Item>
           );
         })}

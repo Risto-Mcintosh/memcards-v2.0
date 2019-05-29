@@ -5,9 +5,10 @@ function decks(state = [], action) {
     case "HYDRATE":
       return [...state, ...action.payload];
     case "CREATE_NEW_DECK":
-      return state;
+    case "UPDATE_CARD":
+    case "DELETE_CARD":
     case "ADD_NEW_CARD":
-      return state;
+      return [...action.payload];
     default:
       return state;
   }
@@ -16,9 +17,10 @@ function decks(state = [], action) {
 function deck(state = {}, action) {
   switch (action.type) {
     case "SET_CURRENT_DECK":
-      return action.payload;
+      return { ...action.payload };
     case "DELETE_DECK_TOGGLE":
       return { toggleDelete: action.payload };
+    case "DELETE_CARD":
     case "DELETE_DECK":
       return state;
     default:
@@ -34,6 +36,7 @@ function card(state = {}, action) {
       return { ...state, cardSide: action.payload };
     case "UPDATE_CARD":
     case "CLEAR_CARD":
+    case "DELETE_CARD":
       return {};
     default:
       return state;

@@ -36,7 +36,7 @@ export default function AddEditCard(props) {
     if (props.location.pathname === "/add/newdeck") {
       props.createDeck(formValue);
     } else if (props.match.path === "/edit/card/:cardId") {
-      props.updateCard(props.deck._id, formValue, props.card.id);
+      props.updateCard(props.deck.id, formValue, props.card.id);
     } else {
       props.addNewCard(formValue);
       setSnackBar({ show: true, message: "New Card Added!" });

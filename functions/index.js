@@ -14,11 +14,11 @@ const newCard = "users/ByEwGojiQUML6HqdntGx/decks/02b1oSWaOuImQ2de0flj/data";
 
 const app = express();
 
-const doc = {
-  name: "test 2",
-  editable: true,
-  data: { front: "front", back: "back" }
-};
+// const doc = {
+//   name: "test 2",
+//   editable: true,
+//   data: { front: "front", back: "back" }
+// };
 
 async function getCard(docId) {
   let results = [];
@@ -57,17 +57,17 @@ app.get("/api", async (req, res) => {
   res.send({ dataModel });
 });
 
-app.get("/api/edit", async (req, res) => {
-  await db
-    .doc(
-      `users/ByEwGojiQUML6HqdntGx/decks/${doc.name}/data/eoleRJc8FvRATn3p4FVM`
-    )
-    .set({
-      front: "front3",
-      back: "back3"
-    });
-  res.json({ what: "up!" });
-});
+// app.get("/api/edit", async (req, res) => {
+//   await db
+//     .doc(
+//       `users/ByEwGojiQUML6HqdntGx/decks/${doc.name}/data/eoleRJc8FvRATn3p4FVM`
+//     )
+//     .set({
+//       front: "front3",
+//       back: "back3"
+//     });
+//   res.json({ what: "up!" });
+// });
 
 // app.get("/api/delete", async (req, res) => {
 //   await db
