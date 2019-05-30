@@ -5,6 +5,7 @@ function decks(state = [], action) {
     case "HYDRATE":
       return [...state, ...action.payload];
     case "CREATE_NEW_DECK":
+    case "DELETE_DECK":
     case "UPDATE_CARD":
     case "DELETE_CARD":
     case "ADD_NEW_CARD":
@@ -21,7 +22,6 @@ function deck(state = {}, action) {
     case "DELETE_DECK_TOGGLE":
       return { toggleDelete: action.payload };
     case "DELETE_CARD":
-    case "DELETE_DECK":
       return state;
     default:
       return state;

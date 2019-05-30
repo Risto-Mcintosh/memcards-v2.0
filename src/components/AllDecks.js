@@ -41,7 +41,7 @@ export default function AllDecks({
                     onClick={e => {
                       e.stopPropagation();
                       e.preventDefault();
-                      deleteDeck(deck.id);
+                      deleteDeck(deck.name);
                     }}
                   />
                 )}

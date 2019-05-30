@@ -10,6 +10,17 @@ import {
 import * as filterState from "../utils/filter";
 import history from "../history";
 
+function filter(currState, deckName, cardData) {
+  return filterState.filterDecks(currState, [
+    {
+      id: deckName,
+      name: deckName,
+      editable: true,
+      data: filterState.filterCards(currState, deckName, cardData)
+    }
+  ]);
+}
+
 export function hydrate() {
   return async dispatch => {
     const localStorage = await getAllDecks();
@@ -29,14 +40,7 @@ export function createDeck(values) {
 
     dispatch({
       type: "CREATE_NEW_DECK",
-      payload: filterState.filterDecks(state, [
-        {
-          id: deckName,
-          name: deckName,
-          editable: true,
-          data: [{ id: cardId, front, back }]
-        }
-      ])
+      payload: filter(state, deckName, [{ id: cardId, front, back }])
     });
     history.push("/add/card", {
       selectedDeckName: values.deckName,
@@ -57,10 +61,11 @@ export function deleteDeck(deckId) {
     let state = getState().decks;
     const currentDecks = getState().decks;
     const newDeckList = currentDecks.filter(deck => deck.id !== deckId);
+    console.log(newDeckList);
 
     dispatch({
       type: "DELETE_DECK",
-      payload: filterState.filterDecks(state, newDeckList)
+      payload: newDeckList
     });
   };
 }
@@ -115,16 +120,7 @@ export function addNewCard(values) {
     const cardId = await addCardToDB(values);
     dispatch({
       type: "ADD_NEW_CARD",
-      payload: filterState.filterDecks(state, [
-        {
-          id: deckName,
-          name: deckName,
-          editable: true,
-          data: filterState.filterCards(state, deckName, [
-            { id: cardId, front, back }
-          ])
-        }
-      ])
+      payload: filter(state, deckName, [{ id: cardId, front, back }])
     });
   };
 }
@@ -144,16 +140,7 @@ export function updateCard(deckId, card, cardId) {
 
     dispatch({
       type: "UPDATE_CARD",
-      payload: filterState.filterDecks(state, [
-        {
-          id: card.deckName,
-          name: card.deckName,
-          editable: true,
-          data: filterState.filterCards(state, card.deckName, [
-            { id: cardId, front, back }
-          ])
-        }
-      ])
+      payload: filter(state, card.deckName, [{ id: cardId, front, back }])
     });
     history.push(`/deck/${card.deckName}`, {
       deckName: card.deckName,
@@ -171,14 +158,7 @@ export function deleteCard(deck, cardId) {
     const newCards = currentDeck.data.filter(card => card.id !== cardId);
     dispatch({
       type: "DELETE_CARD",
-      payload: filterState.filterDecks(state, [
-        {
-          id: deck.id,
-          name: deck.id,
-          editable: true,
-          data: newCards
-        }
-      ])
+      payload: filter(state, deck.id, newCards)
     });
 
     history.push(`/deck/${deck.name}`, {

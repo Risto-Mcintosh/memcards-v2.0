@@ -901,3 +901,276 @@
 [debug] [2019-05-29T00:14:29.947Z] Ephemeral server used!
 [debug] [2019-05-29T00:14:30.392Z] Ephemeral server survived.
 [info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:01:54.113Z] ----------------------------------------------------------------------
+[debug] [2019-05-29T17:01:54.116Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\risto\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2019-05-29T17:01:54.116Z] CLI Version:   6.10.0
+[debug] [2019-05-29T17:01:54.116Z] Platform:      win32
+[debug] [2019-05-29T17:01:54.116Z] Node Version:  v11.0.0
+[debug] [2019-05-29T17:01:54.118Z] Time:          Wed May 29 2019 12:01:54 GMT-0500 (Central Daylight Time)
+[debug] [2019-05-29T17:01:54.118Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-05-29T17:01:54.142Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-05-29T17:01:54.144Z] > authorizing via signed-in user
+[debug] [2019-05-29T17:01:54.144Z] [iam] checking project memcards-17 for permissions ["firebase.projects.get"]
+[debug] [2019-05-29T17:01:54.147Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-05-29T17:01:54.147Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-05-29T17:01:54.363Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-29T17:01:54.372Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/memcards-17:testIamPermissions  
+
+[debug] [2019-05-29T17:01:54.599Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-29T17:01:54.600Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/memcards-17  
+ 
+[debug] [2019-05-29T17:01:54.775Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\risto\Sites\Personal_Projects\portfolio\memcards-v2.0'...
+[info] 
+[warn] !  Your requested "node" version "8" doesn't match your global version "11"
+[debug] [2019-05-29T17:01:54.788Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/455837639885:getServerAppConfig  
+ 
+[debug] [2019-05-29T17:01:54.980Z] <<< HTTP RESPONSE 200
+[info] +  functions: Emulator started at http://localhost:5000
+[info] i  functions: Watching "C:\Users\risto\Sites\Personal_Projects\portfolio\memcards-v2.0\functions" for Cloud Functions...
+[debug] [2019-05-29T17:01:55.757Z] Functions runtime initialized.
+[debug] [2019-05-29T17:01:55.757Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:01:57.209Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[info] i  functions: HTTP trigger initialized at http://localhost:5000/memcards-17/us-central1/memcards
+[debug] [2019-05-29T17:02:34.373Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:02:35.462Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:02:35.466Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:02:36.846Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:02:37.335Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:02:37.335Z] 
+[debug] [2019-05-29T17:02:37.336Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:02:37.349Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\1972"}
+[debug] [2019-05-29T17:02:37.358Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\1972"}
+[debug] [2019-05-29T17:02:37.376Z] Ephemeral server used!
+[debug] [2019-05-29T17:02:38.121Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:06:25.039Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:06:26.100Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:06:26.103Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:06:27.301Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:06:27.758Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:06:27.758Z] 
+[debug] [2019-05-29T17:06:27.758Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:06:27.767Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\1888"}
+[debug] [2019-05-29T17:06:27.774Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\1888"}
+[debug] [2019-05-29T17:06:27.787Z] Ephemeral server used!
+[debug] [2019-05-29T17:06:28.314Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:10:46.179Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:10:47.269Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:10:47.290Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:10:48.584Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:10:49.090Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:10:49.091Z] 
+[debug] [2019-05-29T17:10:49.091Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:10:49.100Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\5712"}
+[debug] [2019-05-29T17:10:49.107Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\5712"}
+[debug] [2019-05-29T17:10:49.117Z] Ephemeral server used!
+[debug] [2019-05-29T17:10:49.594Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:12:35.712Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:12:36.892Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:12:36.895Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:12:38.145Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:12:38.642Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:12:38.642Z] 
+[debug] [2019-05-29T17:12:38.642Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:12:38.651Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\9596"}
+[debug] [2019-05-29T17:12:38.661Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\9596"}
+[debug] [2019-05-29T17:12:38.673Z] Ephemeral server used!
+[debug] [2019-05-29T17:12:39.168Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:18:18.330Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:18:19.749Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:18:19.761Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:18:20.943Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:18:21.434Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:18:21.434Z] 
+[debug] [2019-05-29T17:18:21.435Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:18:21.443Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\888"}
+[debug] [2019-05-29T17:18:21.451Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\888"}
+[debug] [2019-05-29T17:18:21.464Z] Ephemeral server used!
+[debug] [2019-05-29T17:18:21.914Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:22:06.582Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:22:07.640Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:22:07.650Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:22:09.120Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:22:09.646Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:22:09.647Z] 
+[debug] [2019-05-29T17:22:09.647Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:22:09.656Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\9768"}
+[debug] [2019-05-29T17:22:09.664Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\9768"}
+[debug] [2019-05-29T17:22:09.679Z] Ephemeral server used!
+[debug] [2019-05-29T17:22:10.181Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:28:23.600Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:28:24.714Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:28:24.723Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:28:26.179Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:28:26.643Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:28:26.643Z] 
+[debug] [2019-05-29T17:28:26.644Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:28:26.652Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\11288"}
+[debug] [2019-05-29T17:28:26.660Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\11288"}
+[debug] [2019-05-29T17:28:26.669Z] Ephemeral server used!
+[debug] [2019-05-29T17:28:27.180Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:42:48.058Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:42:49.340Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:42:49.342Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:42:50.675Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:42:51.164Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:42:51.165Z] 
+[debug] [2019-05-29T17:42:51.165Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:42:51.173Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\10480"}
+[debug] [2019-05-29T17:42:51.181Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\10480"}
+[debug] [2019-05-29T17:42:51.196Z] Ephemeral server used!
+[debug] [2019-05-29T17:42:51.703Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:45:25.162Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:45:26.272Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:45:26.274Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:45:27.496Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:45:28.049Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:45:28.050Z] 
+[debug] [2019-05-29T17:45:28.050Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:45:28.058Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\4416"}
+[debug] [2019-05-29T17:45:28.066Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\4416"}
+[debug] [2019-05-29T17:45:28.080Z] Ephemeral server used!
+[debug] [2019-05-29T17:45:28.565Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:48:10.458Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:48:11.910Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:48:11.913Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:48:13.129Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:48:13.602Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:48:13.602Z] 
+[debug] [2019-05-29T17:48:13.602Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:48:13.611Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\6392"}
+[debug] [2019-05-29T17:48:13.618Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\6392"}
+[debug] [2019-05-29T17:48:13.632Z] Ephemeral server used!
+[debug] [2019-05-29T17:48:14.101Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:50:43.336Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:50:44.522Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:50:44.524Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:50:45.832Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:50:46.387Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:50:46.387Z] 
+[debug] [2019-05-29T17:50:46.387Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:50:46.398Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\240"}
+[debug] [2019-05-29T17:50:46.407Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\240"}
+[debug] [2019-05-29T17:50:46.418Z] Ephemeral server used!
+[debug] [2019-05-29T17:50:46.927Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:52:28.134Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:52:29.323Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:52:29.325Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:52:30.539Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:52:31.021Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:52:31.021Z] 
+[debug] [2019-05-29T17:52:31.021Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:52:31.030Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\8132"}
+[debug] [2019-05-29T17:52:31.038Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\8132"}
+[debug] [2019-05-29T17:52:31.051Z] Ephemeral server used!
+[debug] [2019-05-29T17:52:31.534Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:54:54.812Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:54:55.938Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:54:55.941Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:54:57.199Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:54:57.685Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:54:57.685Z] 
+[debug] [2019-05-29T17:54:57.685Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:54:57.694Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\7116"}
+[debug] [2019-05-29T17:54:57.701Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\7116"}
+[debug] [2019-05-29T17:54:57.715Z] Ephemeral server used!
+[debug] [2019-05-29T17:54:58.303Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T17:57:19.654Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T17:57:20.952Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T17:57:20.956Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T17:57:22.229Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T17:57:22.714Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T17:57:22.714Z] 
+[debug] [2019-05-29T17:57:22.714Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T17:57:22.723Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\5864"}
+[debug] [2019-05-29T17:57:22.731Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\5864"}
+[debug] [2019-05-29T17:57:22.745Z] Ephemeral server used!
+[debug] [2019-05-29T17:57:23.286Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T18:00:06.442Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T18:00:07.637Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T18:00:07.640Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T18:00:08.892Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T18:00:09.384Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T18:00:09.384Z] 
+[debug] [2019-05-29T18:00:09.384Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T18:00:09.394Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\10444"}
+[debug] [2019-05-29T18:00:09.403Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\10444"}
+[debug] [2019-05-29T18:00:09.419Z] Ephemeral server used!
+[debug] [2019-05-29T18:00:09.928Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T18:01:55.878Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T18:01:56.974Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T18:01:56.976Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T18:01:58.396Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T18:01:58.879Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T18:01:58.880Z] 
+[debug] [2019-05-29T18:01:58.880Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T18:01:58.889Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\8860"}
+[debug] [2019-05-29T18:01:58.896Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\8860"}
+[debug] [2019-05-29T18:01:58.908Z] Ephemeral server used!
+[debug] [2019-05-29T18:01:59.526Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
+[debug] [2019-05-29T18:03:28.964Z] Accepted request GET /memcards-17/us-central1/memcards/api/ --> memcards
+[debug] [2019-05-29T18:03:30.258Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "memcards"
+[debug] [2019-05-29T18:03:30.262Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-05-29T18:03:31.494Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[debug] [2019-05-29T18:03:32.050Z] Trigger "memcards" has been found, beginning invocation!
+[debug] [2019-05-29T18:03:32.051Z] 
+[debug] [2019-05-29T18:03:32.051Z] Running memcards in mode HTTPS
+[debug] [2019-05-29T18:03:32.059Z] {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\3220"}
+[debug] [2019-05-29T18:03:32.067Z] [functions] Runtime ready! Sending request! {"socketPath":"\\\\?\\pipe\\C:\\Users\\risto\\Sites\\Personal_Projects\\portfolio\\memcards-v2.0\\functions\\3220"}
+[debug] [2019-05-29T18:03:32.083Z] Ephemeral server used!
+[debug] [2019-05-29T18:03:32.529Z] Ephemeral server survived.
+[info] i  functions: Finished "memcards" in ~1s
