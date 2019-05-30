@@ -1,32 +1,43 @@
-function filterDecks(allDecks, singleDeck) {
-  console.log("singleDeck :", singleDeck);
-  const singleDeckId = singleDeck.map(deck => deck.id);
-  //if (singleDeckId.includes(undefined)) return [...singleDeck];
-  const filteredDeckList = allDecks.filter(deck => deck.id !== singleDeckId[0]);
-  const newDeckList = [...filteredDeckList, ...singleDeck];
-
-  console.log("singleDeckId :", singleDeckId);
-  console.log("filteredDeckList :", filteredDeckList);
-  console.log("newDeckList :", newDeckList);
-  return newDeckList;
+function findId(arr, i) {
+  const { id } = arr.find(item => item.id === i);
+  return id;
 }
 
-function filterCards(allCards, deckName, singleCard) {
-  if (singleCard.length > 1) return singleCard;
-  const singleCardId = singleCard.map(card => card.id);
-  const filteredDeck = allCards.filter(deck => deck.name === deckName);
-  if (filteredDeck.length === 0) return [...singleCard];
-  console.log("filteredDeck :", filteredDeck);
-  const filteredCardList = filteredDeck[0].data.filter(
-    card => card.id !== singleCardId[0]
+function filterList(original, modified) {
+  return original.filter(o => o.id !== modified);
+}
+
+function DeckFilter(allDecks, modifiedDeck, deckName) {
+  return [
+    ...filterList(allDecks, findId(modifiedDeck, deckName)),
+    ...modifiedDeck
+  ];
+}
+
+function CardFilter(allDecks, modifiedCard, deckName, cardId) {
+  if (modifiedCard.length > 1 || !cardId) return modifiedCard;
+  const filteredDeck = findId(allDecks, deckName);
+  if (!filteredDeck || !filteredDeck.length) return [...modifiedCard];
+
+  return [
+    ...filterList(filteredDeck.data, findId(modifiedCard, cardId)),
+    ...modifiedCard
+  ];
+}
+
+function filterState(currState, deckName, cardData, cardId) {
+  return DeckFilter(
+    currState,
+    [
+      {
+        id: deckName,
+        name: deckName,
+        editable: true,
+        data: CardFilter(currState, cardData, deckName, cardId)
+      }
+    ],
+    deckName
   );
-  const newCardList = [...filteredCardList, ...singleCard];
-
-  console.log("singleCardId :", singleCardId);
-  console.log("filteredCardList :", filteredCardList);
-  console.log("newCardList :", newCardList);
-
-  return newCardList;
 }
 
-export { filterDecks, filterCards };
+export default filterState;
