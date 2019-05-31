@@ -2,7 +2,7 @@ const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 const express = require("express");
 
-var serviceAccount = require("./memcards17.json");
+var serviceAccount = require("./memcards.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
