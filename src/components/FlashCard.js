@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useSpring, animated } from "react-spring";
+import axios from "axios";
 import styled from "styled-components";
 
 const StyledContainer = styled(Container)`
@@ -29,6 +30,17 @@ export default function FlashCard({ card, deckName }) {
     transform: `perspective(600px) rotateY(${card.cardSide ? 180 : 0}deg)`
   });
 
+  const [image, setImage] = useState("");
+  useEffect(() => {
+    const fetch = async () => {
+      const results = await axios(
+        `https://api.unsplash.com/photos/random?client_id=${CL_ID}`
+      );
+      setImage(results.data.urls.small);
+    };
+    fetch();
+  }, []);
+
   return (
     <Container
       fluid
@@ -51,6 +63,7 @@ export default function FlashCard({ card, deckName }) {
             style={{ transform, backfaceVisibility: "hidden" }}
           >
             <h3>{card.front}</h3>
+            <img src={image} alt="" />
           </FlashCardBody>
         </div>
       </StyledContainer>

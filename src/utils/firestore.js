@@ -48,16 +48,10 @@ export async function getAllDecks() {
     )
       .then(res => res.json())
       .then(data => data.dataModel);
-    // await db
-    //   .collection(newDeck)
-    //   .get()
-    //   .then(snapshot =>
-    //     snapshot.forEach(doc => results.push({ id: doc.id, ...doc.data() }))
-    //   );
-    console.log("results", results);
     return results;
   } catch (err) {
     console.log(err);
+    return [];
   }
 }
 
@@ -131,8 +125,3 @@ export async function deleteDeckInDB(deckId) {
     console.log(err);
   }
 }
-
-// let newDeckCreated
-// db.collection(newDeck).onSnapshot(snapshot => {
-
-// })

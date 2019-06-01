@@ -15,9 +15,11 @@ function DeckFilter(allDecks, modifiedDeck, deckName) {
 }
 
 function CardFilter(allDecks, modifiedCard, deckName, cardId) {
-  if (modifiedCard.length > 1 || !cardId) return modifiedCard;
   const filteredDeck = findId(allDecks, deckName);
-  if (!filteredDeck || !filteredDeck.length) return [...modifiedCard];
+
+  if (modifiedCard.length > 1 || !cardId || !filteredDeck) {
+    return modifiedCard;
+  }
 
   return [
     ...filterList(filteredDeck.data, findId(modifiedCard, cardId)),

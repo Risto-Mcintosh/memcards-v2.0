@@ -11,11 +11,17 @@ import history from "../history";
 
 export function hydrate() {
   return async dispatch => {
-    const localStorage = await getAllDecks();
+    let cloudStorage;
+    try {
+      cloudStorage = await getAllDecks();
+    } catch (e) {
+      console.log(e);
+      console.log(cloudStorage);
+    }
 
     dispatch({
       type: "HYDRATE",
-      payload: localStorage
+      payload: cloudStorage
     });
   };
 }
@@ -51,7 +57,6 @@ export function deleteDeckToggle(bool) {
 export function deleteDeck(deckId) {
   return (dispatch, getState) => {
     deleteDeckInDB(deckId);
-    let state = getState().decks;
     const currentDecks = getState().decks;
     const newDeckList = currentDecks.filter(deck => deck.id !== deckId);
     console.log(newDeckList);
