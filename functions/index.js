@@ -14,7 +14,6 @@ const newCard = "users/ByEwGojiQUML6HqdntGx/decks/02b1oSWaOuImQ2de0flj/data";
 
 const app = express();
 
-
 async function getCard(docId) {
   let results = [];
 
@@ -52,6 +51,8 @@ app.get("/api", async (req, res) => {
   res.send({ dataModel });
 });
 
-
+app.get("/api/photos", (req, res) => {
+  console.log("hit photos route!");
+});
 
 exports.memcards = functions.https.onRequest(app);
