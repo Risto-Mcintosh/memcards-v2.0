@@ -1,8 +1,8 @@
 const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 const express = require("express");
-
-var serviceAccount = require("./memcards.json");
+const unsplash = require("./unsplash");
+const serviceAccount = require("./memcards.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -51,8 +51,9 @@ app.get("/api", async (req, res) => {
   res.send({ dataModel });
 });
 
-app.get("/api/photos", (req, res) => {
-  console.log("hit photos route!");
+app.get("/api/photos", async (req, res) => {
+  const images = await unsplash.getImages();
+  res.send(images);
 });
 
 exports.memcards = functions.https.onRequest(app);
