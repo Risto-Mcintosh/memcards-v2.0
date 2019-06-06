@@ -2,6 +2,7 @@ const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 const express = require("express");
 const unsplash = require("./unsplash");
+var cors = require("cors");
 const serviceAccount = require("./memcards.json");
 
 admin.initializeApp({
@@ -13,6 +14,11 @@ const newDeck = "users/ByEwGojiQUML6HqdntGx/decks";
 const newCard = "users/ByEwGojiQUML6HqdntGx/decks/02b1oSWaOuImQ2de0flj/data";
 
 const app = express();
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200
+};
 
 async function getCard(docId) {
   let results = [];
@@ -51,7 +57,8 @@ app.get("/api", async (req, res) => {
   res.send({ dataModel });
 });
 
-app.get("/api/photos", async (req, res) => {
+app.get("/api/photos", cors(corsOptions), async (req, res) => {
+  console.log(req.query.page);
   const images = await unsplash.getImages(req.query.searchTerm, req.query.page);
   res.send(images);
 });

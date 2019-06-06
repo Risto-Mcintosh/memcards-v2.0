@@ -19,6 +19,8 @@ export default function AddEditCard(props) {
     backOfCard
   });
 
+  const [searchToggle, setToggle] = useState(false);
+
   const [snackBar, setSnackBar] = useState({
     show: !props.location.state
       ? false
@@ -86,7 +88,7 @@ export default function AddEditCard(props) {
             </Form.Group>
             <Form.Group controlId="selectImage">
               <Form.Label>Image:</Form.Label>
-              <ImageInput />
+              <ImageInput searchToggle={searchToggle} setToggle={setToggle} />
             </Form.Group>
             <Form.Group controlId="BackOfFlashcard">
               <Form.Label>Back:</Form.Label>
@@ -110,7 +112,7 @@ export default function AddEditCard(props) {
           </Form>
         </div>
       </Container>
-      <ImageSearch />
+      <ImageSearch searchToggle={searchToggle} setToggle={setToggle} />
     </div>
   );
 }
