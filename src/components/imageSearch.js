@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import axios from "axios";
-import { Form, InputGroup, Button } from "react-bootstrap";
+import { Form, InputGroup } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import styled from "styled-components";
 
@@ -69,11 +69,19 @@ function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
     setPage(pageCount);
   }
 
-  function setFormData(image) {
+  function addImageFormData(image) {
     const { urls, alt_description } = image;
     setFormValue({
       ...formValue,
-      cardImage: { src: urls.small, alt: alt_description }
+      cardImage: { src: urls.small, alt: alt_description, thumb: urls.thumb }
+    });
+    setToggle(!searchToggle);
+  }
+
+  function removeImageFormData() {
+    setFormValue({
+      ...formValue,
+      cardImage: null
     });
     setToggle(!searchToggle);
   }
@@ -88,7 +96,12 @@ function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
   return (
     <SearchContainer style={animateSearchContainer}>
       <div className="d-flex justify-content-between px-2">
-        <span className="p-0 bg-0 text-primary">Remove</span>
+        <span
+          className="p-0 bg-0 text-primary"
+          onClick={() => removeImageFormData()}
+        >
+          Remove
+        </span>
         <span
           className="p-0 bg-0 text-primary"
           onClick={() => setToggle(!searchToggle)}
@@ -123,9 +136,9 @@ function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
           {images.map(image => (
             <img
               key={image.id}
-              src={image.urls.thumb}
+              src={image.urls.small}
               alt={image.alt_description}
-              onClick={() => setFormData(image)}
+              onClick={() => addImageFormData(image)}
             />
           ))}
         </ImageGrid>

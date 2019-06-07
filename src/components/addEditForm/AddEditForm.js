@@ -12,7 +12,7 @@ export default function AddEditCard(props) {
     : props.location.state.selectedDeckName;
   let frontOfCard = !props.match.params.cardId ? "" : props.card.front;
   let backOfCard = !props.match.params.cardId ? "" : props.card.back;
-  let cardImage = null;
+  let cardImage = !props.match.params.cardId ? null : props.card.image;
   const [formValue, setFormValue] = useState({
     deckName,
     frontOfCard,
@@ -51,7 +51,8 @@ export default function AddEditCard(props) {
     setFormValue({
       deckName: formValue.deckName,
       frontOfCard: "",
-      backOfCard: ""
+      backOfCard: "",
+      cardImage: null
     });
   };
 
@@ -90,7 +91,11 @@ export default function AddEditCard(props) {
             </Form.Group>
             <Form.Group controlId="selectImage">
               <Form.Label>Image:</Form.Label>
-              <ImageInput searchToggle={searchToggle} setToggle={setToggle} />
+              <ImageInput
+                searchToggle={searchToggle}
+                setToggle={setToggle}
+                image={formValue.cardImage}
+              />
             </Form.Group>
             <Form.Group controlId="BackOfFlashcard">
               <Form.Label>Back:</Form.Label>
