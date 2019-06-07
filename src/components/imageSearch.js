@@ -30,13 +30,13 @@ const ImageGrid = styled(InfiniteScroll)`
   }
 `;
 
-function imageSearch({ searchToggle, setToggle }) {
+function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [term, setSearchTerm] = useState("");
   const [prevSearchTerm, setPrevTerm] = useState("");
 
-  const getImages = e => {
+  function getImages(e) {
     e.preventDefault();
     if (term.length < 3) return;
     if (prevSearchTerm === term) return;
@@ -53,7 +53,7 @@ function imageSearch({ searchToggle, setToggle }) {
     });
 
     setPrevTerm(term);
-  };
+  }
 
   function getMoreImages() {
     const pageCount = page + 1;
@@ -67,6 +67,15 @@ function imageSearch({ searchToggle, setToggle }) {
       setImages(images.concat(res.data.results));
     });
     setPage(pageCount);
+  }
+
+  function setFormData(image) {
+    const { urls, alt_description } = image;
+    setFormValue({
+      ...formValue,
+      cardImage: { src: urls.small, alt: alt_description }
+    });
+    setToggle(!searchToggle);
   }
 
   const animateSearchContainer = useSpring({
@@ -112,7 +121,12 @@ function imageSearch({ searchToggle, setToggle }) {
           loader={<div>Loading ...</div>}
         >
           {images.map(image => (
-            <img key={image.id} src={image.urls.small} />
+            <img
+              key={image.id}
+              src={image.urls.thumb}
+              alt={image.alt_description}
+              onClick={() => setFormData(image)}
+            />
           ))}
         </ImageGrid>
       </div>

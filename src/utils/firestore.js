@@ -9,7 +9,12 @@ const db = firebase.firestore();
 const newDeck = "users/ByEwGojiQUML6HqdntGx/decks";
 
 export async function createNewDeck(values) {
-  const { deckName, frontOfCard: front, backOfCard: back } = values;
+  const {
+    deckName,
+    frontOfCard: front,
+    backOfCard: back,
+    cardImage: image
+  } = values;
 
   try {
     await db
@@ -20,6 +25,7 @@ export async function createNewDeck(values) {
       .collection(`users/ByEwGojiQUML6HqdntGx/decks/${deckName}/data`)
       .add({
         front,
+        image,
         back
       })
       .then(function(docRef) {
@@ -62,13 +68,19 @@ export async function getAllCards(deckName) {
 }
 
 export async function addCardToDB(newCard) {
-  const { deckName, frontOfCard: front, backOfCard: back } = newCard;
+  const {
+    deckName,
+    frontOfCard: front,
+    backOfCard: back,
+    cardImage: image
+  } = newCard;
 
   try {
     const cardId = await db
       .collection(`users/ByEwGojiQUML6HqdntGx/decks/${deckName}/data`)
       .add({
         front,
+        image,
         back
       })
       .then(function(docRef) {
@@ -82,12 +94,13 @@ export async function addCardToDB(newCard) {
 }
 
 export async function editCardInDB(deckId, card, cardId) {
-  const { frontOfCard: front, backOfCard: back } = card;
+  const { frontOfCard: front, backOfCard: back, cardImage: image } = card;
   try {
     await db
       .doc(`users/ByEwGojiQUML6HqdntGx/decks/${deckId}/data/${cardId}`)
       .set({
         front,
+        image,
         back
       });
   } catch (err) {

@@ -28,7 +28,12 @@ export function hydrate() {
 
 export function createDeck(values) {
   return async (dispatch, getState) => {
-    const { deckName, frontOfCard: front, backOfCard: back } = values;
+    const {
+      deckName,
+      frontOfCard: front,
+      backOfCard: back,
+      cardImage: image
+    } = values;
     let state = getState().decks;
     const cardId = await createNewDeck(values);
 
@@ -37,7 +42,7 @@ export function createDeck(values) {
       payload: filterState(
         state,
         deckName,
-        [{ id: cardId, front, back }],
+        [{ id: cardId, front, back, image }],
         cardId
       )
     });
@@ -113,7 +118,12 @@ export function getCard(cardId) {
 export function addNewCard(values) {
   return async (dispatch, getState) => {
     let state = getState().decks;
-    const { deckName, frontOfCard: front, backOfCard: back } = values;
+    const {
+      deckName,
+      frontOfCard: front,
+      backOfCard: back,
+      cardImage: image
+    } = values;
 
     const cardId = await addCardToDB(values);
     dispatch({
@@ -121,7 +131,7 @@ export function addNewCard(values) {
       payload: filterState(
         state,
         deckName,
-        [{ id: cardId, front, back }],
+        [{ id: cardId, front, back, image }],
         cardId
       )
     });
@@ -131,22 +141,16 @@ export function addNewCard(values) {
 export function updateCard(deckId, card, cardId) {
   return async (dispatch, getState) => {
     let state = getState().decks;
-    const { frontOfCard: front, backOfCard: back } = card;
+    const { frontOfCard: front, backOfCard: back, cardImage: image } = card;
 
     editCardInDB(deckId, card, cardId);
-    // const deck = getState().decks.find(item => item.name === card.deckName);
-    // console.log("edit card: ", deck);
-    // const data = deck.data;
-    // const cardFound = data.findIndex(card => card.id === cardId);
-    // data[cardFound] = ;
-    console.log(card.deckName);
 
     dispatch({
       type: "UPDATE_CARD",
       payload: filterState(
         state,
         card.deckName,
-        [{ id: cardId, front, back }],
+        [{ id: cardId, front, back, image }],
         cardId
       )
     });

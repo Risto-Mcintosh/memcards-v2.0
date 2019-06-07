@@ -1,10 +1,9 @@
 function findId(arr, i) {
-  const { id } = arr.find(item => item.id === i);
-  return id;
+  return arr.find(item => item.id === i);
 }
 
 function filterList(original, modified) {
-  return original.filter(o => o.id !== modified);
+  return original.filter(o => o.id !== modified.id);
 }
 
 function DeckFilter(allDecks, modifiedDeck, deckName) {

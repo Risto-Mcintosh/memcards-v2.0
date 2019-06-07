@@ -35,7 +35,7 @@ async function getCard(docId) {
   return results;
 }
 
-app.get("/api", async (req, res) => {
+app.get("/api", cors(corsOptions), async (req, res) => {
   let results = [];
   const deckSnapshot = await db.collection(newDeck).get();
   const promises = [];

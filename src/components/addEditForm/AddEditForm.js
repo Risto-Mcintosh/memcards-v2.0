@@ -12,11 +12,12 @@ export default function AddEditCard(props) {
     : props.location.state.selectedDeckName;
   let frontOfCard = !props.match.params.cardId ? "" : props.card.front;
   let backOfCard = !props.match.params.cardId ? "" : props.card.back;
-
+  let cardImage = null;
   const [formValue, setFormValue] = useState({
     deckName,
     frontOfCard,
-    backOfCard
+    backOfCard,
+    cardImage
   });
 
   const [searchToggle, setToggle] = useState(false);
@@ -36,6 +37,7 @@ export default function AddEditCard(props) {
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log(formValue);
 
     if (props.location.pathname === "/add/newdeck") {
       props.createDeck(formValue);
@@ -112,7 +114,12 @@ export default function AddEditCard(props) {
           </Form>
         </div>
       </Container>
-      <ImageSearch searchToggle={searchToggle} setToggle={setToggle} />
+      <ImageSearch
+        searchToggle={searchToggle}
+        setToggle={setToggle}
+        formValue={formValue}
+        setFormValue={setFormValue}
+      />
     </div>
   );
 }

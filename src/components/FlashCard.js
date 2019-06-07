@@ -48,19 +48,21 @@ export default function FlashCard({ card, deckName }) {
             }}
           >
             <h3>{card.back}</h3>
-            <div>
-              {/* <img
-                src={image}
-                alt=""
-                style={{ width: "100%", padding: "0px 4px" }}
-              /> */}
-            </div>
           </FlashCardBody>
           <FlashCardBody
             className="bg-light border shadow"
             style={{ transform, backfaceVisibility: "hidden" }}
           >
             <h3>{card.front}</h3>
+            {!card.image || card.image === null ? null : (
+              <div>
+                <img
+                  src={card.image.src}
+                  alt={card.image.alt}
+                  style={{ width: "100%", padding: "0px 4px" }}
+                />
+              </div>
+            )}
           </FlashCardBody>
         </div>
       </StyledContainer>
