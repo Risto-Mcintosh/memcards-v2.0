@@ -16,7 +16,6 @@ export function hydrate() {
       cloudStorage = await getAllDecks();
     } catch (e) {
       console.log(e);
-      console.log(cloudStorage);
     }
 
     dispatch({
@@ -192,5 +191,13 @@ export function flipCard(bool) {
   return {
     type: "FLIP_CARD",
     payload: !bool
+  };
+}
+
+export function setAuthenticatedUser(bool) {
+  console.log(bool);
+  return {
+    type: "AUTHENTICATED_USER",
+    payload: bool
   };
 }

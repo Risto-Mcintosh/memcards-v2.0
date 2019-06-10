@@ -43,10 +43,20 @@ function card(state = {}, action) {
   }
 }
 
+function user(state = { isAuthenticated: false }, action) {
+  switch (action.type) {
+    case "AUTHENTICATED_USER":
+      return { ...state, isAuthenticated: action.payload };
+    default:
+      return state;
+  }
+}
+
 const appReducer = combineReducers({
   decks,
   deck,
-  card
+  card,
+  user
 });
 
 export default appReducer;

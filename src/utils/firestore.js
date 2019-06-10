@@ -1,11 +1,14 @@
 import * as firebase from "firebase/app";
 import "firebase/firestore";
+import "firebase/auth";
 import firebaseConfig from "./firebaseConfig";
 
 firebase.initializeApp(firebaseConfig);
 firebase.firestore().enablePersistence();
 
 const db = firebase.firestore();
+const user = firebase.auth().currentUser;
+console.log(user);
 const newDeck = "users/ByEwGojiQUML6HqdntGx/decks";
 
 export async function createNewDeck(values) {

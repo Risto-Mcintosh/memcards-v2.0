@@ -7,15 +7,17 @@ import TestImagesCard from "./Data/TestImagesCard.json";
 import { hydrate } from "./actions/actionCreator";
 import appReducer from "./reducers/index";
 
-const initialState = {
-  decks: [spanish100, capitalCities, webDevAcronyms, TestImagesCard]
-};
+const initialState = [
+  spanish100,
+  capitalCities,
+  webDevAcronyms,
+  TestImagesCard
+];
 
 const rootReducer = (state, action) => {
   if (action.type === "HYDRATE") {
-    state = initialState;
+    state.decks = initialState;
   }
-
   return appReducer(state, action);
 };
 
