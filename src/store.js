@@ -28,6 +28,6 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-store.dispatch(hydrate());
+//store.dispatch(hydrate());
 
 export default store;

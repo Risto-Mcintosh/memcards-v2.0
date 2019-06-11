@@ -11,7 +11,7 @@ admin.initializeApp({
 
 var db = admin.firestore();
 const newDeck = "users/ByEwGojiQUML6HqdntGx/decks";
-const newCard = "users/ByEwGojiQUML6HqdntGx/decks/02b1oSWaOuImQ2de0flj/data";
+let userUid;
 
 const app = express();
 
@@ -24,7 +24,7 @@ async function getCard(docId) {
   let results = [];
 
   await db
-    .collection(`users/ByEwGojiQUML6HqdntGx/decks/${docId}/data/`)
+    .collection(`users/${userUid}/decks/${docId}/data/`)
     .get()
     .then(snapshot =>
       snapshot.forEach(doc =>
@@ -37,8 +37,10 @@ async function getCard(docId) {
 
 app.get("/api", cors(corsOptions), async (req, res) => {
   let results = [];
-  const deckSnapshot = await db.collection(newDeck).get();
+  userUid = req.query.uid;
+  const deckSnapshot = await db.collection(`users/${userUid}/decks`).get();
   const promises = [];
+  cd;
   deckSnapshot.forEach(doc => {
     const p = getCard(doc.id);
     promises.push(p);

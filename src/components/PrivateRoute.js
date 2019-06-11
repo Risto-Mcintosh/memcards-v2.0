@@ -1,5 +1,4 @@
 import React from "react";
-import store from "../store";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 

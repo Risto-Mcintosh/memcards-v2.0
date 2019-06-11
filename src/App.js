@@ -2,7 +2,6 @@ import React from "react";
 import { Router, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import history from "./history";
-
 import FlashcardView from "./Views/flashcardView";
 import AddEditView from "./Views/addEditView";
 import AllDecksView from "./Views/allDecksView";

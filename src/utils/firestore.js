@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import axios from "axios";
 import firebaseConfig from "./firebaseConfig";
 
 firebase.initializeApp(firebaseConfig);
@@ -9,7 +10,7 @@ firebase.firestore().enablePersistence();
 const db = firebase.firestore();
 const user = firebase.auth().currentUser;
 console.log(user);
-const newDeck = "users/ByEwGojiQUML6HqdntGx/decks";
+const userDecks = !user ? null : `users/${user.uid}/decks`;
 
 export async function createNewDeck(values) {
   const {
@@ -21,11 +22,11 @@ export async function createNewDeck(values) {
 
   try {
     await db
-      .collection(newDeck)
+      .collection(userDecks)
       .doc(deckName)
       .set({ name: deckName, editable: true });
     const cardId = await db
-      .collection(`users/ByEwGojiQUML6HqdntGx/decks/${deckName}/data`)
+      .collection(`${userDecks}/${deckName}/data`)
       .add({
         front,
         image,
@@ -43,8 +44,13 @@ export async function createNewDeck(values) {
 
 export async function getAllDecks() {
   try {
-    let results = await fetch(
-      "http://localhost:5000/memcards-17/us-central1/memcards/api/"
+    let results = await axios(
+      "http://localhost:5000/memcards-17/us-central1/memcards/api/",
+      {
+        params: {
+          uid: user.uid
+        }
+      }
     )
       .then(res => res.json())
       .then(data => data.dataModel);
@@ -80,7 +86,7 @@ export async function addCardToDB(newCard) {
 
   try {
     const cardId = await db
-      .collection(`users/ByEwGojiQUML6HqdntGx/decks/${deckName}/data`)
+      .collection(`${userDecks}/${deckName}/data`)
       .add({
         front,
         image,
@@ -99,13 +105,11 @@ export async function addCardToDB(newCard) {
 export async function editCardInDB(deckId, card, cardId) {
   const { frontOfCard: front, backOfCard: back, cardImage: image } = card;
   try {
-    await db
-      .doc(`users/ByEwGojiQUML6HqdntGx/decks/${deckId}/data/${cardId}`)
-      .set({
-        front,
-        image,
-        back
-      });
+    await db.doc(`${userDecks}/${deckId}/data/${cardId}`).set({
+      front,
+      image,
+      back
+    });
   } catch (err) {
     console.log(err);
   }
@@ -114,7 +118,7 @@ export async function editCardInDB(deckId, card, cardId) {
 export async function deleteCardInDB(deckId, cardId) {
   try {
     await db
-      .collection(`users/ByEwGojiQUML6HqdntGx/decks/${deckId}/data/`)
+      .collection(`${userDecks}/${deckId}/data/`)
       .doc(cardId)
       .delete();
   } catch (err) {
@@ -125,7 +129,7 @@ export async function deleteCardInDB(deckId, cardId) {
 export async function deleteDeckInDB(deckId) {
   try {
     await db
-      .collection(newDeck)
+      .collection(userDecks)
       .doc(deckId)
       .delete();
   } catch (err) {

@@ -43,7 +43,7 @@ function card(state = {}, action) {
   }
 }
 
-function user(state = { isAuthenticated: false }, action) {
+function user(state = {}, action) {
   switch (action.type) {
     case "AUTHENTICATED_USER":
       return { ...state, isAuthenticated: action.payload };

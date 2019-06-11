@@ -1,0 +1,31 @@
+[debug] [2019-06-11T16:57:55.234Z] ----------------------------------------------------------------------
+[debug] [2019-06-11T16:57:55.237Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\risto\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2019-06-11T16:57:55.238Z] CLI Version:   6.11.0
+[debug] [2019-06-11T16:57:55.238Z] Platform:      win32
+[debug] [2019-06-11T16:57:55.238Z] Node Version:  v11.0.0
+[debug] [2019-06-11T16:57:55.239Z] Time:          Tue Jun 11 2019 11:57:55 GMT-0500 (Central Daylight Time)
+[debug] [2019-06-11T16:57:55.239Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-06-11T16:57:55.259Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-06-11T16:57:55.260Z] > authorizing via signed-in user
+[debug] [2019-06-11T16:57:55.260Z] [iam] checking project memcards-17 for permissions ["firebase.projects.get"]
+[debug] [2019-06-11T16:57:55.263Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/memcards-17:testIamPermissions  
+
+[debug] [2019-06-11T16:57:55.584Z] <<< HTTP RESPONSE 200
+[debug] [2019-06-11T16:57:55.587Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/memcards-17  
+ 
+[debug] [2019-06-11T16:57:55.741Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\risto\Sites\Personal_Projects\portfolio\memcards-v2.0'...
+[info] 
+[warn] !  Your requested "node" version "8" doesn't match your global version "11"
+[debug] [2019-06-11T16:57:55.751Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/455837639885:getServerAppConfig  
+ 
+[debug] [2019-06-11T16:57:55.984Z] <<< HTTP RESPONSE 200
+[info] +  functions: Emulator started at http://localhost:5000
+[info] i  functions: Watching "C:\Users\risto\Sites\Personal_Projects\portfolio\memcards-v2.0\functions" for Cloud Functions...
+[debug] [2019-06-11T16:57:56.826Z] Functions runtime initialized.
+[debug] [2019-06-11T16:57:56.827Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-06-11T16:57:58.102Z] firebase-admin has been stubbed.
+[info] i  Your code has been provided a "firebase-admin" instance.
+[info] i  functions: HTTP trigger initialized at http://localhost:5000/memcards-17/us-central1/memcards
