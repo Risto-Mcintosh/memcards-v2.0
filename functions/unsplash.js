@@ -8,7 +8,7 @@ const unsplash = new Unsplash({
   applicationId: functions.config().unsplash.key,
   secret: functions.config().unsplash.secret
 });
-
+//
 exports.getImages = function(searchTerm, page) {
   return unsplash.search
     .photos(searchTerm, page, 10, "landscape")

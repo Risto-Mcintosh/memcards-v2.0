@@ -41,16 +41,12 @@ function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
     if (term.length < 3) return;
     if (prevSearchTerm === term) return;
     setPage(1);
-    axios(
-      "https://us-central1-memcards-17.cloudfunctions.net/memcards/api/photos",
-      {
-        params: {
-          page: page,
-          searchTerm: term
-        }
+    axios("http://localhost:5000/memcards-17/us-central1/memcards/api/photos", {
+      params: {
+        page: page,
+        searchTerm: term
       }
-    ).then(res => {
-      console.log(res);
+    }).then(res => {
       setImages(res.data.results);
     });
 
@@ -59,15 +55,12 @@ function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
 
   function getMoreImages() {
     const pageCount = page + 1;
-    axios(
-      "https://us-central1-memcards-17.cloudfunctions.net/memcards/api/photos",
-      {
-        params: {
-          page: pageCount,
-          searchTerm: term
-        }
+    axios("http://localhost:5000/memcards-17/us-central1/memcards/api/photos", {
+      params: {
+        page: pageCount,
+        searchTerm: term
       }
-    ).then(res => {
+    }).then(res => {
       setImages(images.concat(res.data.results));
     });
     setPage(pageCount);
