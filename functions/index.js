@@ -40,7 +40,7 @@ app.get("/api", cors(corsOptions), async (req, res) => {
   userUid = req.query.uid;
   const deckSnapshot = await db.collection(`users/${userUid}/decks`).get();
   const promises = [];
-  cd;
+
   deckSnapshot.forEach(doc => {
     const p = getCard(doc.id);
     promises.push(p);
@@ -60,7 +60,6 @@ app.get("/api", cors(corsOptions), async (req, res) => {
 });
 
 app.get("/api/photos", cors(corsOptions), async (req, res) => {
-  console.log(req.query.page);
   const images = await unsplash.getImages(req.query.searchTerm, req.query.page);
   res.send(images);
 });

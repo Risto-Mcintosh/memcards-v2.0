@@ -47,8 +47,6 @@ function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
         searchTerm: term
       }
     }).then(res => {
-      console.log(res);
-
       setImages(res.data.results);
     });
 
@@ -63,7 +61,6 @@ function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
         searchTerm: term
       }
     }).then(res => {
-      console.log(res);
       setImages(images.concat(res.data.results));
     });
     setPage(pageCount);

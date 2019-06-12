@@ -10,10 +10,11 @@ import filterState from "../utils/filter";
 import history from "../history";
 
 export function hydrate() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const uid = getState().user.uid;
     let cloudStorage;
     try {
-      cloudStorage = await getAllDecks();
+      cloudStorage = await getAllDecks(uid);
     } catch (e) {
       console.log(e);
     }
@@ -33,8 +34,9 @@ export function createDeck(values) {
       backOfCard: back,
       cardImage: image
     } = values;
-    let state = getState().decks;
-    const cardId = await createNewDeck(values);
+    const state = getState().decks;
+    const uid = getState().user.uid;
+    const cardId = await createNewDeck(values, uid);
 
     dispatch({
       type: "CREATE_NEW_DECK",
@@ -60,7 +62,8 @@ export function deleteDeckToggle(bool) {
 }
 export function deleteDeck(deckId) {
   return (dispatch, getState) => {
-    deleteDeckInDB(deckId);
+    const uid = getState().user.uid;
+    deleteDeckInDB(deckId, uid);
     const currentDecks = getState().decks;
     const newDeckList = currentDecks.filter(deck => deck.id !== deckId);
     console.log(newDeckList);
@@ -91,7 +94,7 @@ export function setCurrentDeck(deckName) {
 
 export function getCard(cardId) {
   return (dispatch, getState) => {
-    let deck = getState().deck;
+    const deck = getState().deck;
     let card;
 
     const randomNumber = Math.floor(Math.random() * deck.data.length);
@@ -116,7 +119,8 @@ export function getCard(cardId) {
 
 export function addNewCard(values) {
   return async (dispatch, getState) => {
-    let state = getState().decks;
+    const uid = getState().user.uid;
+    const state = getState().decks;
     const {
       deckName,
       frontOfCard: front,
@@ -124,7 +128,7 @@ export function addNewCard(values) {
       cardImage: image
     } = values;
 
-    const cardId = await addCardToDB(values);
+    const cardId = await addCardToDB(values, uid);
     dispatch({
       type: "ADD_NEW_CARD",
       payload: filterState(
@@ -139,10 +143,11 @@ export function addNewCard(values) {
 
 export function updateCard(deckId, card, cardId) {
   return async (dispatch, getState) => {
-    let state = getState().decks;
+    const state = getState().decks;
+    const uid = getState().user.uid;
     const { frontOfCard: front, backOfCard: back, cardImage: image } = card;
 
-    editCardInDB(deckId, card, cardId);
+    editCardInDB(deckId, card, cardId, uid);
 
     dispatch({
       type: "UPDATE_CARD",
@@ -162,8 +167,9 @@ export function updateCard(deckId, card, cardId) {
 
 export function deleteCard(deck, cardId) {
   return async (dispatch, getState) => {
-    let state = getState().decks;
-    deleteCardInDB(deck.id, cardId);
+    const state = getState().decks;
+    const uid = getState().user.uid;
+    deleteCardInDB(deck.id, cardId, uid);
     const currentDeck = getState().deck;
 
     const newCards = currentDeck.data.filter(card => card.id !== cardId);
@@ -194,10 +200,9 @@ export function flipCard(bool) {
   };
 }
 
-export function setAuthenticatedUser(bool) {
-  console.log(bool);
+export function setAuthenticatedUser(bool, uid) {
   return {
     type: "AUTHENTICATED_USER",
-    payload: bool
+    payload: { bool, uid }
   };
 }
