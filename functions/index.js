@@ -2,23 +2,20 @@ const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 const express = require("express");
 const unsplash = require("./unsplash");
-var cors = require("cors");
-const serviceAccount = require("./memcards.json");
+const cors = require("cors")({ origin: true });
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+admin.initializeApp();
 
 var db = admin.firestore();
-const newDeck = "users/ByEwGojiQUML6HqdntGx/decks";
 let userUid;
 
 const app = express();
+app.use(cors);
 
-const corsOptions = {
-  origin: "http://localhost:3000",
-  optionsSuccessStatus: 200
-};
+// const corsOptions = {
+//   origin: "http://localhost:3000",
+//   optionsSuccessStatus: 200
+// };
 
 async function getCard(docId) {
   let results = [];
@@ -35,7 +32,7 @@ async function getCard(docId) {
   return results;
 }
 
-app.get("/api", cors(corsOptions), async (req, res) => {
+app.get("/api", async (req, res) => {
   let results = [];
   userUid = req.query.uid;
   const deckSnapshot = await db.collection(`users/${userUid}/decks`).get();
@@ -59,7 +56,7 @@ app.get("/api", cors(corsOptions), async (req, res) => {
   res.send({ dataModel });
 });
 
-app.get("/api/photos", cors(corsOptions), async (req, res) => {
+app.get("/api/photos", async (req, res) => {
   const images = await unsplash.getImages(req.query.searchTerm, req.query.page);
   res.send(images);
 });
