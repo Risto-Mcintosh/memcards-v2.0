@@ -1,7 +1,7 @@
 import React from "react";
 import { ImageAdd } from "styled-icons/boxicons-regular/ImageAdd";
 import { Button } from "react-bootstrap";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const StyledButton = styled(Button)`
   ${({ thumbnail }) =>

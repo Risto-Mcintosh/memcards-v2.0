@@ -4,8 +4,9 @@ import firebaseUI from "firebaseui";
 import firebase from "firebase";
 import { signInFlow } from "../utils/auth";
 import { Container } from "react-bootstrap";
+import { ReactComponent as FlashCardsSVG } from "../images/flashcards.svg";
 
-export default function Welcome() {
+export default function Login() {
   const uiConfig = {
     signInFlow: "popup",
     signInOptions: [
@@ -18,9 +19,12 @@ export default function Welcome() {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center flex-column vh-100">
-      <h1>Memcards</h1>
+    <div className="d-flex bg-primary justify-content-center align-items-center flex-column vh-100">
+      <div className=" mb-3" style={{ maxWidth: "210px" }}>
+        <FlashCardsSVG className="w-100" />
+      </div>
+      <h1 className="text-white">Memcards</h1>
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-    </Container>
+    </div>
   );
 }

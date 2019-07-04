@@ -13,7 +13,7 @@ export default function AllDecks({
 }) {
   return (
     <Container className="d-flex flex-column position-relative">
-      <ListGroup className="mt-3">
+      <ListGroup variant="flush" className="mt-3">
         {decks.map(deck => {
           return (
             <ListGroup.Item

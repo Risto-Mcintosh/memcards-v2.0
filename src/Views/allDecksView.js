@@ -8,11 +8,16 @@ import {
   getCard,
   deleteDeck
 } from "../actions/actionCreator";
+import Loading from "../components/loading";
 
 function allDecksView(props) {
   useEffect(() => {
     props.clearCard();
   }, []);
+
+  if (props.decks.length <= 0) {
+    return <Loading loader />;
+  }
 
   return (
     <Layout>

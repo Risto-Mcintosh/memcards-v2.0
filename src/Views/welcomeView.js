@@ -1,18 +1,15 @@
 import React from "react";
-import Welcome from "../components/Welcome";
+import LogIn from "../components/LogIn";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { Container } from "react-bootstrap";
-
+import Loading from "../components/loading";
 function welcomeView({ user }) {
   return (
     <>
       {Object.entries(user).length === 0 ? (
-        <div className=" vh-100 bg-primary">
-          <h3>Loading....</h3>
-        </div>
+        <Loading />
       ) : !user.isAuthenticated ? (
-        <Welcome />
+        <LogIn />
       ) : (
         <Redirect to="/" />
       )}
