@@ -1,20 +1,16 @@
-const Unsplash = require("./unsplashApi").default;
-const toJson = require("./unsplashApi").toJson;
-const fetch = require("node-fetch");
-global.fetch = fetch;
+const axios = require("axios");
 
-const { UNSPLASH_API_ID, UNSPLASH_API_SECRET } = process.env;
-const unsplash = new Unsplash({
-  applicationId: UNSPLASH_API_ID,
-  secret: UNSPLASH_API_SECRET
-});
+const { UNSPLASH_API_ID } = process.env;
 
-const getImages = function(searchTerm, page) {
-  return unsplash.search
-    .photos(searchTerm, page, 10, "landscape")
-    .then(toJson)
-    .then(json => json)
-    .catch(e => console.log(e));
+const getImages = async function(searchTerm, page) {
+  return await axios.get(
+    `https://api.unsplash.com/search/photos?page=${page}&query=${searchTerm}&orientation=landscape`,
+    {
+      headers: {
+        Authorization: `Client-ID ${UNSPLASH_API_ID}`
+      }
+    }
+  );
 };
 
 exports.handler = async event => {
@@ -26,7 +22,7 @@ exports.handler = async event => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify(images)
+      body: JSON.stringify(images.data)
     };
   } catch (err) {
     return { statusCode: 500, body: err.toString() };

@@ -61,7 +61,8 @@ app.get("/api", async (req, res) => {
 
 app.get("/api/photos", async (req, res) => {
   const images = await unsplash.getImages(req.query.searchTerm, req.query.page);
-  res.send(images);
+  console.log(images);
+  res.send(images.data);
 });
 
 exports.memcards = functions.https.onRequest(app);
