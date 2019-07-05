@@ -3,15 +3,9 @@ import thunk from "redux-thunk";
 import spanish100 from "./Data/100spanish.json";
 import capitalCities from "./Data/capital_cities.json";
 import webDevAcronyms from "./Data/web_development_acronyms.json";
-import TestImagesCard from "./Data/TestImagesCard.json";
 import appReducer from "./reducers/index";
 
-const initialState = [
-  spanish100,
-  capitalCities,
-  webDevAcronyms,
-  TestImagesCard
-];
+const initialState = [spanish100, capitalCities, webDevAcronyms];
 
 const rootReducer = (state, action) => {
   if (action.type === "HYDRATE") {
