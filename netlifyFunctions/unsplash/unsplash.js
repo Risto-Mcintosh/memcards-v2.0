@@ -1,5 +1,5 @@
-const Unsplash = require("unsplash-js").default;
-const toJson = require("unsplash-js").toJson;
+const Unsplash = require("./unsplashApi").default;
+const toJson = require("./unsplashApi").toJson;
 const fetch = require("node-fetch");
 global.fetch = fetch;
 
