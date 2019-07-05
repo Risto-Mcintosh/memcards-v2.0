@@ -50,7 +50,7 @@ function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
     if (term.length < 3) return;
     if (prevSearchTerm === term) return;
     setPage(1);
-    axios("http://localhost:5000/memcards-17/us-central1/memcards/api/photos", {
+    axios("https://memcards.netlify.com/.netlify/functions/unsplash", {
       params: {
         page: page,
         searchTerm: term
@@ -64,7 +64,7 @@ function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
 
   function getMoreImages() {
     const pageCount = page + 1;
-    axios("http://localhost:5000/memcards-17/us-central1/memcards/api/photos", {
+    axios("https://memcards.netlify.com/.netlify/functions/unsplash", {
       params: {
         page: pageCount,
         searchTerm: term

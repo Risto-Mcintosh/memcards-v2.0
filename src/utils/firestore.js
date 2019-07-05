@@ -42,7 +42,7 @@ export async function createNewDeck(values, uid) {
 export async function getAllDecks(uid) {
   try {
     let results = await axios(
-      "http://localhost:5000/memcards-17/us-central1/memcards/api/",
+      "https://us-central1-memcards-17.cloudfunctions.net/memcards/api",
       {
         params: {
           uid
