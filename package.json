@@ -24,7 +24,7 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^4.2.0",
     "styled-icons": "^7.15.1",
-    "unsplash-js": "5.0.0"
+    "unsplash-js": "github:Risto-Mcintosh/unsplash-js"
   },
   "scripts": {
     "start": "react-scripts start",
