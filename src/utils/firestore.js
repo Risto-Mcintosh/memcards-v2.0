@@ -10,7 +10,6 @@ firebase.firestore().enablePersistence();
 const db = firebase.firestore();
 
 export async function createNewDeck(values, uid) {
-  console.log(uid);
   const {
     deckName,
     frontOfCard: front,

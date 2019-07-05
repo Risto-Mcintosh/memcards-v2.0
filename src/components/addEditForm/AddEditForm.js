@@ -37,7 +37,6 @@ export default function AddEditCard(props) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(formValue);
 
     if (props.location.pathname === "/add/newdeck") {
       props.createDeck(formValue);
