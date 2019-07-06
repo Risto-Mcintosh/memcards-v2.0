@@ -6,7 +6,10 @@ A flashcard app to help you remember things easily. Study premade decks or creat
 
 # What I learned
 
-- State management and how to "Think In Redux"
-- Working with the IndexedDB API through [PouchDB](https://pouchdb.com/)
+- Cloud computing (GCP/Firebase)
+  - Cloud Firestore
+  - Cloud Functions
+  - Authentication
 - CRUD operations
+- State management and how to "Think In Redux"
 - Animation with [react-spring](https://www.react-spring.io/)
