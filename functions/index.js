@@ -1,7 +1,6 @@
 const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 const express = require("express");
-const unsplash = require("./unsplash");
 const serviceAccount = require("./memcards.json");
 const cors = require("cors")({ origin: true });
 
@@ -14,11 +13,6 @@ let userUid;
 
 const app = express();
 app.use(cors);
-
-// const corsOptions = {
-//   origin: "http://localhost:3000",
-//   optionsSuccessStatus: 200
-// };
 
 async function getCard(docId) {
   let results = [];
@@ -57,12 +51,6 @@ app.get("/api", async (req, res) => {
   }));
 
   res.send({ dataModel });
-});
-
-app.get("/api/photos", async (req, res) => {
-  const images = await unsplash.getImages(req.query.searchTerm, req.query.page);
-  console.log(images);
-  res.send(images.data);
 });
 
 exports.memcards = functions.https.onRequest(app);
