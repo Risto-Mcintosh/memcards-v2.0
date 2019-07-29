@@ -30,7 +30,7 @@ export default function AllDecks({
                 deck.data.length <= 0 ? "text-muted" : null
               }`}
               style={{
-                pointerEvents: `${deck.data.length <= 0 ? "none" : "auto"} `
+                pointerEvents: `${deck.data.length <= 0 ? "none" : "auto"}`
               }}
             >
               <div className="d-flex align-items-center">
