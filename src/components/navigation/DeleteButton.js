@@ -10,7 +10,7 @@ export default function deleteButton({
   deleteDeckToggle,
   deleteCard
 }) {
-  if ((match.path === '/decks' || '/') && editableDecks) {
+  if ((match.path === '/decks' || match.path === '/') && editableDecks) {
     return (
       <Nav.Link
         className="text-white mr-2 p-0 bg-transparent border-0"
