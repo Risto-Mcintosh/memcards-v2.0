@@ -1,7 +1,7 @@
-import React from "react";
-import { ImageAdd } from "styled-icons/boxicons-regular/ImageAdd";
-import { Button } from "react-bootstrap";
-import styled from "styled-components";
+import React from 'react'
+import { ImageAdd } from 'styled-icons/boxicons-regular/ImageAdd'
+import { Button } from 'react-bootstrap'
+import styled from 'styled-components'
 
 const StyledButton = styled(Button)`
   ${({ thumbnail }) =>
@@ -18,9 +18,9 @@ const StyledButton = styled(Button)`
     `
   width: 70px;
 `}
-`;
+`
 
-function imageInput({ searchToggle, setToggle, image }) {
+function ImageInput({ searchToggle, setToggle, image }) {
   return (
     <StyledButton
       className="p-1 ml-2"
@@ -30,7 +30,7 @@ function imageInput({ searchToggle, setToggle, image }) {
     >
       {!image ? <ImageAdd /> : null}
     </StyledButton>
-  );
+  )
 }
 
-export default imageInput;
+export default imageInput

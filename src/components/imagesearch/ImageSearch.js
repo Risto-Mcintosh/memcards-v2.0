@@ -27,7 +27,7 @@ const StyledContainer = styled.div`
   row-gap: 7px;
 `
 
-function imageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
+function ImageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
   const [images, setImages] = useState([])
   const [page, setPage] = useState(1)
   const [term, setSearchTerm] = useState('')
