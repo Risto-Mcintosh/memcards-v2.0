@@ -1,63 +1,60 @@
-import React, { useState } from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
-import DeckNameInput from './DeckNameInput'
-import FormHeading from './FormHeading'
-import SnackBar from '../SnackBar'
-import ImageInput from './ImageInput'
-import ImageSearch from '../imagesearch/ImageSearch'
+/* eslint-disable react/destructuring-assignment */
+import React, { useState } from 'react';
+import { Container, Form, Button } from 'react-bootstrap';
+import DeckNameInput from './DeckNameInput';
+import FormHeading from './FormHeading';
+import SnackBar from '../SnackBar';
+import ImageInput from './ImageInput';
+import ImageSearch from '../imagesearch/ImageSearch';
 
 export default function AddEditCard(props) {
-  let deckName = !props.location.state
+  const deckName = !props.location.state
     ? ''
-    : props.location.state.selectedDeckName
-  let frontOfCard = !props.match.params.cardId ? '' : props.card.front
-  let backOfCard = !props.match.params.cardId ? '' : props.card.back
-  let cardImage = !props.match.params.cardId ? null : props.card.image
+    : props.location.state.selectedDeckName;
+  const frontOfCard = !props.match.params.cardId ? '' : props.card.front;
+  const backOfCard = !props.match.params.cardId ? '' : props.card.back;
+  const cardImage = !props.match.params.cardId ? null : props.card.image;
   const [formValue, setFormValue] = useState({
     deckName,
     frontOfCard,
     backOfCard,
-    cardImage
-  })
+    cardImage,
+  });
 
-  const [searchToggle, setToggle] = useState(false)
+  const [searchToggle, setToggle] = useState(false);
 
   const [snackBar, setSnackBar] = useState({
-    show: !props.location.state
-      ? false
-      : props.location.state.snackBar
-      ? true
-      : false,
+    show: !props.location.state ? false : !!props.location.state.snackBar,
     message: !props.location.state
       ? ''
       : props.location.state.snackBar
-      ? 'New Deck Created!'
-      : ''
-  })
+        ? 'New Deck Created!'
+        : '',
+  });
 
-  const handleSubmit = e => {
-    e.preventDefault()
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     if (props.location.pathname === '/add/newdeck') {
-      props.createDeck(formValue)
+      props.createDeck(formValue);
     } else if (props.match.path === '/edit/card/:cardId') {
-      props.updateCard(props.deck.id, formValue, props.card.id)
+      props.updateCard(props.deck.id, formValue, props.card.id);
     } else {
-      props.addNewCard(formValue)
-      setSnackBar({ show: true, message: 'New Card Added!' })
+      props.addNewCard(formValue);
+      setSnackBar({ show: true, message: 'New Card Added!' });
     }
 
     setFormValue({
       deckName: formValue.deckName,
       frontOfCard: '',
       backOfCard: '',
-      cardImage: null
-    })
-  }
+      cardImage: null,
+    });
+  };
 
-  const handleChange = e => {
-    setFormValue({ ...formValue, [e.target.name]: e.target.value })
-  }
+  const handleChange = (e) => {
+    setFormValue({ ...formValue, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="w-100 h-100 position-relative">
@@ -68,7 +65,7 @@ export default function AddEditCard(props) {
             className="col-9 col-md-7 col-lg-6 p-0 pt-md-5"
             onSubmit={handleSubmit}
           >
-            <Form.Group controlId="editDeckname">
+            <Form.Group controlId="editDeckName">
               <Form.Label>Deck Name:</Form.Label>
               <DeckNameInput
                 value={formValue.deckName}
@@ -107,6 +104,7 @@ export default function AddEditCard(props) {
                 onChange={handleChange}
               />
             </Form.Group>
+            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
             <Button className="col-12" variant="secondary" type="submit">
               Submit
             </Button>
@@ -125,5 +123,5 @@ export default function AddEditCard(props) {
         setFormValue={setFormValue}
       />
     </div>
-  )
+  );
 }
