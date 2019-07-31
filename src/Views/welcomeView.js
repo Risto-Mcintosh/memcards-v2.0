@@ -1,8 +1,9 @@
-import React from "react";
-import LogIn from "../components/LogIn";
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import Loading from "../components/loading";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import LogIn from '../components/LogIn';
+import Loading from '../components/loading';
+
 function welcomeView({ user }) {
   return (
     <>

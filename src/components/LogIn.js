@@ -2,7 +2,7 @@ import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import * as firebaseUI from 'firebaseui';
 import firebase from 'firebase';
-import { signInFlow } from '../utils/auth';
+import signInFlow from '../utils/auth';
 import { ReactComponent as FlashCardsSVG } from '../images/flashcards.svg';
 
 export default function Login() {
@@ -10,11 +10,11 @@ export default function Login() {
     signInFlow: 'popup',
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebaseUI.auth.AnonymousAuthProvider.PROVIDER_ID,
+      firebaseUI.auth.AnonymousAuthProvider.PROVIDER_ID
     ],
     callbacks: {
-      signInSuccessWithAuthResult: signInFlow,
-    },
+      signInSuccessWithAuthResult: signInFlow
+    }
   };
 
   return (

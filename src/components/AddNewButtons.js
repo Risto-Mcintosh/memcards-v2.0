@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { AddCircle } from "styled-icons/material/AddCircle";
-import { Folder } from "styled-icons/fa-solid/Folder";
-import { Link } from "react-router-dom";
-import { useSpring, animated } from "react-spring";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { AddCircle } from 'styled-icons/material/AddCircle';
+import { Folder } from 'styled-icons/fa-solid/Folder';
+import { Link } from 'react-router-dom';
+import { useSpring, animated } from 'react-spring';
 
 const ButtonContainer = styled.div`
   position: absolute;
@@ -24,7 +24,7 @@ export default function AddNewButtons({ userMadeDecks }) {
   const ShowButtonsSpring = useSpring({
     opacity: show ? 1 : 0,
     transform: `scaleY(${show ? 1 : 0}) translateY(${show ? 0 : 70}px)`,
-    transformOrigin: "bottom"
+    transformOrigin: 'bottom'
   });
 
   const SpinButtonSpring = useSpring({
@@ -37,31 +37,31 @@ export default function AddNewButtons({ userMadeDecks }) {
       <animated.div style={ShowButtonsSpring}>
         <div className=" d-flex mb-2 position-relative">
           <p
-            style={{ width: "max-content", right: "36px", top: "4px" }}
+            style={{ width: 'max-content', right: '36px', top: '4px' }}
             className=" m-0 bg-dark text-white px-1 position-absolute"
           >
             Add new deck
           </p>
-          <Link to="/add/newdeck" style={{ width: "32px" }}>
-            <Folder style={{ width: "100%" }} />
+          <Link to="/add/newdeck" style={{ width: '32px' }}>
+            <Folder style={{ width: '100%' }} />
           </Link>
         </div>
         <div className=" d-flex align-items-center mb-2 position-relative">
           <p
-            style={{ width: "max-content", right: "36px", top: "4px" }}
+            style={{ width: 'max-content', right: '36px', top: '4px' }}
             className="m-0 bg-dark text-white px-1 position-absolute"
           >
             Add cards
           </p>
           <Link
             to="/add/card"
-            className={`${!userMadeDecks ? "text-muted" : "text-primary"}`}
+            className={`${!userMadeDecks ? 'text-muted' : 'text-primary'}`}
             style={{
-              width: "32px",
-              pointerEvents: `${!userMadeDecks ? "none" : "auto"} `
+              width: '32px',
+              pointerEvents: `${!userMadeDecks ? 'none' : 'auto'} `
             }}
           >
-            <AddCircle style={{ width: "100%" }} />
+            <AddCircle style={{ width: '100%' }} />
           </Link>
         </div>
       </animated.div>

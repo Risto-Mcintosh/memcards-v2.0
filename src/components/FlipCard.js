@@ -1,5 +1,7 @@
-import React from "react";
-import { Button, Container, Row, Col } from "react-bootstrap";
+import React from 'react';
+import {
+ Button, Container, Row, Col 
+} from 'react-bootstrap';
 
 export default function FlipCard({ flipCard, card, getCard }) {
   return (
@@ -19,7 +21,7 @@ export default function FlipCard({ flipCard, card, getCard }) {
               className="rounded-0 w-100 h-100"
               onClick={() => {
                 flipCard(card.cardSide);
-                getCard("random");
+                getCard('random');
               }}
               variant="secondary"
             >

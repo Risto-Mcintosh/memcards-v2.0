@@ -5,13 +5,13 @@ import {
   editCardInDB,
   deleteDeckInDB,
   deleteCardInDB
-} from "../utils/firestore";
-import filterState from "../utils/filter";
-import history from "../history";
+} from '../utils/firestore';
+import filterState from '../utils/filter';
+import history from '../history';
 
 export function hydrate() {
   return async (dispatch, getState) => {
-    const uid = getState().user.uid;
+    const { uid } = getState().user;
     let cloudStorage;
     try {
       cloudStorage = await getAllDecks(uid);
@@ -20,7 +20,7 @@ export function hydrate() {
     }
 
     dispatch({
-      type: "HYDRATE",
+      type: 'HYDRATE',
       payload: cloudStorage
     });
   };
@@ -35,41 +35,48 @@ export function createDeck(values) {
       cardImage: image
     } = values;
     const state = getState().decks;
-    const uid = getState().user.uid;
+    const { uid } = getState().user;
     const cardId = await createNewDeck(values, uid);
 
     dispatch({
-      type: "CREATE_NEW_DECK",
+      type: 'CREATE_NEW_DECK',
       payload: filterState(
         state,
         deckName,
-        [{ id: cardId, front, back, image }],
+        [
+          {
+            id: cardId,
+            front,
+            back,
+            image
+          }
+        ],
         cardId
       )
     });
-    history.push("/add/card", {
+    history.push('/add/card', {
       selectedDeckName: values.deckName,
-      snackBar: { message: "New Deck Created!" }
+      snackBar: { message: 'New Deck Created!' }
     });
   };
 }
 
 export function deleteDeckToggle(bool) {
   return {
-    type: "DELETE_DECK_TOGGLE",
+    type: 'DELETE_DECK_TOGGLE',
     payload: !bool
   };
 }
 export function deleteDeck(deckId) {
   return (dispatch, getState) => {
-    const uid = getState().user.uid;
+    const { uid } = getState().user;
     deleteDeckInDB(deckId, uid);
     const currentDecks = getState().decks;
     const newDeckList = currentDecks.filter(deck => deck.id !== deckId);
     console.log(newDeckList);
 
     dispatch({
-      type: "DELETE_DECK",
+      type: 'DELETE_DECK',
       payload: newDeckList
     });
   };
@@ -77,29 +84,28 @@ export function deleteDeck(deckId) {
 
 export function setCurrentDeck(deckName) {
   return async (dispatch, getState) => {
-    const deck = getState().decks.find(item => {
-      const nameFound = typeof deckName === "string" ? deckName : deckName.name;
-
+    const deck = getState().decks.find((item) => {
+      const nameFound = typeof deckName === 'string' ? deckName : deckName.name;
       return item.name === nameFound;
     });
     dispatch({
-      type: "SET_CURRENT_DECK",
+      type: 'SET_CURRENT_DECK',
       payload: { ...deck }
     });
     if (deck.data.length <= 0) {
-      history.push(`/decks`);
+      history.push('/decks');
     }
   };
 }
 
 export function getCard(cardId) {
   return (dispatch, getState) => {
-    const deck = getState().deck;
+    const { deck } = getState();
     let card;
 
     const randomNumber = Math.floor(Math.random() * deck.data.length);
 
-    if (cardId === "random") {
+    if (cardId === 'random') {
       card = randomNumber;
     } else {
       card = deck.data.findIndex(card => card.id === cardId);
@@ -107,11 +113,11 @@ export function getCard(cardId) {
 
     let selectedCard = deck.data[card];
     if (selectedCard === undefined) {
-      history.push("/decks");
+      history.push('/decks');
       selectedCard = {};
     }
     dispatch({
-      type: "GET_CARD",
+      type: 'GET_CARD',
       payload: selectedCard
     });
   };
@@ -119,7 +125,7 @@ export function getCard(cardId) {
 
 export function addNewCard(values) {
   return async (dispatch, getState) => {
-    const uid = getState().user.uid;
+    const { uid } = getState().user;
     const state = getState().decks;
     const {
       deckName,
@@ -130,11 +136,18 @@ export function addNewCard(values) {
 
     const cardId = await addCardToDB(values, uid);
     dispatch({
-      type: "ADD_NEW_CARD",
+      type: 'ADD_NEW_CARD',
       payload: filterState(
         state,
         deckName,
-        [{ id: cardId, front, back, image }],
+        [
+          {
+            id: cardId,
+            front,
+            back,
+            image
+          }
+        ],
         cardId
       )
     });
@@ -144,17 +157,24 @@ export function addNewCard(values) {
 export function updateCard(deckId, card, cardId) {
   return async (dispatch, getState) => {
     const state = getState().decks;
-    const uid = getState().user.uid;
+    const { uid } = getState().user;
     const { frontOfCard: front, backOfCard: back, cardImage: image } = card;
 
     editCardInDB(deckId, card, cardId, uid);
 
     dispatch({
-      type: "UPDATE_CARD",
+      type: 'UPDATE_CARD',
       payload: filterState(
         state,
         card.deckName,
-        [{ id: cardId, front, back, image }],
+        [
+          {
+            id: cardId,
+            front,
+            back,
+            image
+          }
+        ],
         cardId
       )
     });
@@ -168,41 +188,41 @@ export function updateCard(deckId, card, cardId) {
 export function deleteCard(deck, cardId) {
   return async (dispatch, getState) => {
     const state = getState().decks;
-    const uid = getState().user.uid;
+    const { uid } = getState().user;
     deleteCardInDB(deck.id, cardId, uid);
     const currentDeck = getState().deck;
 
     const newCards = currentDeck.data.filter(card => card.id !== cardId);
-    console.log("newCards :", newCards);
+    console.log('newCards :', newCards);
 
     dispatch({
-      type: "DELETE_CARD",
+      type: 'DELETE_CARD',
       payload: filterState(state, deck.id, newCards)
     });
 
     history.push(`/deck/${deck.name}`, {
       deckName: deck.name,
-      cardId: "random"
+      cardId: 'random'
     });
   };
 }
 
 export function clearCard() {
   return {
-    type: "CLEAR_CARD"
+    type: 'CLEAR_CARD'
   };
 }
 
 export function flipCard(bool) {
   return {
-    type: "FLIP_CARD",
+    type: 'FLIP_CARD',
     payload: !bool
   };
 }
 
 export function setAuthenticatedUser(bool, uid) {
   return {
-    type: "AUTHENTICATED_USER",
+    type: 'AUTHENTICATED_USER',
     payload: { bool, uid }
   };
 }

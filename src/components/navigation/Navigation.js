@@ -1,10 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { deleteDeckToggle, deleteCard } from "../../actions/actionCreator";
-import EditButton from "./EditButton";
-import DeleteButton from "./DeleteButton";
-import { Navbar, Nav, Container } from "react-bootstrap";
-import { Link, withRouter } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import { deleteDeckToggle, deleteCard } from '../../actions/actionCreator';
+import EditButton from './EditButton';
+import DeleteButton from './DeleteButton';
 
 function Navigation(props) {
   return (
