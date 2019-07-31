@@ -1,3 +1,4 @@
+import shuffle from 'lodash.shuffle';
 import {
   getAllDecks,
   createNewDeck,
@@ -88,9 +89,10 @@ export function setCurrentDeck(deckName) {
       const nameFound = typeof deckName === 'string' ? deckName : deckName.name;
       return item.name === nameFound;
     });
+    const shuffledDeck = shuffle(deck.data);
     dispatch({
       type: 'SET_CURRENT_DECK',
-      payload: { ...deck }
+      payload: { ...deck, shuffledDeck }
     });
     if (deck.data.length <= 0) {
       history.push('/decks');
@@ -101,18 +103,20 @@ export function setCurrentDeck(deckName) {
 export function getCard(cardId) {
   return (dispatch, getState) => {
     const { deck } = getState();
-    let card;
-
-    const randomNumber = Math.floor(Math.random() * deck.data.length);
+    const { shuffledDeck, data } = deck;
+    let selectedCard;
 
     if (cardId === 'random') {
-      card = randomNumber;
+      selectedCard = shuffledDeck.pop();
     } else {
-      card = deck.data.findIndex(card => card.id === cardId);
+      selectedCard = data.findIndex(card => card.id === cardId);
     }
 
-    let selectedCard = deck.data[card];
-    if (selectedCard === undefined) {
+    if (data.length <= 0) {
+      history.push('/decks');
+      selectedCard = {};
+    }
+    if (data.length >= 1 && selectedCard === undefined) {
       history.push('/decks');
       selectedCard = {};
     }
@@ -193,7 +197,6 @@ export function deleteCard(deck, cardId) {
     const currentDeck = getState().deck;
 
     const newCards = currentDeck.data.filter(card => card.id !== cardId);
-    console.log('newCards :', newCards);
 
     dispatch({
       type: 'DELETE_CARD',
