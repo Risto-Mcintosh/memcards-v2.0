@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSpring, animated } from 'react-spring';
 import axios from 'axios';
 import { Form, InputGroup } from 'react-bootstrap';
@@ -142,3 +143,19 @@ function ImageSearch({
 }
 
 export default ImageSearch;
+
+ImageSearch.propTypes = {
+  searchToggle: PropTypes.bool.isRequired,
+  setToggle: PropTypes.func.isRequired,
+  formValue: PropTypes.shape({
+    deckName: PropTypes.string,
+    frontOfCard: PropTypes.string,
+    backOfCard: PropTypes.string,
+    cardImage: PropTypes.object
+  }),
+  setFormValue: PropTypes.func.isRequired
+};
+
+ImageSearch.defaultProps = {
+  formValue: {}
+};
