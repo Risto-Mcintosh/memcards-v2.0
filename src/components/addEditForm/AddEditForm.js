@@ -1,5 +1,6 @@
-/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/forbid-prop-types */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Container, Form, Button } from 'react-bootstrap';
 import DeckNameInput from './DeckNameInput';
 import FormHeading from './FormHeading';
@@ -7,40 +8,68 @@ import SnackBar from '../SnackBar';
 import ImageInput from './ImageInput';
 import ImageSearch from '../imagesearch/ImageSearch';
 
-export default function AddEditCard(props) {
-  const deckName = !props.location.state
-    ? ''
-    : props.location.state.selectedDeckName;
-  const frontOfCard = !props.match.params.cardId ? '' : props.card.front;
-  const backOfCard = !props.match.params.cardId ? '' : props.card.back;
-  const cardImage = !props.match.params.cardId ? null : props.card.image;
+export default function AddEditCard({
+  location,
+  match,
+  decks,
+  deck,
+  card,
+  createDeck,
+  updateCard,
+  addNewCard
+}) {
+  let deckName;
+  let frontOfCard;
+  let backOfCard;
+  let cardImage;
+  let showSnackBar;
+  let SnackBarMessage;
+
+  if (!location.state) {
+    deckName = '';
+    showSnackBar = false;
+    SnackBarMessage = '';
+  } else if (location.state.snackBar) {
+    showSnackBar = location.state.snackBar.show;
+    SnackBarMessage = location.state.snackBar.message;
+    deckName = location.state.selectedDeckName;
+  } else {
+    deckName = location.state.selectedDeckName;
+  }
+
+  if (!match.params.cardId) {
+    frontOfCard = '';
+    backOfCard = '';
+    cardImage = null;
+  } else {
+    frontOfCard = card.front;
+    backOfCard = card.back;
+    cardImage = card.image;
+  }
+
   const [formValue, setFormValue] = useState({
     deckName,
     frontOfCard,
     backOfCard,
-    cardImage,
+    cardImage
   });
 
   const [searchToggle, setToggle] = useState(false);
 
   const [snackBar, setSnackBar] = useState({
-    show: !props.location.state ? false : !!props.location.state.snackBar,
-    message: !props.location.state
-      ? ''
-      : props.location.state.snackBar
-        ? 'New Deck Created!'
-        : '',
+    show: showSnackBar,
+    message: SnackBarMessage
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (props.location.pathname === '/add/newdeck') {
-      props.createDeck(formValue);
-    } else if (props.match.path === '/edit/card/:cardId') {
-      props.updateCard(props.deck.id, formValue, props.card.id);
+    if (location.pathname === '/add/newdeck') {
+      createDeck(formValue);
+    } else if (match.path === '/edit/card/:cardId') {
+      updateCard(deck.id, formValue, card.id);
     } else {
-      props.addNewCard(formValue);
+      addNewCard(formValue);
       setSnackBar({ show: true, message: 'New Card Added!' });
     }
 
@@ -48,7 +77,7 @@ export default function AddEditCard(props) {
       deckName: formValue.deckName,
       frontOfCard: '',
       backOfCard: '',
-      cardImage: null,
+      cardImage: null
     });
   };
 
@@ -59,7 +88,7 @@ export default function AddEditCard(props) {
   return (
     <div className="w-100 h-100 position-relative">
       <Container className="d-flex flex-column align-items-center p-1 pt-3">
-        <FormHeading url={props.match.url} />
+        <FormHeading url={match.url} />
         <div className="col-11 p-0 d-flex justify-content-center align-items-center align-items-md-start">
           <Form
             className="col-9 col-md-7 col-lg-6 p-0 pt-md-5"
@@ -70,8 +99,8 @@ export default function AddEditCard(props) {
               <DeckNameInput
                 value={formValue.deckName}
                 handleChange={handleChange}
-                url={props.match}
-                decks={props.decks}
+                url={match}
+                decks={decks}
               />
             </Form.Group>
             <Form.Group controlId="frontOfFlashcard">
@@ -108,12 +137,12 @@ export default function AddEditCard(props) {
             <Button className="col-12" variant="secondary" type="submit">
               Submit
             </Button>
-            <SnackBar
-              showState={snackBar.show}
-              message={snackBar.message}
-              setSnackBar={setSnackBar}
-            />
           </Form>
+          <SnackBar
+            showState={snackBar.show}
+            message={snackBar.message}
+            setSnackBar={setSnackBar}
+          />
         </div>
       </Container>
       <ImageSearch
@@ -125,3 +154,22 @@ export default function AddEditCard(props) {
     </div>
   );
 }
+
+AddEditCard.propTypes = {
+  location: PropTypes.object,
+  match: PropTypes.object,
+  decks: PropTypes.arrayOf(PropTypes.object),
+  deck: PropTypes.object,
+  card: PropTypes.object,
+  createDeck: PropTypes.func.isRequired,
+  updateCard: PropTypes.func.isRequired,
+  addNewCard: PropTypes.func.isRequired
+};
+
+AddEditCard.defaultProps = {
+  location: {},
+  match: {},
+  decks: {},
+  deck: {},
+  card: {}
+};

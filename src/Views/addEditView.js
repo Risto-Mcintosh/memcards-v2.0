@@ -17,8 +17,7 @@ function mapStateToProps(state) {
   return {
     decks: state.decks,
     deck: state.deck,
-    card: state.card,
-    snackBar: state.snackBar
+    card: state.card
   };
 }
 

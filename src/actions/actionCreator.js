@@ -57,7 +57,7 @@ export function createDeck(values) {
     });
     history.push('/add/card', {
       selectedDeckName: values.deckName,
-      snackBar: { message: 'New Deck Created!' }
+      snackBar: { show: true, message: 'New Deck Created!' }
     });
   };
 }
