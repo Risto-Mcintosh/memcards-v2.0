@@ -23,15 +23,15 @@ export default function AddEditCard({
   let backOfCard;
   let cardImage;
   let showSnackBar;
-  let SnackBarMessage;
+  let snackBarMessage;
 
   if (!location.state) {
     deckName = '';
     showSnackBar = false;
-    SnackBarMessage = '';
+    snackBarMessage = '';
   } else if (location.state.snackBar) {
     showSnackBar = location.state.snackBar.show;
-    SnackBarMessage = location.state.snackBar.message;
+    snackBarMessage = location.state.snackBar.message;
     deckName = location.state.selectedDeckName;
   } else {
     deckName = location.state.selectedDeckName;
@@ -58,7 +58,7 @@ export default function AddEditCard({
 
   const [snackBar, setSnackBar] = useState({
     show: showSnackBar,
-    message: SnackBarMessage
+    message: snackBarMessage
   });
 
   const handleSubmit = (e) => {

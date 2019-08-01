@@ -37,6 +37,12 @@ export function createDeck(values) {
     } = values;
     const state = getState().decks;
     const { uid } = getState().user;
+
+    history.push('/add/card', {
+      selectedDeckName: values.deckName,
+      snackBar: { show: true, message: 'New Deck Created!' }
+    });
+
     const cardId = await createNewDeck(values, uid);
 
     dispatch({
@@ -55,14 +61,10 @@ export function createDeck(values) {
         cardId
       )
     });
-    history.push('/add/card', {
-      selectedDeckName: values.deckName,
-      snackBar: { show: true, message: 'New Deck Created!' }
-    });
   };
 }
 
-export function deleteDeckToggle(bool) {
+export function deleteDeckToggle(bool = false) {
   return {
     type: 'DELETE_DECK_TOGGLE',
     payload: !bool
@@ -74,7 +76,6 @@ export function deleteDeck(deckId) {
     deleteDeckInDB(deckId, uid);
     const currentDecks = getState().decks;
     const newDeckList = currentDecks.filter(deck => deck.id !== deckId);
-    console.log(newDeckList);
 
     dispatch({
       type: 'DELETE_DECK',
@@ -117,7 +118,7 @@ export function getCard(cardId) {
       selectedCard = {};
     }
     if (data.length >= 1 && selectedCard === undefined) {
-      history.push('/decks');
+      history.push('/completed');
       selectedCard = {};
     }
     dispatch({
@@ -216,7 +217,7 @@ export function clearCard() {
   };
 }
 
-export function flipCard(bool) {
+export function flipCard(bool = false) {
   return {
     type: 'FLIP_CARD',
     payload: !bool

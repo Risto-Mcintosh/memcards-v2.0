@@ -6,6 +6,7 @@ import FlashcardView from './Views/flashcardView';
 import AddEditView from './Views/addEditView';
 import AllDecksView from './Views/allDecksView';
 import WelcomeView from './Views/welcomeView';
+import DeckCompleted from './components/DeckCompleted';
 
 const App = () => (
   <Router history={history}>
@@ -13,6 +14,7 @@ const App = () => (
     <PrivateRoute exact path="/" component={AllDecksView} />
     <PrivateRoute exact path="/decks" component={AllDecksView} />
     <PrivateRoute exact path="/deck/:deckName" component={FlashcardView} />
+    <PrivateRoute exact path="/completed" component={DeckCompleted} />
     <PrivateRoute exact path="/add/newdeck" component={AddEditView} />
     <PrivateRoute exact path="/add/card" component={AddEditView} />
     <PrivateRoute exact path="/edit/card/:cardId" component={AddEditView} />
