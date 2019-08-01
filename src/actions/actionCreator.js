@@ -6,7 +6,7 @@ import {
   editCardInDB,
   deleteDeckInDB,
   deleteCardInDB
-} from '../utils/firestore';
+} from '../firebase/firestore';
 import filterState from '../utils/filter';
 import history from '../history';
 
@@ -161,12 +161,18 @@ export function addNewCard(values) {
 }
 
 export function updateCard(deckId, card, cardId) {
+  console.log('actionCreator');
   return async (dispatch, getState) => {
     const state = getState().decks;
     const { uid } = getState().user;
     const { frontOfCard: front, backOfCard: back, cardImage: image } = card;
 
     editCardInDB(deckId, card, cardId, uid);
+
+    history.push(`/deck/${card.deckName}`, {
+      deckName: card.deckName,
+      cardId
+    });
 
     dispatch({
       type: 'UPDATE_CARD',
@@ -183,10 +189,6 @@ export function updateCard(deckId, card, cardId) {
         ],
         cardId
       )
-    });
-    history.push(`/deck/${card.deckName}`, {
-      deckName: card.deckName,
-      cardId
     });
   };
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import * as firebaseUI from 'firebaseui';
 import firebase from 'firebase';
-import signInFlow from '../utils/auth';
+import signInFlow from '../firebase/auth';
 import { ReactComponent as FlashCardsSVG } from '../images/flashcards.svg';
 
 export default function Login() {
