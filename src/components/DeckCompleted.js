@@ -16,7 +16,7 @@ const Card = styled.div`
   justify-content: space-evenly;
 `;
 
-function DeckCompleted({ deckName, setCurrentDeck, getCard }) {
+export function DeckCompleted({ deckName, setCurrentDeck, getCard }) {
   return (
     <Layout>
       <Container className=" d-flex justify-content-center align-items-center ">

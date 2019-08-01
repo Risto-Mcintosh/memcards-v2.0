@@ -5,7 +5,7 @@ import capitalCities from './Data/capital_cities.json';
 import webDevAcronyms from './Data/web_development_acronyms.json';
 import appReducer from './reducers/index';
 
-export const initialState = [spanish100, capitalCities, webDevAcronyms];
+const initialState = [spanish100, capitalCities, webDevAcronyms];
 
 const rootReducer = (state, action) => {
   if (action.type === 'HYDRATE') {
