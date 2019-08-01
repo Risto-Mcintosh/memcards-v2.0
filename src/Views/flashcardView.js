@@ -18,7 +18,6 @@ function Flashcard(props) {
     return <Redirect to="/decks" />;
   }
   if (location.state && Object.entries(card) <= 0) {
-    setCurrentDeck(location.state.deckName);
     getCard(location.state.cardId);
   }
 

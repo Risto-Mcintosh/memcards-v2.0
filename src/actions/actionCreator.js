@@ -110,7 +110,8 @@ export function getCard(cardId) {
     if (cardId === 'random') {
       selectedCard = shuffledDeck.pop();
     } else {
-      selectedCard = data.findIndex(card => card.id === cardId);
+      const foundCard = deck.data.findIndex(card => card.id === cardId);
+      selectedCard = data[foundCard];
     }
 
     if (data.length <= 0) {
