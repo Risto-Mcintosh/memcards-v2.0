@@ -1,6 +1,8 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import LogIn from '../components/LogIn';
 import Loading from '../components/loading';
 
@@ -25,3 +27,11 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(welcomeView);
+
+welcomeView.propTypes = {
+  user: PropTypes.object
+};
+
+welcomeView.defaultProps = {
+  user: {}
+};

@@ -3,12 +3,13 @@ import { Edit } from 'styled-icons/material/Edit';
 import { Link } from 'react-router-dom';
 
 export default function editButton({ card, deck, match }) {
-  if (card.length <= 0) {
-    return null;
-  }
-  if (!deck.editable) {
-    return null;
-  } if (match.path === '/decks') {
+  if (
+    card.length <= 0
+    || !deck.editable
+    || match.path === '/decks'
+    || match.path === '/completed'
+    || match.path === '/'
+  ) {
     return null;
   }
   return (

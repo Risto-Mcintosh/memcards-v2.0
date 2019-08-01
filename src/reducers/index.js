@@ -4,10 +4,11 @@ function decks(state = [], action) {
   switch (action.type) {
     case 'HYDRATE':
       return [...state, ...action.payload];
+    case 'DELETE_CARD':
+      return [...action.payload.filteredState];
     case 'CREATE_NEW_DECK':
     case 'DELETE_DECK':
     case 'UPDATE_CARD':
-    case 'DELETE_CARD':
     case 'ADD_NEW_CARD':
       return [...action.payload];
     default:
@@ -22,7 +23,7 @@ function deck(state = {}, action) {
     case 'DELETE_DECK_TOGGLE':
       return { toggleDelete: action.payload };
     case 'DELETE_CARD':
-      return state;
+      return { ...state, data: action.payload.newCards };
     default:
       return state;
   }

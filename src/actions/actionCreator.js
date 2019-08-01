@@ -101,17 +101,16 @@ export function setCurrentDeck(deckName) {
   };
 }
 
-export function getCard(cardId) {
+export function getCard(card) {
   return (dispatch, getState) => {
     const { deck } = getState();
     const { shuffledDeck, data } = deck;
     let selectedCard;
 
-    if (cardId === 'random') {
+    if (card === 'random') {
       selectedCard = shuffledDeck.pop();
     } else {
-      const foundCard = deck.data.findIndex(card => card.id === cardId);
-      selectedCard = data[foundCard];
+      selectedCard = card;
     }
 
     if (data.length <= 0) {
@@ -161,7 +160,6 @@ export function addNewCard(values) {
 }
 
 export function updateCard(deckId, card, cardId) {
-  console.log('actionCreator');
   return async (dispatch, getState) => {
     const state = getState().decks;
     const { uid } = getState().user;
@@ -171,7 +169,12 @@ export function updateCard(deckId, card, cardId) {
 
     history.push(`/deck/${card.deckName}`, {
       deckName: card.deckName,
-      cardId
+      card: {
+        id: cardId,
+        front,
+        back,
+        image
+      }
     });
 
     dispatch({
@@ -204,12 +207,15 @@ export function deleteCard(deck, cardId) {
 
     dispatch({
       type: 'DELETE_CARD',
-      payload: filterState(state, deck.id, newCards)
+      payload: {
+        filteredState: filterState(state, deck.id, newCards),
+        newCards
+      }
     });
 
     history.push(`/deck/${deck.name}`, {
       deckName: deck.name,
-      cardId: 'random'
+      card: 'random'
     });
   };
 }
