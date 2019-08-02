@@ -73,13 +73,10 @@ function ImageSearch({
   }
 
   function addImageFormData(image) {
-    const {
-      urls,
-      alt_description: { alt }
-    } = image;
+     const { urls, alt_description } = image
     setFormValue({
       ...formValue,
-      cardImage: { src: urls.small, alt, thumb: urls.thumb }
+      cardImage: { src: urls.small, alt: alt_description, thumb: urls.thumb }
     });
     setToggle(!searchToggle);
   }
