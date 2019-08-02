@@ -1,31 +1,29 @@
-import React from "react";
-import { ImageAdd } from "styled-icons/boxicons-regular/ImageAdd";
-import { Button } from "react-bootstrap";
-import styled from "styled-components";
+import React from 'react';
+import { ImageAdd } from 'styled-icons/boxicons-regular/ImageAdd';
+import { Button } from 'react-bootstrap';
+import styled from 'styled-components';
 
 const StyledButton = styled(Button)`
-  ${({ thumbnail }) =>
-    thumbnail &&
-    `
+  ${({ thumbnail }) => thumbnail
+    && `
   background-image: url(${thumbnail});
     background-size: cover;
     background-position: center;
   height: 70px;
   width: 140px;
   `}
-  ${({ addImage }) =>
-    addImage &&
-    `
+  ${({ addImage }) => addImage
+    && `
   width: 70px;
 `}
 `;
 
-function imageInput({ searchToggle, setToggle, image }) {
+function ImageInput({ searchToggle, setToggle, image }) {
   return (
     <StyledButton
       className="p-1 ml-2"
       onClick={() => setToggle(!searchToggle)}
-      addImage={!image ? true : false}
+      addImage={!image}
       thumbnail={image ? image.thumb : undefined}
     >
       {!image ? <ImageAdd /> : null}
@@ -33,4 +31,4 @@ function imageInput({ searchToggle, setToggle, image }) {
   );
 }
 
-export default imageInput;
+export default ImageInput;

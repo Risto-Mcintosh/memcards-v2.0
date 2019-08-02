@@ -1,7 +1,7 @@
-import React from "react";
-import { Container } from "react-bootstrap";
-import { useSpring, animated } from "react-spring";
-import styled from "styled-components";
+import React from 'react';
+import { Container } from 'react-bootstrap';
+import { useSpring, animated } from 'react-spring';
+import styled from 'styled-components';
 
 const StyledContainer = styled(Container)`
   width: 60%;
@@ -37,8 +37,8 @@ export default function FlashCard({ card, deckName }) {
       <h1 className="position-absolute text-center mt-2">{deckName}</h1>
       <StyledContainer className="d-flex h-100 flex-column justify-content-center align-items-center mx-auto">
         <div
-          className={`position-relative`}
-          style={{ width: "250px", height: "250px" }}
+          className="position-relative"
+          style={{ width: '250px', height: '250px' }}
         >
           <FlashCardBody
             className="bg-light border shadow"
@@ -51,7 +51,7 @@ export default function FlashCard({ card, deckName }) {
           </FlashCardBody>
           <FlashCardBody
             className="bg-light border shadow"
-            style={{ transform, backfaceVisibility: "hidden" }}
+            style={{ transform, backfaceVisibility: 'hidden' }}
           >
             <h3>{card.front}</h3>
             {!card.image || card.image === null ? null : (
@@ -59,7 +59,7 @@ export default function FlashCard({ card, deckName }) {
                 <img
                   src={card.image.src}
                   alt={card.image.alt}
-                  style={{ width: "100%", padding: "0px 4px" }}
+                  style={{ width: '100%', padding: '0px 4px' }}
                 />
               </div>
             )}

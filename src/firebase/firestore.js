@@ -1,8 +1,8 @@
-import * as firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/auth";
-import firebaseConfig from "./firebaseConfig";
-import axios from "axios";
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+import axios from 'axios';
+import firebaseConfig from './firebaseConfig';
 
 firebase.initializeApp(firebaseConfig);
 firebase.firestore().enablePersistence();
@@ -29,20 +29,18 @@ export async function createNewDeck(values, uid) {
         image,
         back
       })
-      .then(function(docRef) {
-        return docRef.id;
-      });
-
+      .then(docRef => docRef.id);
     return cardId;
   } catch (error) {
     console.log(error);
+    return null;
   }
 }
 
 export async function getAllDecks(uid) {
   try {
-    let results = await axios(
-      "https://us-central1-memcards-17.cloudfunctions.net/memcards/api",
+    const results = await axios(
+      'https://us-central1-memcards-17.cloudfunctions.net/memcards/api',
       {
         params: {
           uid
@@ -58,16 +56,15 @@ export async function getAllDecks(uid) {
 
 export async function getAllCards(deckName) {
   try {
-    let results = [];
+    const results = [];
     await db
       .collection(`users/ByEwGojiQUML6HqdntGx/decks/${deckName}/data/`)
       .get()
-      .then(snapshot =>
-        snapshot.forEach(doc => results.push({ id: doc.id, ...doc.data() }))
-      );
+      .then(snapshot => snapshot.forEach(doc => results.push({ id: doc.id, ...doc.data() })));
     return results;
   } catch (err) {
     console.log(err);
+    return [];
   }
 }
 
@@ -87,13 +84,12 @@ export async function addCardToDB(newCard, uid) {
         image,
         back
       })
-      .then(function(docRef) {
-        return docRef.id;
-      });
+      .then(docRef => docRef.id);
 
     return cardId;
   } catch (err) {
     console.log(err);
+    return null;
   }
 }
 

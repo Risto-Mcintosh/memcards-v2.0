@@ -1,5 +1,5 @@
-import React from "react";
-import { Form } from "react-bootstrap";
+import React from 'react';
+import { Form } from 'react-bootstrap';
 
 export default function DeckNameInput({ handleChange, value, url, decks }) {
   const newDeckNameInput = (
@@ -43,9 +43,10 @@ export default function DeckNameInput({ handleChange, value, url, decks }) {
     </Form.Control>
   );
 
-  return url.path === "/add/newdeck"
-    ? newDeckNameInput
-    : url.path === "/edit/card/:cardId"
-    ? DeckNameReadOnly
-    : DeckSelectInput;
+  if (url.path === '/add/newdeck') {
+    return newDeckNameInput;
+  } if (url.path === '/edit/card/:cardId') {
+    return DeckNameReadOnly;
+  }
+  return DeckSelectInput;
 }
