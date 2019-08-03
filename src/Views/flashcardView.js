@@ -55,7 +55,7 @@ Flashcard.propTypes = {
   deck: PropTypes.object,
   card: PropTypes.object,
   location: PropTypes.object,
-  decks: PropTypes.object
+  decks: PropTypes.array
 };
 
 Flashcard.defaultProps = {

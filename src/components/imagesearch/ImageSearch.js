@@ -37,6 +37,7 @@ function ImageSearch({
   const [term, setSearchTerm] = useState('');
   const [prevSearchTerm, setPrevTerm] = useState('');
   const [loadingImages, setLoadingImages] = useState(false);
+  const unsplashURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8888/.netlify/functions/unsplash' : 'https://memcards.netlify.com/.netlify/functions/unsplash';
 
   function getImages(e) {
     e.preventDefault();
@@ -44,7 +45,7 @@ function ImageSearch({
     if (prevSearchTerm === term) return;
     setPage(1);
     setLoadingImages(true);
-    axios('https://memcards.netlify.com/.netlify/functions/unsplash', {
+    axios(unsplashURL, {
       params: {
         page,
         searchTerm: term
@@ -61,7 +62,7 @@ function ImageSearch({
 
   function getMoreImages() {
     const pageCount = page + 1;
-    axios('https://memcards.netlify.com/.netlify/functions/unsplash', {
+    axios(unsplashURL, {
       params: {
         page: pageCount,
         searchTerm: term
@@ -73,10 +74,12 @@ function ImageSearch({
   }
 
   function addImageFormData(image) {
+    console.log(image);
     const {
       urls,
-      alt_description: { alt }
+      alt_description: alt
     } = image;
+    console.log(alt);
     setFormValue({
       ...formValue,
       cardImage: { src: urls.small, alt, thumb: urls.thumb }

@@ -12,7 +12,7 @@ const StyledButton = styled(Button)`
   height: 70px;
   width: 140px;
   `}
-  ${({ addImage }) => addImage
+  ${({ addimage }) => addimage
     && `
   width: 70px;
 `}
@@ -23,7 +23,7 @@ function ImageInput({ searchToggle, setToggle, image }) {
     <StyledButton
       className="p-1 ml-2"
       onClick={() => setToggle(!searchToggle)}
-      addImage={!image}
+      addimage={!image}
       thumbnail={image ? image.thumb : undefined}
     >
       {!image ? <ImageAdd /> : null}
