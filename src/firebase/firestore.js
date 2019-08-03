@@ -1,7 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import axios from 'axios';
 import firebaseConfig from './firebaseConfig';
 
 firebase.initializeApp(firebaseConfig);
@@ -37,16 +36,16 @@ export async function createNewDeck(values, uid) {
   }
 }
 
-export async function getAllDecks(uid) {
+async function getAllCards(deckName, uid) {
   try {
-    const results = await axios(
-      'https://us-central1-memcards-17.cloudfunctions.net/memcards/api',
-      {
-        params: {
-          uid
-        }
-      }
-    ).then(res => res.data.dataModel);
+    const results = [];
+
+    await db
+      .collection(`users/${uid}/decks/${deckName}/data/`)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach(doc => results.push({ deckId: deckName, id: doc.id, ...doc.data() }));
+      });
     return results;
   } catch (err) {
     console.log(err);
@@ -54,14 +53,27 @@ export async function getAllDecks(uid) {
   }
 }
 
-export async function getAllCards(deckName) {
+export async function getAllDecks(uid) {
   try {
     const results = [];
-    await db
-      .collection(`users/ByEwGojiQUML6HqdntGx/decks/${deckName}/data/`)
-      .get()
-      .then(snapshot => snapshot.forEach(doc => results.push({ id: doc.id, ...doc.data() })));
-    return results;
+    const deckSnapshot = await db.collection(`users/${uid}/decks`).get();
+    const promises = [];
+
+    deckSnapshot.forEach((doc) => {
+      const p = getAllCards(doc.id, uid);
+      promises.push(p);
+      results.push({ id: doc.id, ...doc.data() });
+    });
+
+    const cardData = await Promise.all(promises);
+    const dataModel = results.map((deck, index) => ({
+      id: deck.id,
+      name: deck.name,
+      editable: deck.editable,
+      data: cardData[index].filter(doc => deck.id === doc.deckId)
+    }));
+
+    return dataModel;
   } catch (err) {
     console.log(err);
     return [];
