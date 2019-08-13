@@ -74,12 +74,10 @@ function ImageSearch({
   }
 
   function addImageFormData(image) {
-    console.log(image);
     const {
       urls,
       alt_description: alt
     } = image;
-    console.log(alt);
     setFormValue({
       ...formValue,
       cardImage: { src: urls.small, alt, thumb: urls.thumb }
@@ -103,7 +101,7 @@ function ImageSearch({
   });
 
   return (
-    <AnimatedSearchContainer className="pt-2" style={animateSearchContainer}>
+    <AnimatedSearchContainer className="pt-2" style={animateSearchContainer} data-testid="image-search-container">
       <StyledContainer className="container">
         <div className="d-flex justify-content-between px-2">
           <CloseRemoveButton

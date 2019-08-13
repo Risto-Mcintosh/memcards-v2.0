@@ -9,53 +9,53 @@ import appReducer from '../reducers/index';
 
 afterEach(cleanup);
 
-// export const state = {
-//   decks: [
-//     {
-//       name: 'Test Images Flashcards',
-//       editable: false,
-//       data: [
-//         {
-//           front: 'CSS',
-//           image: {
-//             src:
-//               'https://images.unsplash.com/photo-1550029330-8dbccaade873?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjc0NDk5fQ',
-//             alt: 'some text'
-//           },
-//           back: 'Cascading Style Sheets'
-//         }
-//       ]
-//     }
-//   ],
-//   deck: {
-//     name: 'Test Images Flashcards',
-//     editable: false,
-//     data: [
-//       {
-//         front: 'CSS',
-//         image: {
-//           src:
-//             'https://images.unsplash.com/photo-1550029330-8dbccaade873?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjc0NDk5fQ',
-//           alt: 'some text'
-//         },
-//         back: 'Cascading Style Sheets'
-//       }
-//     ]
-//   },
-//   card: {
-//     front: 'CSS',
-//     image: {
-//       src:
-//         'https://images.unsplash.com/photo-1550029330-8dbccaade873?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjc0NDk5fQ',
-//       alt: 'some text'
-//     },
-//     back: 'Cascading Style Sheets'
-//   }
-// };
+export const state = {
+  decks: [
+    {
+      name: 'Test Images Flashcards',
+      editable: false,
+      data: [
+        {
+          front: 'CSS',
+          image: {
+            src:
+              'https://images.unsplash.com/photo-1550029330-8dbccaade873?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjc0NDk5fQ',
+            alt: 'some text'
+          },
+          back: 'Cascading Style Sheets'
+        }
+      ]
+    }
+  ],
+  deck: {
+    name: 'Test Images Flashcards',
+    editable: false,
+    data: [
+      {
+        front: 'CSS',
+        image: {
+          src:
+            'https://images.unsplash.com/photo-1550029330-8dbccaade873?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjc0NDk5fQ',
+          alt: 'some text'
+        },
+        back: 'Cascading Style Sheets'
+      }
+    ]
+  },
+  card: {
+    front: 'CSS',
+    image: {
+      src:
+        'https://images.unsplash.com/photo-1550029330-8dbccaade873?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjc0NDk5fQ',
+      alt: 'some text'
+    },
+    back: 'Cascading Style Sheets'
+  }
+};
 
 function testWithRedux(
   ui,
-  { initialState, store = createStore(appReducer, initialState) } = {}
+  { initialState, store = createStore(appReducer, initialState) } = { state }
 ) {
   return {
     ...render(
