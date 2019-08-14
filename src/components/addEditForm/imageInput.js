@@ -2,7 +2,7 @@ import React from 'react';
 import { ImageAdd } from 'styled-icons/boxicons-regular/ImageAdd';
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
+const StyledButton = styled.div`
   ${({ thumbnail }) => thumbnail
     && `
   background-image: url(${thumbnail});
@@ -18,6 +18,8 @@ const StyledButton = styled.button`
 `;
 
 function ImageInput({ searchToggle, setToggle, image }) {
+  console.log(searchToggle);
+
   return (
     <StyledButton
       className="p-1 ml-2 btn btn-primary"

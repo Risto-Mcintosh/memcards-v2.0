@@ -3,7 +3,8 @@
     "browser": true,
     "es6": true,
     "node": true,
-    "jest": true
+    "jest": true,
+    "cypress/globals": true
   },
   "extends": "airbnb",
   "parserOptions": {
@@ -13,11 +14,19 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["jest"],
+  "plugins": ["jest", "cypress"],
   "rules": {
     "linebreak-style": ["error", "windows"],
     "react/jsx-filename-extension": "off",
     "react/forbid-prop-types": "off",
     "comma-dangle": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.spec.js"],
+      "rules": {
+        "spaced-comment": "off"
+      }
+    }
+  ]
 }
