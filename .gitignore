@@ -25,3 +25,5 @@ yarn-error.log*
 functions/memcards.json
 src/Data/TestImagesCard.json
 functions/unsplash.js
+cypress/videos
+cypress/screenshots

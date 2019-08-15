@@ -8,11 +8,20 @@ addons:
     packages:
       - libgconf-2-4
 
+cache:
+  # cache both npm modules and Cypress binary
+  directories:
+    - ~/.npm
+    - ~/.cache
+  override:
+    - npm ci
+    # - npm run cy:verify
+
 script:
   # start server in the background
-  #- npm run start:ci &
+  - npm run start:ci
   # run all Cypress tests and record on the dashboard
-  - npm run cy:run
+  # - npm run cy:run
   # after all tests finish running we need
   # to kill all background jobs (like "npm start &")
   # this avoids flake in Travis jobs
