@@ -3,6 +3,11 @@ language: node_js
 node_js:
   - node
 
+addons:
+  apt:
+    packages:
+      - libgconf-2-4
+
 script:
   # start server in the background
   #- npm run start:ci &
