@@ -36,7 +36,7 @@ export default function DeckNameInput({
       placeholder="Deck Name"
       onChange={handleChange}
     >
-      <option key />
+      <option />
       {editableDecks.map(deck => (
         <option value={deck.name} key={deck.id}>
           {deck.name}
