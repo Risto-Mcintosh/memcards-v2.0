@@ -26,7 +26,7 @@ export default function ImageGrid({
   getMoreImages,
   addImageFormData,
   images,
-  loadingImages,
+  loadingImages
 }) {
   return (
     <div id="scrollable-div" style={{ maxHeight: '100%', overflow: 'auto' }}>
@@ -63,6 +63,6 @@ export default function ImageGrid({
 ImageGrid.propTypes = {
   getMoreImages: PropTypes.func.isRequired,
   addImageFormData: PropTypes.func.isRequired,
-  images: PropTypes.arrayOf(PropTypes.string).isRequired,
-  loadingImages: PropTypes.bool.isRequired,
+  images: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loadingImages: PropTypes.bool.isRequired
 };

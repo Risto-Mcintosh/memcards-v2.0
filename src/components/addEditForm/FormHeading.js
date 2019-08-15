@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const createNewDeck = (
   <>
@@ -13,13 +13,17 @@ const editCard = <h1>Edit Card</h1>;
 
 export default function FormHeading({ url }) {
   let heading;
-  if (url === "/add/newdeck") {
+  if (url === '/add/newdeck') {
     heading = createNewDeck;
-  } else if (url === "/add/card") {
+  } else if (url === '/add/card') {
     heading = addNewCard;
   } else {
     heading = editCard;
   }
 
-  return <div className="px-1 text-center">{heading}</div>;
+  return (
+    <div data-testid="form-heading" className="px-1 text-center">
+      {heading}
+    </div>
+  );
 }

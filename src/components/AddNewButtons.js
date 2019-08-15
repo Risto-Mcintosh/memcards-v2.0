@@ -66,6 +66,7 @@ export default function AddNewButtons({ userMadeDecks }) {
         </div>
       </animated.div>
       <AnimatedAddCircle
+        data-testid="add-new-button"
         style={SpinButtonSpring}
         onClick={() => toggle(!show)}
         className="text-primary"
