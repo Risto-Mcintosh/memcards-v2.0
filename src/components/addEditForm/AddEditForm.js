@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { Container, Form, Button } from 'react-bootstrap';
 import DeckNameInput from './DeckNameInput';
 import FormHeading from './FormHeading';
-import SnackBar from '../SnackBar';
 import ImageInput from './ImageInput';
+import SnackBar from '../SnackBar';
 import ImageSearch from '../imagesearch/ImageSearch';
 
 export default function AddEditCard({
