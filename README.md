@@ -1,6 +1,6 @@
 # Memcards
 
-A flashcard app to help you remember things easily. Study premade decks or create your own
+A flashcard app to help you remember things easily. Study premade decks or create your own.
 
 ## [View Demo](https://memcards.netlify.com/)
 
