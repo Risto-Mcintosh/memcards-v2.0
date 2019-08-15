@@ -1,29 +1,29 @@
-function findId(arr, i) {
-  return arr.find(item => item.id === i);
+export function findId(arr, i) {
+  return arr.find(item => item.id === i)
 }
 
-function filterList(original, modified) {
-  return original.filter(o => o.id !== modified.id);
+export function filterList(original, modified) {
+  return original.filter(o => o.id !== modified.id)
 }
 
 function DeckFilter(allDecks, modifiedDeck, deckName) {
   return [
     ...filterList(allDecks, findId(modifiedDeck, deckName)),
     ...modifiedDeck
-  ];
+  ]
 }
 
-function CardFilter(allDecks, modifiedCard, deckName, cardId) {
-  const filteredDeck = findId(allDecks, deckName);
+export function CardFilter(allDecks, modifiedCard, deckName, cardId) {
+  const filteredDeck = findId(allDecks, deckName)
 
   if (modifiedCard.length > 1 || !cardId || !filteredDeck) {
-    return modifiedCard;
+    return modifiedCard
   }
 
   return [
     ...filterList(filteredDeck.data, findId(modifiedCard, cardId)),
     ...modifiedCard
-  ];
+  ]
 }
 
 function filterState(currState, deckName, cardData, cardId) {
@@ -38,7 +38,7 @@ function filterState(currState, deckName, cardData, cardId) {
       }
     ],
     deckName
-  );
+  )
 }
 
-export default filterState;
+export default filterState
