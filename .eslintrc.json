@@ -6,7 +6,11 @@
     "jest": true,
     "cypress/globals": true
   },
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "plugin:jest/recommended",
+    "plugin:cypress/recommended"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
