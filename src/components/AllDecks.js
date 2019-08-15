@@ -24,7 +24,6 @@ export default function AllDecks({
               await setCurrentDeck(deck);
               getCard('random');
             }}
-            data-testid={deck.editable ? 'userMade' : 'preMade'}
             action
             className={`d-flex justify-content-between ${
               deck.data.length <= 0 ? 'text-muted' : null

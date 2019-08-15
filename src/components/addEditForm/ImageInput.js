@@ -1,8 +1,9 @@
 import React from 'react';
 import { ImageAdd } from 'styled-icons/boxicons-regular/ImageAdd';
+import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
-const StyledButton = styled.div`
+const StyledButton = styled(Button)`
   ${({ thumbnail }) => thumbnail
     && `
   background-image: url(${thumbnail});
@@ -11,7 +12,7 @@ const StyledButton = styled.div`
   height: 70px;
   width: 140px;
   `}
-  ${({ addImage }) => addImage
+  ${({ addimage }) => addimage
     && `
   width: 70px;
 `}
@@ -20,11 +21,10 @@ const StyledButton = styled.div`
 function ImageInput({ searchToggle, setToggle, image }) {
   return (
     <StyledButton
-      className="p-1 ml-2 btn btn-primary"
+      className="p-1 ml-2"
       onClick={() => setToggle(!searchToggle)}
-      addImage={!image}
+      addimage={!image}
       thumbnail={image ? image.thumb : undefined}
-      data-testid="image-search-toggle"
     >
       {!image ? <ImageAdd /> : null}
     </StyledButton>

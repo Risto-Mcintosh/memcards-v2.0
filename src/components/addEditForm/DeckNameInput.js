@@ -1,9 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-export default function DeckNameInput({
- handleChange, value, url, decks 
-}) {
+export default function DeckNameInput({ handleChange, value, url, decks }) {
   const newDeckNameInput = (
     <Form.Control
       required
@@ -36,9 +34,9 @@ export default function DeckNameInput({
       placeholder="Deck Name"
       onChange={handleChange}
     >
-      <option key />
+      <option />
       {editableDecks.map(deck => (
-        <option value={deck.name} key={deck.id}>
+        <option value={deck.name} key={deck._id}>
           {deck.name}
         </option>
       ))}
@@ -47,8 +45,7 @@ export default function DeckNameInput({
 
   if (url.path === '/add/newdeck') {
     return newDeckNameInput;
-  }
-  if (url.path === '/edit/card/:cardId') {
+  } if (url.path === '/edit/card/:cardId') {
     return DeckNameReadOnly;
   }
   return DeckSelectInput;

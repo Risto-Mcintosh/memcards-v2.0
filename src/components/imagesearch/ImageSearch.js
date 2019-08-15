@@ -101,7 +101,7 @@ function ImageSearch({
   });
 
   return (
-    <AnimatedSearchContainer className="pt-2" style={animateSearchContainer} data-testid="image-search-container">
+    <AnimatedSearchContainer className="pt-2" style={animateSearchContainer}>
       <StyledContainer className="container">
         <div className="d-flex justify-content-between px-2">
           <CloseRemoveButton
