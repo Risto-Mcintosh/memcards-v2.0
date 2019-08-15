@@ -12,9 +12,9 @@ const StyledContainer = styled(Container)`
 `;
 
 const FlashCardBody = styled(animated.div)`
-  display: flex;
-  justify-content: center;
+  display: grid;
   align-items: center;
+  justify-items: center;
   height: 100%;
   width: 100%;
   text-align: center;
