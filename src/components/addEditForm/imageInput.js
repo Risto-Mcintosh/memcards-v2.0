@@ -18,8 +18,6 @@ const StyledButton = styled.div`
 `;
 
 function ImageInput({ searchToggle, setToggle, image }) {
-  console.log(searchToggle);
-
   return (
     <StyledButton
       className="p-1 ml-2 btn btn-primary"
