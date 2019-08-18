@@ -1,22 +1,25 @@
 import { connect } from 'react-redux';
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
 import AllDecks from '../components/AllDecks';
 import {
   setCurrentDeck,
   clearCard,
   getCard,
-  deleteDeck,
+  deleteDeck
 } from '../actions/actionCreator';
 import Loading from '../components/loading';
 
 function AllDecksView(props) {
+  // eslint-disable-next-line no-shadow
+  const { clearCard, decks } = props;
   useEffect(() => {
-    props.clearCard();
+    clearCard();
     // eslint-disable-next-line
   }, []);
 
-  if (props.decks.length <= 0) {
+  if (decks.length <= 0) {
     return <Loading loader />;
   }
 
@@ -30,7 +33,7 @@ function AllDecksView(props) {
 function mapStateToProps(state) {
   return {
     decks: state.decks,
-    deck: state.deck,
+    deck: state.deck
   };
 }
 
@@ -40,6 +43,11 @@ export default connect(
     setCurrentDeck,
     clearCard,
     getCard,
-    deleteDeck,
-  },
+    deleteDeck
+  }
 )(AllDecksView);
+
+AllDecksView.propTypes = {
+  clearCard: PropTypes.func.isRequired,
+  decks: PropTypes.array.isRequired
+};

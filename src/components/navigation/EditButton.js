@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Edit } from 'styled-icons/material/Edit';
 import { Link } from 'react-router-dom';
 
@@ -18,3 +19,9 @@ export default function editButton({ card, deck, match }) {
     </Link>
   );
 }
+
+editButton.propTypes = {
+  card: PropTypes.object.isRequired,
+  deck: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
+};

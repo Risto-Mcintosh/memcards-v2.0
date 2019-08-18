@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
 import { Delete } from 'styled-icons/material/Delete';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import AddNewButtons from './AddNewButtons';
 
 export default function AllDecks({
@@ -57,3 +58,11 @@ export default function AllDecks({
     </Container>
   );
 }
+
+AllDecks.propTypes = {
+  decks: PropTypes.array.isRequired,
+  setCurrentDeck: PropTypes.func.isRequired,
+  getCard: PropTypes.func.isRequired,
+  deck: PropTypes.object.isRequired,
+  deleteDeck: PropTypes.func.isRequired
+};

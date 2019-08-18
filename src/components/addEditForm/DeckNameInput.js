@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 
 export default function DeckNameInput({
- handleChange, value, url, decks 
+  handleChange, value, url, decks
 }) {
   const newDeckNameInput = (
     <Form.Control

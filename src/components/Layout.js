@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Navigation from './navigation/Navigation';
 
@@ -20,3 +21,7 @@ export default function Layout({ children }) {
     </GridLayout>
   );
 }
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired
+};

@@ -9,6 +9,7 @@ export const initialState = [spanish100, capitalCities, webDevAcronyms];
 
 const rootReducer = (state, action) => {
   if (action.type === 'HYDRATE') {
+    // eslint-disable-next-line no-param-reassign
     state.decks = initialState;
   }
   return appReducer(state, action);
