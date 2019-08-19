@@ -20,7 +20,6 @@
   },
   "plugins": ["jest", "cypress"],
   "rules": {
-    "linebreak-style": ["error", "windows"],
     "react/jsx-filename-extension": "off",
     "react/forbid-prop-types": "off",
     "comma-dangle": "off"

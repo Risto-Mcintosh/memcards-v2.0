@@ -30,5 +30,8 @@ export default function FormHeading({ url }) {
 }
 
 FormHeading.propTypes = {
-  url: PropTypes.string.isRequired
+  url: PropTypes.string
+};
+FormHeading.defaultProps = {
+  url: ''
 };
