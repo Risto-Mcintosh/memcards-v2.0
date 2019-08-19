@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// eslint-disable-next-line object-curly-newline
 export default function CloseRemoveButton({ ariaLabel, fn, fnParam, text }) {
   return (
     <button

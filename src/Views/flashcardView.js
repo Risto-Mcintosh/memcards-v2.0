@@ -9,14 +9,11 @@ import FlipCard from '../components/FlipCard';
 import { getCard, flipCard, setCurrentDeck } from '../actions/actionCreator';
 
 function Flashcard(props) {
-  // prettier-ignore
-  const {
-    deck, card, location, getCard, decks
-  } = props;
+  const { deck, card, location, getCard, decks } = props;
 
   if (
-    Object.entries(decks) <= 0
-    || (Object.entries(deck) <= 0 && Object.entries(card) <= 0 && !location.state)
+    Object.entries(decks) <= 0 ||
+    (Object.entries(deck) <= 0 && Object.entries(card) <= 0 && !location.state)
   ) {
     return <Redirect to="/decks" />;
   }

@@ -28,16 +28,16 @@ const StyledContainer = styled.div`
   row-gap: 7px;
 `;
 
-// prettier-ignore
-function ImageSearch({
-  searchToggle, setToggle, formValue, setFormValue
-}) {
+function ImageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [term, setSearchTerm] = useState('');
   const [prevSearchTerm, setPrevTerm] = useState('');
   const [loadingImages, setLoadingImages] = useState(false);
-  const unsplashURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8888/.netlify/functions/unsplash' : 'https://memcards.netlify.com/.netlify/functions/unsplash';
+  const unsplashURL =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:8888/.netlify/functions/unsplash'
+      : 'https://memcards.netlify.com/.netlify/functions/unsplash';
 
   function getImages(e) {
     e.preventDefault();
@@ -51,7 +51,7 @@ function ImageSearch({
         searchTerm: term
       }
     })
-      .then((res) => {
+      .then(res => {
         setLoadingImages(false);
         setImages(res.data.results);
       })
@@ -67,7 +67,7 @@ function ImageSearch({
         page: pageCount,
         searchTerm: term
       }
-    }).then((res) => {
+    }).then(res => {
       setImages(images.concat(res.data.results));
     });
     setPage(pageCount);
@@ -98,7 +98,11 @@ function ImageSearch({
   });
 
   return (
-    <AnimatedSearchContainer className="pt-2" style={animateSearchContainer} data-testid="image-search-container">
+    <AnimatedSearchContainer
+      className="pt-2"
+      style={animateSearchContainer}
+      data-testid="image-search-container"
+    >
       <StyledContainer className="container">
         <div className="d-flex justify-content-between px-2">
           <CloseRemoveButton
