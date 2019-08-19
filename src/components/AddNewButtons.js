@@ -4,6 +4,7 @@ import { AddCircle } from 'styled-icons/material/AddCircle';
 import { Folder } from 'styled-icons/fa-solid/Folder';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
+import PropTypes from 'prop-types';
 
 const ButtonContainer = styled.div`
   position: absolute;
@@ -74,3 +75,7 @@ export default function AddNewButtons({ userMadeDecks }) {
     </ButtonContainer>
   );
 }
+
+AddNewButtons.propTypes = {
+  userMadeDecks: PropTypes.bool.isRequired
+};

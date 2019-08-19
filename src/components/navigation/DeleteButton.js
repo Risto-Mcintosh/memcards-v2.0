@@ -1,4 +1,6 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Delete } from 'styled-icons/material/Delete';
 import { Nav } from 'react-bootstrap';
 
@@ -38,3 +40,12 @@ export default function deleteButton({
   }
   return null;
 }
+
+deleteButton.propTypes = {
+  match: PropTypes.object,
+  editableDecks: PropTypes.bool,
+  deck: PropTypes.object,
+  card: PropTypes.object,
+  deleteDeckToggle: PropTypes.func,
+  deleteCard: PropTypes.func
+};

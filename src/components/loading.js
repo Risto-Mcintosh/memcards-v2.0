@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Spinner } from 'react-bootstrap';
 import { ReactComponent as FlashCardsSVG } from '../images/flashcards.svg';
 
@@ -17,3 +18,11 @@ export default function Loading({ loader }) {
     </div>
   );
 }
+
+Loading.propTypes = {
+  loader: PropTypes.bool
+};
+
+Loading.defaultProps = {
+  loader: false
+};

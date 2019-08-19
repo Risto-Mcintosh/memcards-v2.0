@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const createNewDeck = (
   <>
@@ -27,3 +28,7 @@ export default function FormHeading({ url }) {
     </div>
   );
 }
+
+FormHeading.propTypes = {
+  url: PropTypes.string.isRequired
+};
