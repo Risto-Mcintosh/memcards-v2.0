@@ -10,6 +10,7 @@ addons:
 
 script:
   # start server in the background
+  - npm run lint
   - npm run start:ci
   # run all Cypress tests and record on the dashboard
   # - npm run cy:run
