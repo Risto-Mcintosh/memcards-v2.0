@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-import Chance from 'chance';
+//import Chance from 'chance';
 
-const chance = new Chance();
+//const chance = new Chance();
 
 describe('Add new card to existing deck', () => {
   it('Visits the memcards home page', () => {

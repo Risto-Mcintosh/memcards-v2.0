@@ -1,6 +1,7 @@
 import React from 'react';
 import { ImageAdd } from 'styled-icons/boxicons-regular/ImageAdd';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const StyledButton = styled.div`
   ${({ thumbnail }) => thumbnail
@@ -32,3 +33,13 @@ function ImageInput({ searchToggle, setToggle, image }) {
 }
 
 export default ImageInput;
+
+ImageInput.propTypes = {
+  searchToggle: PropTypes.bool.isRequired,
+  setToggle: PropTypes.func.isRequired,
+  image: PropTypes.object
+};
+
+ImageInput.defaultProps = {
+  image: null
+};

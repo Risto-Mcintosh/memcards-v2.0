@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { useSpring, animated } from 'react-spring';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledContainer = styled(Container)`
@@ -70,3 +71,8 @@ export default function FlashCard({ card, deckName }) {
     </Container>
   );
 }
+
+FlashCard.propTypes = {
+  card: PropTypes.object.isRequired,
+  deckName: PropTypes.string.isRequired
+};

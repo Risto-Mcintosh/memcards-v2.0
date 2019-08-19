@@ -25,13 +25,13 @@ it('Should open and close ImageSearch component', async () => {
   const closeImageSearch = getByText(/close/i);
   fireEvent.click(openImageSearch);
   await wait(() => expect(imageSearchContainer).not.toHaveStyle(
-      'transform: scaleX(1) translateX(0px)'
-    ));
+    'transform: scaleX(1) translateX(0px)'
+  ));
 
   fireEvent.click(closeImageSearch);
   await wait(() => expect(imageSearchContainer).toHaveStyle(
-      'transform: scaleX(0) translateX(800px)'
-    ));
+    'transform: scaleX(0) translateX(800px)'
+  ));
 });
 
 it("should have 'Create New Deck' as the heading ", () => {

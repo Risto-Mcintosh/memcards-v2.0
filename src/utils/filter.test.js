@@ -1,4 +1,4 @@
-import { filterList } from './filter'
+import { filterList } from './filter';
 
 const records = [
   {
@@ -13,8 +13,8 @@ const records = [
     id: 3,
     name: 'rec 3'
   }
-]
-const record1 = { id: 1 }
+];
+const record1 = { id: 1 };
 
 test('should filter out record 1 form records ', () => {
   expect(filterList(records, record1)).toEqual([
@@ -26,5 +26,5 @@ test('should filter out record 1 form records ', () => {
       id: 3,
       name: 'rec 3'
     }
-  ])
-})
+  ]);
+});
