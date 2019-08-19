@@ -8,6 +8,10 @@ addons:
     packages:
       - libgconf-2-4
 
+cache:
+  directories:
+    - ~/.cache
+
 script:
   # start server in the background
   - npm run lint
