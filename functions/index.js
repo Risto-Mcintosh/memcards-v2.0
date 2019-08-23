@@ -44,3 +44,10 @@ exports.cardCount = functions.firestore
       })
       .catch(e => console.log(e));
   });
+
+exports.newUserFlow = functions.auth.user().onCreate(user => {
+  return db
+    .collection(`users`)
+    .doc(user.uid)
+    .set({ deckCount: 0 });
+});

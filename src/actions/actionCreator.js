@@ -43,6 +43,8 @@ export function createDeck(values) {
       snackBar: { show: true, message: 'New Deck Created!' }
     });
 
+    // const deckCount = state.filter(deck => deck.editable === true).length + 1;
+
     const cardId = await createNewDeck(values, uid);
 
     dispatch({
