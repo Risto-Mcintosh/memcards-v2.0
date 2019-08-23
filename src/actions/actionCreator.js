@@ -86,7 +86,7 @@ export function deleteDeck(deckId) {
 
 export function setCurrentDeck(deckName) {
   return async (dispatch, getState) => {
-    const deck = getState().decks.find((item) => {
+    const deck = getState().decks.find(item => {
       const nameFound = typeof deckName === 'string' ? deckName : deckName.name;
       return item.name === nameFound;
     });
@@ -233,9 +233,9 @@ export function flipCard(bool = false) {
   };
 }
 
-export function setAuthenticatedUser(bool, uid) {
+export function setAuthenticatedUser(isAuthenticated, uid, isAnonymous) {
   return {
     type: 'AUTHENTICATED_USER',
-    payload: { bool, uid }
+    payload: { isAuthenticated, uid, isAnonymous }
   };
 }

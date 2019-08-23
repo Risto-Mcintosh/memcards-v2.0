@@ -6,9 +6,9 @@ import store from '../store';
 
 const { dispatch } = store;
 
-firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged(user => {
   if (user) {
-    dispatch(setAuthenticatedUser(true, user.uid));
+    dispatch(setAuthenticatedUser(true, user.uid, user.isAnonymous));
     dispatch(hydrate());
   } else {
     dispatch(setAuthenticatedUser(false));

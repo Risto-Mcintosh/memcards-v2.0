@@ -49,8 +49,9 @@ function user(state = {}, action) {
     case 'AUTHENTICATED_USER':
       return {
         ...state,
-        isAuthenticated: action.payload.bool,
-        uid: action.payload.uid
+        isAuthenticated: action.payload.isAuthenticated,
+        uid: action.payload.uid,
+        isAnonymous: action.payload.isAnonymous
       };
     default:
       return state;
