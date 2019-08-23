@@ -26,3 +26,21 @@ exports.userDeckCount = functions.firestore
       })
       .catch(e => console.log(e));
   });
+
+exports.cardCount = functions.firestore
+  .document('users/{userId}/decks/{deckId}/data/{cardId}')
+  .onWrite((change, context) => {
+    const user = context.params.userId;
+    const deck = context.params.deckId;
+
+    const docRef = db.collection(`users/${user}/decks`).doc(deck);
+
+    return db
+      .collection(`users/${user}/decks/${deck}/data`)
+      .get()
+      .then(querySnapshot => {
+        const cardCount = querySnapshot.size;
+        return docRef.update({ cardCount });
+      })
+      .catch(e => console.log(e));
+  });

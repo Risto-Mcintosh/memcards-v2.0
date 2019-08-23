@@ -20,7 +20,7 @@ export async function createNewDeck(values, uid) {
     await db
       .collection(`users/${uid}/decks`)
       .doc(deckName)
-      .set({ name: deckName, editable: true });
+      .set({ name: deckName, editable: true, cardCount: 1 });
     const cardId = await db
       .collection(`users/${uid}/decks/${deckName}/data`)
       .add({
@@ -43,8 +43,10 @@ async function getAllCards(deckName, uid) {
     await db
       .collection(`users/${uid}/decks/${deckName}/data/`)
       .get()
-      .then((snapshot) => {
-        snapshot.forEach(doc => results.push({ deckId: deckName, id: doc.id, ...doc.data() }));
+      .then(snapshot => {
+        snapshot.forEach(doc =>
+          results.push({ deckId: deckName, id: doc.id, ...doc.data() })
+        );
       });
     return results;
   } catch (err) {
@@ -59,7 +61,7 @@ export async function getAllDecks(uid) {
     const deckSnapshot = await db.collection(`users/${uid}/decks`).get();
     const promises = [];
 
-    deckSnapshot.forEach((doc) => {
+    deckSnapshot.forEach(doc => {
       const p = getAllCards(doc.id, uid);
       promises.push(p);
       results.push({ id: doc.id, ...doc.data() });
