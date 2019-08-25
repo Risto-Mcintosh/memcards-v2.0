@@ -2,8 +2,8 @@ const axios = require('axios');
 
 const { UNSPLASH_API_ID } = process.env;
 
-const getImages = async function (searchTerm, page) {
-  await axios.get(
+const getImages = async (searchTerm, page) =>
+  axios.get(
     `https://api.unsplash.com/search/photos?page=${page}&query=${searchTerm}&orientation=landscape`,
     {
       headers: {
@@ -11,9 +11,8 @@ const getImages = async function (searchTerm, page) {
       }
     }
   );
-};
 
-exports.handler = async (event) => {
+exports.handler = async event => {
   try {
     const images = await getImages(
       event.queryStringParameters.searchTerm,
