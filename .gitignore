@@ -22,8 +22,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-functions/memcards.json
-src/Data/TestImagesCard.json
-functions/unsplash.js
+TestImagesCard.json
 cypress/videos
 cypress/screenshots
