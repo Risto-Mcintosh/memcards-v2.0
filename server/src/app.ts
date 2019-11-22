@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
-import mongoose from 'mongoose';
+
 import Controller from './main.controller';
+import MongoService from './services/mongo/mongo.service';
 
 class App {
   public app: Application;
@@ -10,21 +11,13 @@ class App {
   constructor() {
     this.app = express();
     this.setConfig();
-    this.setMongoConfig();
+    MongoService.setConfig();
     this.controller = new Controller(this.app);
   }
 
   private setConfig(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-  }
-
-  private setMongoConfig(): void {
-    mongoose.connect('mongodb://localhost/memcards', {
-      useNewUrlParser: true
-    });
-
-    mongoose.connection.once('open', () => console.log('database started'));
   }
 }
 

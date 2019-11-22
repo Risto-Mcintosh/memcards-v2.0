@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import MongoService from './services/mongo.service';
+import MongoService from './services/mongo/mongo.service';
 
 export default class Controller {
   private dataService: MongoService;
@@ -9,7 +9,9 @@ export default class Controller {
     this.routes();
   }
 
-  public routes(): void {
-    this.app.route('/').get(this.dataService.sayHi);
+  public routes() {
+    this.app.route('/api').get(this.dataService.sayHi);
+    this.app.route('/api/create-user').post(this.dataService.createUser);
+    this.app.route('/api/decks').get(this.dataService.getAllDecks);
   }
 }

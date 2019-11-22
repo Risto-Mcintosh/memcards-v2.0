@@ -19,6 +19,7 @@
   },
   "rules": {
     "no-console": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "@typescript-eslint/explicit-function-return-type": "off"
   }
 }
