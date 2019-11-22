@@ -6,6 +6,7 @@
     "jest": true,
     "cypress/globals": true
   },
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "airbnb",
     "plugin:jest/recommended",
