@@ -1,8 +1,14 @@
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
+import mongoose, { Connection, MongooseDocument } from 'mongoose';
 import { Deck, FlashCard, User } from './models/index.models';
 
 export default class MongoService {
+  private db: any;
+
+  constructor() {
+    this.db = mongoose.connection;
+  }
+
   static setConfig() {
     mongoose.connect('mongodb://localhost/memcards', {
       useNewUrlParser: true
@@ -32,7 +38,18 @@ export default class MongoService {
     res.send({ decks });
   }
 
-  // public async createDeck(req: Request, res: Response) {
-  //   const deck = new Deck(req.body)
-  // }
+  public async createDeck(req: Request, res: Response) {
+    // const deck = new Deck(req.body);
+    // User.findById('5dd8063a7634a1028aaf4e90', (err, user: any) => {
+    //   console.log('user :', user);
+    //   user.decks.push({ name: 'First Mongotest deck', editable: true });
+    //   user.save();
+    //   console.log('user :', user);
+    // });
+
+    User.findById('5dd8063a7634a1028aaf4e90', (err, user: any) => {
+      console.log('deck :', user.decks.id('5dd8ca0b7f828901ec80073f'));
+    });
+    res.send('completed!');
+  }
 }
