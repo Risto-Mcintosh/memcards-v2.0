@@ -13,6 +13,7 @@ export default class Controller {
     this.app.route('/api/create-user').post(this.dataService.createUser);
     this.app.route('/api/decks').get(this.dataService.getAllDecks);
     this.app.route('/api/deck').post(this.dataService.createDeck);
+    this.app.route('/api/deck/:deckId').delete(this.dataService.deleteDeck);
     this.app.route('/api/card').post(this.dataService.createCard);
     this.app
       .route('/api/card/:cardId')

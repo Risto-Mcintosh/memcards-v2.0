@@ -49,7 +49,24 @@ export default class MongoService {
         if (user === null) return res.status(400).send({ err });
         user.decks.push(newDeck);
         user.save();
-        return res.send('completed!');
+        return res.send(user.decks);
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  public async deleteDeck(req: Request, res: Response) {
+    const deckToDelete = req.params.deckId;
+    // user Id '5dd8063a7634a1028aaf4e90'
+    // deck Id "postman test deck" '5dda9e928d042c0341f44d26'
+    // card Id '5dda9e928d042c0341f44d27'
+    try {
+      await User.findById(req.body.userId, (err, user: UserWithDeckQuery) => {
+        if (user === null) return res.status(400).send('user not found');
+        user.decks.id(deckToDelete).remove();
+        user.save();
+        return res.send('deck delete!');
       });
     } catch (e) {
       console.log(e);
