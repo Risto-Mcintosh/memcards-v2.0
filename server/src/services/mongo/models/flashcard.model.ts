@@ -1,6 +1,17 @@
-import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 
-const FlashCardSchema = new mongoose.Schema({
+export interface Flashcard {
+  _id: number;
+  front: string;
+  back: string;
+  image?: {
+    src: string;
+    alt: string;
+    thumb: string;
+  };
+}
+
+const FlashcardSchema: Schema = new Schema({
   front: {
     type: String,
     required: true
@@ -16,11 +27,4 @@ const FlashCardSchema = new mongoose.Schema({
   }
 });
 
-export const DeckSchema = new mongoose.Schema({
-  name: String,
-  editable: Boolean,
-  data: [FlashCardSchema]
-});
-
-export const Deck = mongoose.model('deck', DeckSchema);
-export const FlashCard = mongoose.model('flashCard', FlashCardSchema);
+export default FlashcardSchema;

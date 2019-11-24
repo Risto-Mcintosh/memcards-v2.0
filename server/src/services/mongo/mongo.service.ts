@@ -1,24 +1,20 @@
 import { Request, Response } from 'express';
-import mongoose, { Connection, MongooseDocument } from 'mongoose';
-import { Deck, FlashCard, User } from './models/index.models';
+import mongoose, { Error } from 'mongoose';
+import {
+  Deck,
+  DeckWithFlashcardQuery,
+  DeckWithFlashcardList
+} from './models/deck.model';
+import { Flashcard } from './models/flashcard.model';
+import { User, UserWithDeckQuery, UserWithDeckList } from './models/user.model';
 
 export default class MongoService {
-  private db: any;
-
-  constructor() {
-    this.db = mongoose.connection;
-  }
-
   static setConfig() {
     mongoose.connect('mongodb://localhost/memcards', {
       useNewUrlParser: true
     });
 
     mongoose.connection.once('open', () => console.log('database started'));
-  }
-
-  public sayHi(req: Request, res: Response) {
-    return res.send('what up');
   }
 
   public async createUser(req: Request, res: Response) {
@@ -34,22 +30,107 @@ export default class MongoService {
   }
 
   public async getAllDecks(req: Request, res: Response) {
-    const decks = await Deck.find({});
-    res.send({ decks });
+    const getUser = await User.findById('5dd8063a7634a1028aaf4e90').select(
+      '-password'
+    );
+    res.send(getUser);
   }
 
   public async createDeck(req: Request, res: Response) {
-    // const deck = new Deck(req.body);
-    // User.findById('5dd8063a7634a1028aaf4e90', (err, user: any) => {
-    //   console.log('user :', user);
-    //   user.decks.push({ name: 'First Mongotest deck', editable: true });
-    //   user.save();
-    //   console.log('user :', user);
-    // });
+    const newDeck: DeckWithFlashcardList = {
+      name: req.body.deckName,
+      data: [{ ...req.body.card }]
+    };
+    // user Id '5dd8063a7634a1028aaf4e90'
+    // deck Id "postman test deck" '5dda9e928d042c0341f44d26'
+    // card Id '5dda9e928d042c0341f44d27'
+    try {
+      await User.findById(req.body.userId, (err, user: UserWithDeckList) => {
+        if (user === null) return res.status(400).send({ err });
+        user.decks.push(newDeck);
+        user.save();
+        return res.send('completed!');
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
-    User.findById('5dd8063a7634a1028aaf4e90', (err, user: any) => {
-      console.log('deck :', user.decks.id('5dd8ca0b7f828901ec80073f'));
-    });
-    res.send('completed!');
+  public async createCard(req: Request, res: Response) {
+    const newCard: Flashcard = {
+      ...req.body.card
+    };
+    try {
+      await User.findById(
+        req.body.userId,
+        (err: Error, user: UserWithDeckQuery) => {
+          if (user === null)
+            return res.status(400).send({ err: 'user not found' });
+
+          console.log('deck :', user.decks.id(req.body.deckId));
+          const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
+          deck.data.push(newCard);
+          user.save();
+          return res.status(200).send(deck);
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  public async editCard(req: Request, res: Response) {
+    const cardToEdit = req.params.cardId;
+    const editedCard: Flashcard = {
+      ...req.body.card
+    };
+
+    try {
+      await User.findById(req.body.userId, (err, user: UserWithDeckQuery) => {
+        if (user === null)
+          return res.status(400).send({ err: 'user not found' });
+
+        const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
+
+        if (deck === null)
+          return res.status(400).send({ err: 'card not found' });
+
+        const card: Flashcard = deck.data.id(cardToEdit);
+
+        if (card === null)
+          return res.status(400).send({ err: 'card not found' });
+
+        card.front = editedCard.front;
+        card.back = editedCard.back;
+        card.image = editedCard.image;
+
+        user.save();
+        return res.status(200).send(card);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  public async deleteCard(req: Request, res: Response) {
+    const cardTodelete = req.params.cardId;
+    try {
+      await User.findById(req.body.userId, (err, user: UserWithDeckQuery) => {
+        if (user === null)
+          return res.status(400).send({ err: 'user not found' });
+
+        const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
+
+        if (deck === null)
+          return res.status(400).send({ err: 'card not found' });
+
+        deck.data.id(cardTodelete).remove();
+
+        user.save();
+        return res.status(200).send('card deleted');
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
