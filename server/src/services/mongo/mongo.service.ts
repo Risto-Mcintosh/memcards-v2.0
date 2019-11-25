@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import mongoose, { Error } from 'mongoose';
 import {
-  Deck,
   DeckWithFlashcardQuery,
   DeckWithFlashcardList
 } from './models/deck.model';
@@ -130,7 +129,7 @@ export default class MongoService {
   }
 
   public async deleteCard(req: Request, res: Response) {
-    const cardTodelete = req.params.cardId;
+    const cardToDelete = req.params.cardId;
     try {
       await User.findById(req.body.userId, (err, user: UserWithDeckQuery) => {
         if (user === null)
@@ -141,7 +140,7 @@ export default class MongoService {
         if (deck === null)
           return res.status(400).send({ err: 'card not found' });
 
-        deck.data.id(cardTodelete).remove();
+        deck.data.id(cardToDelete).remove();
 
         user.save();
         return res.status(200).send('card deleted');
