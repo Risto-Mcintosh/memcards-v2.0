@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose, { Error } from 'mongoose';
 import bcrypt from 'bcrypt';
+import joiValidation from '../joiValidation/validation';
 import {
   DeckWithFlashcardQuery,
   DeckWithFlashcardList
@@ -8,8 +9,7 @@ import {
 import { Flashcard } from './models/flashcard.model';
 import {
   User,
-  validateUser,
-  UserWithDeckQuery,
+  UserWithMongooseMethods,
   UserWithDeckList
 } from './models/user.model';
 
@@ -22,8 +22,40 @@ export default class MongoService {
     mongoose.connection.once('open', () => console.log('database started'));
   }
 
+  public login(req: Request, res: Response) {
+    const { error } = joiValidation.validateUser(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const userExist = User.findOne({ email: req.body.email });
+
+    if (!userExist)
+      return res.status(400).send('email or password is incorrect');
+
+    try {
+      userExist.exec(async (err: Error, user: UserWithMongooseMethods) => {
+        if (err) return res.send(err);
+
+        const validPassword = await bcrypt.compare(
+          req.body.password,
+          user.password
+        );
+
+        if (!validPassword)
+          return res.status(400).send('email or password is incorrect');
+
+        const token = user.generateAuthToken();
+
+        return res.cookie('webToken', token, { httpOnly: true });
+      });
+      return res.status(200).send('login successful!');
+    } catch (e) {
+      console.log(e);
+      return res.status(500);
+    }
+  }
+
   public async createUser(req: Request, res: Response) {
-    const { error } = validateUser(req.body);
+    const { error } = joiValidation.validateUser(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     const emailExist = User.findOne({ email: req.body.email });
@@ -58,12 +90,16 @@ export default class MongoService {
     // deck Id "postman test deck" '5dda9e928d042c0341f44d26'
     // card Id '5dda9e928d042c0341f44d27'
     try {
-      await User.findById(req.body.userId, (err, user: UserWithDeckList) => {
-        if (user === null) return res.status(400).send({ err });
-        user.decks.push(newDeck);
-        user.save();
-        return res.send(user.decks);
-      });
+      await User.findById(
+        req.body.userId,
+        (err: Error, user: UserWithDeckList) => {
+          if (err) return res.send(err);
+          if (user === null) return res.status(400).send({ err });
+          user.decks.push(newDeck);
+          user.save();
+          return res.send(user.decks);
+        }
+      );
     } catch (e) {
       console.log(e);
     }
@@ -77,7 +113,7 @@ export default class MongoService {
     try {
       await User.findById(
         req.body.userId,
-        (err: Error, user: UserWithDeckQuery) => {
+        (err: Error, user: UserWithMongooseMethods) => {
           if (err) {
             return res.send(err);
           }
@@ -100,7 +136,7 @@ export default class MongoService {
     try {
       await User.findById(
         req.body.userId,
-        (err: Error, user: UserWithDeckQuery) => {
+        (err: Error, user: UserWithMongooseMethods) => {
           if (err) return res.send(err);
 
           if (user === null)
@@ -124,26 +160,29 @@ export default class MongoService {
     };
 
     try {
-      User.findById(req.body.userId, (err: Error, user: UserWithDeckQuery) => {
-        if (err) return res.send(err);
+      User.findById(
+        req.body.userId,
+        (err: Error, user: UserWithMongooseMethods) => {
+          if (err) return res.send(err);
 
-        if (user === null) return res.status(400).send('user not found');
+          if (user === null) return res.status(400).send('user not found');
 
-        const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
+          const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
 
-        if (deck === null) return res.status(400).send('deck not found');
+          if (deck === null) return res.status(400).send('deck not found');
 
-        const card: Flashcard = deck.data.id(cardToEdit);
+          const card: Flashcard = deck.data.id(cardToEdit);
 
-        if (card === null) return res.status(400).send('card not found');
+          if (card === null) return res.status(400).send('card not found');
 
-        card.front = editedCard.front;
-        card.back = editedCard.back;
-        card.image = editedCard.image;
+          card.front = editedCard.front;
+          card.back = editedCard.back;
+          card.image = editedCard.image;
 
-        user.save();
-        return res.status(200).send(card);
-      });
+          user.save();
+          return res.status(200).send(card);
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -154,7 +193,7 @@ export default class MongoService {
     try {
       await User.findById(
         req.body.userId,
-        (err: Error, user: UserWithDeckQuery) => {
+        (err: Error, user: UserWithMongooseMethods) => {
           if (err) return res.send(err);
 
           if (user === null) return res.status(400).send('user not found');
