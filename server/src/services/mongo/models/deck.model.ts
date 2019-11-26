@@ -28,7 +28,7 @@ const DeckSchema: Schema = new mongoose.Schema(
   { toJSON: { virtuals: true } }
 );
 
-DeckSchema.virtual('totalcards').get(function(
+DeckSchema.virtual('totalCards').get(function(
   this: DeckWithFlashcardList
 ): number {
   return this.data.length;

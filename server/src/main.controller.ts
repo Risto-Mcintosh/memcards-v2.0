@@ -4,6 +4,7 @@ import MongoService from './services/mongo/mongo.service';
 export default class Controller {
   private dataService: MongoService;
 
+
   constructor(private app: Application) {
     this.dataService = new MongoService();
     this.routes();

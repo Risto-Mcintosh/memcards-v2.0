@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import cookieParser from 'cookie-parser';
 
 import Controller from './main.controller';
 import MongoService from './services/mongo/mongo.service';
@@ -18,6 +19,7 @@ class App {
   private setConfig(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cookieParser());
   }
 }
 

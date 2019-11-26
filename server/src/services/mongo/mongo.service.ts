@@ -1,11 +1,17 @@
 import { Request, Response } from 'express';
 import mongoose, { Error } from 'mongoose';
+import bcrypt from 'bcrypt';
 import {
   DeckWithFlashcardQuery,
   DeckWithFlashcardList
 } from './models/deck.model';
 import { Flashcard } from './models/flashcard.model';
-import { User, UserWithDeckQuery, UserWithDeckList } from './models/user.model';
+import {
+  User,
+  validateUser,
+  UserWithDeckQuery,
+  UserWithDeckList
+} from './models/user.model';
 
 export default class MongoService {
   static setConfig() {
@@ -17,22 +23,30 @@ export default class MongoService {
   }
 
   public async createUser(req: Request, res: Response) {
-    const newUser = new User(req.body);
-    console.log(req.body);
+    const { error } = validateUser(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const emailExist = User.findOne({ email: req.body.email });
+    if (emailExist) return res.status(400).send('email already in use');
+
+    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    const newUser = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashPassword
+    });
 
     try {
       await newUser.save();
-      res.status(201).send();
-    } catch (error) {
-      res.status(400).send(error.errors);
+      return res.status(201).send();
+    } catch (e) {
+      return res.status(400).send(e);
     }
   }
 
   public async getAllDecks(req: Request, res: Response) {
-    const getUser = await User.findById('5dd8063a7634a1028aaf4e90').select(
-      '-password'
-    );
-    res.send(getUser);
+    const user = await User.findById(req.body.userId).select('-password');
+    res.send(user);
   }
 
   public async createDeck(req: Request, res: Response) {
@@ -61,12 +75,19 @@ export default class MongoService {
     // deck Id "postman test deck" '5dda9e928d042c0341f44d26'
     // card Id '5dda9e928d042c0341f44d27'
     try {
-      await User.findById(req.body.userId, (err, user: UserWithDeckQuery) => {
-        if (user === null) return res.status(400).send('user not found');
-        user.decks.id(deckToDelete).remove();
-        user.save();
-        return res.send('deck delete!');
-      });
+      await User.findById(
+        req.body.userId,
+        (err: Error, user: UserWithDeckQuery) => {
+          if (err) {
+            return res.send(err);
+          }
+          if (user === null) return res.status(400).send('user not found');
+
+          user.decks.id(deckToDelete).remove();
+          user.save();
+          return res.send('deck delete!');
+        }
+      );
     } catch (e) {
       console.log(e);
     }
@@ -80,10 +101,11 @@ export default class MongoService {
       await User.findById(
         req.body.userId,
         (err: Error, user: UserWithDeckQuery) => {
+          if (err) return res.send(err);
+
           if (user === null)
             return res.status(400).send({ err: 'user not found' });
 
-          console.log('deck :', user.decks.id(req.body.deckId));
           const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
           deck.data.push(newCard);
           user.save();
@@ -95,26 +117,25 @@ export default class MongoService {
     }
   }
 
-  public async editCard(req: Request, res: Response) {
+  public editCard(req: Request, res: Response) {
     const cardToEdit = req.params.cardId;
     const editedCard: Flashcard = {
       ...req.body.card
     };
 
     try {
-      await User.findById(req.body.userId, (err, user: UserWithDeckQuery) => {
-        if (user === null)
-          return res.status(400).send({ err: 'user not found' });
+      User.findById(req.body.userId, (err: Error, user: UserWithDeckQuery) => {
+        if (err) return res.send(err);
+
+        if (user === null) return res.status(400).send('user not found');
 
         const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
 
-        if (deck === null)
-          return res.status(400).send({ err: 'card not found' });
+        if (deck === null) return res.status(400).send('deck not found');
 
         const card: Flashcard = deck.data.id(cardToEdit);
 
-        if (card === null)
-          return res.status(400).send({ err: 'card not found' });
+        if (card === null) return res.status(400).send('card not found');
 
         card.front = editedCard.front;
         card.back = editedCard.back;
@@ -131,20 +152,23 @@ export default class MongoService {
   public async deleteCard(req: Request, res: Response) {
     const cardToDelete = req.params.cardId;
     try {
-      await User.findById(req.body.userId, (err, user: UserWithDeckQuery) => {
-        if (user === null)
-          return res.status(400).send({ err: 'user not found' });
+      await User.findById(
+        req.body.userId,
+        (err: Error, user: UserWithDeckQuery) => {
+          if (err) return res.send(err);
 
-        const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
+          if (user === null) return res.status(400).send('user not found');
 
-        if (deck === null)
-          return res.status(400).send({ err: 'card not found' });
+          const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
 
-        deck.data.id(cardToDelete).remove();
+          if (deck === null) return res.status(400).send('deck not found');
 
-        user.save();
-        return res.status(200).send('card deleted');
-      });
+          deck.data.id(cardToDelete).remove();
+
+          user.save();
+          return res.status(200).send('card deleted');
+        }
+      );
     } catch (error) {
       console.log(error);
     }
