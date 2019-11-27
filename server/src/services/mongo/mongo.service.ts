@@ -29,26 +29,27 @@ export default class MongoService {
     const { error } = joiValidation.validateLogin(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const userExist = User.exists({ email: req.body.email });
-
-    if (!userExist)
-      return res.status(400).send('email or password is incorrect');
-
     try {
-      const foundUser = User.findOne({ email: req.body.email });
-      const validPassword = await foundUser
+      const user = await User.findOne({ email: req.body.email })
         .lean()
-        .then((doc: User) => bcrypt.compare(req.body.password, doc.password));
+        .then((doc: User) => doc);
+
+      if (!user) return res.status(400).send('email or password is incorrect');
+
+      const validPassword = await bcrypt.compare(
+        req.body.password,
+        user.password
+      );
 
       if (!validPassword)
         return res.status(400).send('email or password is incorrect');
 
-      await foundUser.lean().then((doc: User) => {
-        const token = generateAuthToken(doc._id);
-        res.cookie('webToken', token, { httpOnly: true });
-      });
+      const token = generateAuthToken(user._id);
 
-      return res.status(200).send('login successful!');
+      return res
+        .cookie('webToken', token, { httpOnly: true })
+        .status(200)
+        .send({ mes: 'login successful!', token });
     } catch (e) {
       console.log(e);
       return res.status(500);
@@ -78,8 +79,7 @@ export default class MongoService {
   }
 
   public async getAllDecks(req: Request, res: Response) {
-    const user = await User.findById(req.body.userId).select('-password');
-    console.log('res.cookie. :', req.cookies.webToken);
+    const user = await User.findById(res.locals.user._id).select('-password');
     res.send(user);
   }
 
@@ -88,15 +88,12 @@ export default class MongoService {
       name: req.body.deckName,
       data: [{ ...req.body.card }]
     };
-    // user Id '5dd8063a7634a1028aaf4e90'
-    // deck Id "postman test deck" '5dda9e928d042c0341f44d26'
-    // card Id '5dda9e928d042c0341f44d27'
     try {
       await User.findById(
-        req.body.userId,
+        res.locals.user._id,
         (err: Error, user: UserWithDeckList) => {
           if (err) return res.send(err);
-          if (user === null) return res.status(400).send({ err });
+          if (!user) return res.status(400).send('user not found');
           user.decks.push(newDeck);
           user.save();
           return res.send(user.decks);
@@ -109,12 +106,9 @@ export default class MongoService {
 
   public async deleteDeck(req: Request, res: Response) {
     const deckToDelete = req.params.deckId;
-    // user Id '5dd8063a7634a1028aaf4e90'
-    // deck Id "postman test deck" '5dda9e928d042c0341f44d26'
-    // card Id '5dda9e928d042c0341f44d27'
     try {
       await User.findById(
-        req.body.userId,
+        res.locals.user._id,
         (err: Error, user: UserWithMongooseMethods) => {
           if (err) {
             return res.send(err);
@@ -137,7 +131,7 @@ export default class MongoService {
     };
     try {
       await User.findById(
-        req.body.userId,
+        res.locals.user._id,
         (err: Error, user: UserWithMongooseMethods) => {
           if (err) return res.send(err);
 
@@ -163,7 +157,7 @@ export default class MongoService {
 
     try {
       User.findById(
-        req.body.userId,
+        res.locals.user._id,
         (err: Error, user: UserWithMongooseMethods) => {
           if (err) return res.send(err);
 
@@ -194,7 +188,7 @@ export default class MongoService {
     const cardToDelete = req.params.cardId;
     try {
       await User.findById(
-        req.body.userId,
+        res.locals.user._id,
         (err: Error, user: UserWithMongooseMethods) => {
           if (err) return res.send(err);
 
