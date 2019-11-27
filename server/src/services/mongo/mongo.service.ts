@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import mongoose, { Error } from 'mongoose';
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 import joiValidation from '../joiValidation/validation';
+import generateAuthToken from '../JsonWebTokens';
 import {
   DeckWithFlashcardQuery,
   DeckWithFlashcardList
@@ -13,6 +15,7 @@ import {
   UserWithDeckList
 } from './models/user.model';
 
+dotenv.config();
 export default class MongoService {
   static setConfig() {
     mongoose.connect('mongodb://localhost/memcards', {
@@ -22,31 +25,29 @@ export default class MongoService {
     mongoose.connection.once('open', () => console.log('database started'));
   }
 
-  public login(req: Request, res: Response) {
-    const { error } = joiValidation.validateUser(req.body);
+  public async login(req: Request, res: Response) {
+    const { error } = joiValidation.validateLogin(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const userExist = User.findOne({ email: req.body.email });
+    const userExist = User.exists({ email: req.body.email });
 
     if (!userExist)
       return res.status(400).send('email or password is incorrect');
 
     try {
-      userExist.exec(async (err: Error, user: UserWithMongooseMethods) => {
-        if (err) return res.send(err);
+      const foundUser = User.findOne({ email: req.body.email });
+      const validPassword = await foundUser
+        .lean()
+        .then((doc: User) => bcrypt.compare(req.body.password, doc.password));
 
-        const validPassword = await bcrypt.compare(
-          req.body.password,
-          user.password
-        );
+      if (!validPassword)
+        return res.status(400).send('email or password is incorrect');
 
-        if (!validPassword)
-          return res.status(400).send('email or password is incorrect');
-
-        const token = user.generateAuthToken();
-
-        return res.cookie('webToken', token, { httpOnly: true });
+      await foundUser.lean().then((doc: User) => {
+        const token = generateAuthToken(doc._id);
+        res.cookie('webToken', token, { httpOnly: true });
       });
+
       return res.status(200).send('login successful!');
     } catch (e) {
       console.log(e);
@@ -58,8 +59,8 @@ export default class MongoService {
     const { error } = joiValidation.validateUser(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const emailExist = User.findOne({ email: req.body.email });
-    if (emailExist) return res.status(400).send('email already in use');
+    const emailExist = await User.exists({ email: req.body.email });
+    if (emailExist) return res.status(400).send('email is already in use');
 
     const hashPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = new User({
@@ -70,7 +71,7 @@ export default class MongoService {
 
     try {
       await newUser.save();
-      return res.status(201).send();
+      return res.status(201).send(newUser._id);
     } catch (e) {
       return res.status(400).send(e);
     }
@@ -78,6 +79,7 @@ export default class MongoService {
 
   public async getAllDecks(req: Request, res: Response) {
     const user = await User.findById(req.body.userId).select('-password');
+    console.log('res.cookie. :', req.cookies.webToken);
     res.send(user);
   }
 
