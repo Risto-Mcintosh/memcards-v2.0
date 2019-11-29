@@ -1,19 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import DeckSchema, { Deck } from './deck.model';
 
 export interface User extends mongoose.Document {
   name: string;
   password: string;
   email: string;
-}
-
-export interface UserWithMongooseMethods extends User {
-  decks: {
-    id(_id: string): any;
-  };
-}
-export interface UserWithDeckList extends User {
-  decks: Array<Deck>;
+  decks: Types.DocumentArray<Deck>;
 }
 
 const UserSchema = new mongoose.Schema({
@@ -32,4 +24,5 @@ const UserSchema = new mongoose.Schema({
   decks: [DeckSchema]
 });
 
-export const User = mongoose.model<User>('user', UserSchema);
+const UserModel = mongoose.model<User>('user', UserSchema);
+export default UserModel;

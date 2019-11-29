@@ -1,5 +1,7 @@
 import Joi from '@hapi/joi';
 import { User } from '../mongo/models/user.model';
+import { Deck } from '../mongo/models/deck.model';
+import { Flashcard } from '../mongo/models/flashcard.model';
 
 function validateUser(user: User) {
   const schema = Joi.object({
@@ -37,7 +39,38 @@ function validateLogin(user: User) {
   return schema.validate(user);
 }
 
+function validateDeck(deck: Deck) {
+  const schema = Joi.object({
+    name: Joi.string()
+      .min(5)
+      .max(100)
+      .required(),
+    data: Joi.array().required()
+  });
+  return schema.validate(deck);
+}
+
+function validateFlashcard(flashcard: Flashcard) {
+  const schema = Joi.object({
+    front: Joi.string()
+      .max(100)
+      .required(),
+    back: Joi.string()
+      .max(100)
+      .required(),
+    image: Joi.object({
+      src: Joi.string(),
+      alt: Joi.string(),
+      thumb: Joi.string()
+    })
+  });
+
+  return schema.validate(flashcard);
+}
+
 export default {
   validateUser,
-  validateLogin
+  validateLogin,
+  validateDeck,
+  validateFlashcard
 };

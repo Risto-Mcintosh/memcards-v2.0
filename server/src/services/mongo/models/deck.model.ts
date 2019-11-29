@@ -1,19 +1,10 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Types } from 'mongoose';
 import FlashcardSchema, { Flashcard } from './flashcard.model';
 
-export interface Deck {
+export interface Deck extends Types.Subdocument {
   name: string;
   editable?: boolean;
-}
-
-export interface DeckWithFlashcardList extends Deck {
-  data: Array<Flashcard>;
-}
-export interface DeckWithFlashcardQuery extends Deck {
-  data: {
-    id(_id: string): any;
-    push(Flashcard: Flashcard): void;
-  };
+  data: Types.DocumentArray<Flashcard>;
 }
 
 const DeckSchema: Schema = new mongoose.Schema(
@@ -28,9 +19,7 @@ const DeckSchema: Schema = new mongoose.Schema(
   { toJSON: { virtuals: true } }
 );
 
-DeckSchema.virtual('totalCards').get(function(
-  this: DeckWithFlashcardList
-): number {
+DeckSchema.virtual('totalCards').get(function(this: Deck): number {
   return this.data.length;
 });
 

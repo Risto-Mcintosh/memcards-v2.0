@@ -4,16 +4,8 @@ import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import joiValidation from '../joiValidation/validation';
 import generateAuthToken from '../JsonWebTokens';
-import {
-  DeckWithFlashcardQuery,
-  DeckWithFlashcardList
-} from './models/deck.model';
 import { Flashcard } from './models/flashcard.model';
-import {
-  User,
-  UserWithMongooseMethods,
-  UserWithDeckList
-} from './models/user.model';
+import UserModel, { User } from './models/user.model';
 
 dotenv.config();
 export default class MongoService {
@@ -30,7 +22,7 @@ export default class MongoService {
     if (error) return res.status(400).send(error.details[0].message);
 
     try {
-      const user = await User.findOne({ email: req.body.email })
+      const user = await UserModel.findOne({ email: req.body.email })
         .lean()
         .then((doc: User) => doc);
 
@@ -60,11 +52,11 @@ export default class MongoService {
     const { error } = joiValidation.validateUser(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const emailExist = await User.exists({ email: req.body.email });
+    const emailExist = await UserModel.exists({ email: req.body.email });
     if (emailExist) return res.status(400).send('email is already in use');
 
     const hashPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = new User({
+    const newUser = new UserModel({
       name: req.body.name,
       email: req.body.email,
       password: hashPassword
@@ -79,19 +71,21 @@ export default class MongoService {
   }
 
   public async getAllDecks(req: Request, res: Response) {
-    const user = await User.findById(res.locals.user._id).select('-password');
+    const user = await UserModel.findById(res.locals.user._id).select(
+      '-password'
+    );
     res.send(user);
   }
 
   public async createDeck(req: Request, res: Response) {
-    const newDeck: DeckWithFlashcardList = {
+    const newDeck = {
       name: req.body.deckName,
       data: [{ ...req.body.card }]
     };
     try {
-      await User.findById(
+      await UserModel.findById(
         res.locals.user._id,
-        (err: Error, user: UserWithDeckList) => {
+        (err: Error, user: User) => {
           if (err) return res.send(err);
           if (!user) return res.status(400).send('user not found');
           user.decks.push(newDeck);
@@ -107,9 +101,9 @@ export default class MongoService {
   public async deleteDeck(req: Request, res: Response) {
     const deckToDelete = req.params.deckId;
     try {
-      await User.findById(
+      await UserModel.findById(
         res.locals.user._id,
-        (err: Error, user: UserWithMongooseMethods) => {
+        (err: Error, user: User) => {
           if (err) {
             return res.send(err);
           }
@@ -130,15 +124,15 @@ export default class MongoService {
       ...req.body.card
     };
     try {
-      await User.findById(
+      await UserModel.findById(
         res.locals.user._id,
-        (err: Error, user: UserWithMongooseMethods) => {
+        (err: Error, user: User) => {
           if (err) return res.send(err);
 
           if (user === null)
             return res.status(400).send({ err: 'user not found' });
 
-          const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
+          const deck = user.decks.id(req.body.deckId);
           deck.data.push(newCard);
           user.save();
           return res.status(200).send(deck);
@@ -149,25 +143,25 @@ export default class MongoService {
     }
   }
 
-  public editCard(req: Request, res: Response) {
+  public async editCard(req: Request, res: Response) {
     const cardToEdit = req.params.cardId;
     const editedCard: Flashcard = {
       ...req.body.card
     };
 
     try {
-      User.findById(
+      await UserModel.findById(
         res.locals.user._id,
-        (err: Error, user: UserWithMongooseMethods) => {
+        (err: Error, user: User) => {
           if (err) return res.send(err);
 
           if (user === null) return res.status(400).send('user not found');
 
-          const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
+          const deck = user.decks.id(req.body.deckId);
 
           if (deck === null) return res.status(400).send('deck not found');
 
-          const card: Flashcard = deck.data.id(cardToEdit);
+          const card = deck.data.id(cardToEdit);
 
           if (card === null) return res.status(400).send('card not found');
 
@@ -187,14 +181,14 @@ export default class MongoService {
   public async deleteCard(req: Request, res: Response) {
     const cardToDelete = req.params.cardId;
     try {
-      await User.findById(
+      await UserModel.findById(
         res.locals.user._id,
-        (err: Error, user: UserWithMongooseMethods) => {
+        (err: Error, user: User) => {
           if (err) return res.send(err);
 
           if (user === null) return res.status(400).send('user not found');
 
-          const deck: DeckWithFlashcardQuery = user.decks.id(req.body.deckId);
+          const deck = user.decks.id(req.body.deckId);
 
           if (deck === null) return res.status(400).send('deck not found');
 

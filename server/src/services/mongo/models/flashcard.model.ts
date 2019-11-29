@@ -1,6 +1,6 @@
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 
-export interface Flashcard {
+export interface Flashcard extends Types.Subdocument {
   _id: number;
   front: string;
   back: string;
