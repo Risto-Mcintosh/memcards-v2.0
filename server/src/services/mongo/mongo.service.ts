@@ -18,10 +18,10 @@ export default class MongoService {
   }
 
   public async login(req: Request, res: Response) {
-    const { error } = joiValidation.validateLogin(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
     try {
+      const { error } = joiValidation.validateLogin(req.body);
+      if (error) throw error;
+
       const user = await UserModel.findOne({ email: req.body.email })
         .lean()
         .then((doc: User) => doc);
@@ -41,81 +41,97 @@ export default class MongoService {
       return res
         .cookie('webToken', token, { httpOnly: true })
         .status(200)
-        .send({ mes: 'login successful!', token });
+        .send({ mes: 'login successful!' });
     } catch (e) {
+      if (e.name === 'ValidationError') {
+        return res.status(400).send(e.details[0].message);
+      }
       console.log(e);
-      return res.status(500);
+      return res.status(500).send();
     }
   }
 
   public async createUser(req: Request, res: Response) {
-    const { error } = joiValidation.validateUser(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const emailExist = await UserModel.exists({ email: req.body.email });
-    if (emailExist) return res.status(400).send('email is already in use');
-
-    const hashPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = new UserModel({
-      name: req.body.name,
-      email: req.body.email,
-      password: hashPassword
-    });
-
     try {
+      const { error } = joiValidation.validateUser(req.body);
+      if (error) throw error;
+
+      const emailExist = await UserModel.exists({ email: req.body.email });
+      if (emailExist) return res.status(400).send('email is already in use');
+
+      const hashPassword = await bcrypt.hash(req.body.password, 10);
+
+      const newUser = new UserModel({
+        name: req.body.name,
+        email: req.body.email,
+        password: hashPassword
+      });
+
       await newUser.save();
       return res.status(201).send(newUser._id);
     } catch (e) {
-      return res.status(400).send(e);
+      if (e.name === 'ValidationError') {
+        return res.status(400).send(e.details[0].message);
+      }
+      console.log(e);
+      return res.status(500).send();
     }
   }
 
   public async getAllDecks(req: Request, res: Response) {
     const user = await UserModel.findById(res.locals.user._id).select(
-      '-password'
+      '-password -email'
     );
     res.send(user);
   }
 
-  public async createDeck(req: Request, res: Response) {
-    const newDeck = {
-      name: req.body.deckName,
-      data: [{ ...req.body.card }]
-    };
+  public createDeck(req: Request, res: Response) {
     try {
-      await UserModel.findById(
+      const { error } = joiValidation.validateFlashcard(req.body.card);
+      if (error) throw error;
+
+      const newDeck = {
+        name: req.body.deckName,
+        data: [{ ...req.body.card }]
+      };
+      UserModel.findById(
         res.locals.user._id,
-        (err: Error, user: User) => {
-          if (err) return res.send(err);
+        async (err: Error, user: User) => {
+          if (err) throw err;
           if (!user) return res.status(400).send('user not found');
           user.decks.push(newDeck);
-          user.save();
-          return res.send(user.decks);
+          await user.save();
+          return res.status(201).send();
         }
       );
     } catch (e) {
-      console.log(e);
+      if (e.name === 'ValidationError') {
+        res.status(400).send(e.details[0].message);
+      } else {
+        console.log(e);
+        res.status(500).send();
+      }
     }
   }
 
-  public async deleteDeck(req: Request, res: Response) {
+  public deleteDeck(req: Request, res: Response) {
     const deckToDelete = req.params.deckId;
     try {
-      await UserModel.findById(
+      UserModel.findById(
         res.locals.user._id,
-        (err: Error, user: User) => {
-          if (err) {
-            return res.send(err);
-          }
+        async (err: Error, user: User) => {
+          if (err) throw err;
+
           if (user === null) return res.status(400).send('user not found');
 
           user.decks.id(deckToDelete).remove();
-          user.save();
-          return res.send('deck delete!');
+          await user.save();
+          return res.status(200).send();
         }
       );
     } catch (e) {
       console.log(e);
+      res.status(500).send();
     }
   }
 
@@ -123,11 +139,15 @@ export default class MongoService {
     const newCard: Flashcard = {
       ...req.body.card
     };
+
     try {
+      const { error } = joiValidation.validateFlashcard(newCard);
+      if (error) throw error;
+
       await UserModel.findById(
         res.locals.user._id,
         (err: Error, user: User) => {
-          if (err) return res.send(err);
+          if (err) throw err;
 
           if (user === null)
             return res.status(400).send({ err: 'user not found' });
@@ -135,25 +155,32 @@ export default class MongoService {
           const deck = user.decks.id(req.body.deckId);
           deck.data.push(newCard);
           user.save();
-          return res.status(200).send(deck);
+          return res.status(201).send();
         }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      if (e.name === 'ValidationError') {
+        res.status(400).send(e.details[0].message);
+      } else {
+        console.log(e);
+        res.status(500).send();
+      }
     }
   }
 
   public async editCard(req: Request, res: Response) {
     const cardToEdit = req.params.cardId;
-    const editedCard: Flashcard = {
-      ...req.body.card
-    };
 
     try {
+      const { error } = joiValidation.validateFlashcard(req.body.card);
+      if (error) throw error;
+
+      const editedCard: Flashcard = req.body.card;
+
       await UserModel.findById(
         res.locals.user._id,
         (err: Error, user: User) => {
-          if (err) return res.send(err);
+          if (err) throw err;
 
           if (user === null) return res.status(400).send('user not found');
 
@@ -173,18 +200,23 @@ export default class MongoService {
           return res.status(200).send(card);
         }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      if (e.name === 'ValidationError') {
+        res.status(400).send(e.details[0].message);
+      } else {
+        console.log(e);
+        res.status(500).send();
+      }
     }
   }
 
-  public async deleteCard(req: Request, res: Response) {
+  public deleteCard(req: Request, res: Response) {
     const cardToDelete = req.params.cardId;
     try {
-      await UserModel.findById(
+      UserModel.findById(
         res.locals.user._id,
-        (err: Error, user: User) => {
-          if (err) return res.send(err);
+        async (err: Error, user: User) => {
+          if (err) throw err;
 
           if (user === null) return res.status(400).send('user not found');
 
@@ -194,12 +226,13 @@ export default class MongoService {
 
           deck.data.id(cardToDelete).remove();
 
-          user.save();
+          await user.save();
           return res.status(200).send('card deleted');
         }
       );
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
+      res.status(500).send();
     }
   }
 }

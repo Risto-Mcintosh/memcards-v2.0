@@ -39,17 +39,6 @@ function validateLogin(user: User) {
   return schema.validate(user);
 }
 
-function validateDeck(deck: Deck) {
-  const schema = Joi.object({
-    name: Joi.string()
-      .min(5)
-      .max(100)
-      .required(),
-    data: Joi.array().required()
-  });
-  return schema.validate(deck);
-}
-
 function validateFlashcard(flashcard: Flashcard) {
   const schema = Joi.object({
     front: Joi.string()
@@ -71,6 +60,5 @@ function validateFlashcard(flashcard: Flashcard) {
 export default {
   validateUser,
   validateLogin,
-  validateDeck,
   validateFlashcard
 };
