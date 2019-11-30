@@ -6,9 +6,10 @@ import joiValidation from '../joiValidation/validation';
 import generateAuthToken from '../tokenGenerator';
 import { Flashcard } from './models/flashcard.model';
 import UserModel, { User } from './models/user.model';
+import { DataService } from '../dataService.types';
 
 dotenv.config();
-export default class MongoService {
+export default class MongoService implements DataService {
   static setConfig() {
     mongoose.connect('mongodb://localhost/memcards', {
       useNewUrlParser: true
@@ -83,10 +84,10 @@ export default class MongoService {
       const user = await UserModel.findById(res.locals.user._id).select(
         '-password -email'
       );
-      res.status(200).send(user);
+      return res.status(200).send(user);
     } catch (error) {
       console.log(error);
-      res.status(500).send();
+      return res.status(500).send();
     }
   }
 
@@ -141,7 +142,7 @@ export default class MongoService {
     }
   }
 
-  public async createCard(req: Request, res: Response) {
+  public createCard(req: Request, res: Response) {
     const newCard: Flashcard = {
       ...req.body.card
     };
@@ -150,21 +151,18 @@ export default class MongoService {
       const { error } = joiValidation.validateFlashcard(newCard);
       if (error) throw error;
 
-      await UserModel.findById(
-        res.locals.user._id,
-        (err: Error, user: User) => {
-          if (err) throw err;
+      UserModel.findById(res.locals.user._id, (err: Error, user: User) => {
+        if (err) throw err;
 
-          if (user === null)
-            return res.status(400).send({ err: 'user not found' });
+        if (user === null)
+          return res.status(400).send({ err: 'user not found' });
 
-          const deck = user.decks.id(req.body.deckId);
-          const deckLength = deck.data.push(newCard);
-          const cardId = deck.data[deckLength - 1];
-          user.save();
-          return res.status(201).send({ cardId: cardId._id });
-        }
-      );
+        const deck = user.decks.id(req.body.deckId);
+        const deckLength = deck.data.push(newCard);
+        const cardId = deck.data[deckLength - 1];
+        user.save();
+        return res.status(201).send({ cardId: cardId._id });
+      });
     } catch (e) {
       if (e.name === 'ValidationError') {
         res.status(400).send(e.details[0].message);
@@ -175,7 +173,7 @@ export default class MongoService {
     }
   }
 
-  public async editCard(req: Request, res: Response) {
+  public editCard(req: Request, res: Response) {
     const cardToEdit = req.params.cardId;
 
     try {
@@ -184,29 +182,26 @@ export default class MongoService {
 
       const editedCard: Flashcard = req.body.card;
 
-      await UserModel.findById(
-        res.locals.user._id,
-        (err: Error, user: User) => {
-          if (err) throw err;
+      UserModel.findById(res.locals.user._id, (err: Error, user: User) => {
+        if (err) throw err;
 
-          if (user === null) return res.status(400).send('user not found');
+        if (user === null) return res.status(400).send('user not found');
 
-          const deck = user.decks.id(req.body.deckId);
+        const deck = user.decks.id(req.body.deckId);
 
-          if (deck === null) return res.status(400).send('deck not found');
+        if (deck === null) return res.status(400).send('deck not found');
 
-          const card = deck.data.id(cardToEdit);
+        const card = deck.data.id(cardToEdit);
 
-          if (card === null) return res.status(400).send('card not found');
+        if (card === null) return res.status(400).send('card not found');
 
-          card.front = editedCard.front;
-          card.back = editedCard.back;
-          card.image = editedCard.image;
+        card.front = editedCard.front;
+        card.back = editedCard.back;
+        card.image = editedCard.image;
 
-          user.save();
-          return res.status(200).send('card edited');
-        }
-      );
+        user.save();
+        return res.status(200).send('card edited');
+      });
     } catch (e) {
       if (e.name === 'ValidationError') {
         res.status(400).send(e.details[0].message);

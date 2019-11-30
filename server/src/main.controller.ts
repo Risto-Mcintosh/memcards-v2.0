@@ -1,13 +1,16 @@
 import { Application } from 'express';
-import MongoService from './services/mongo/mongo.service';
+import { DataService } from './services/dataService.types';
 import auth from './middleware/auth';
 import unsplash from './services/unsplash/unsplash';
 
 export default class Controller {
-  private dataService: MongoService;
+  private app: Application;
 
-  constructor(private app: Application) {
-    this.dataService = new MongoService();
+  private dataService: DataService;
+
+  constructor(_app: Application, _dataService: DataService) {
+    this.app = _app;
+    this.dataService = _dataService;
     this.routes();
   }
 

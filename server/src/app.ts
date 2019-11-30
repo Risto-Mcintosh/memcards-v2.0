@@ -13,7 +13,7 @@ class App {
     this.app = express();
     this.setConfig();
     MongoService.setConfig();
-    this.controller = new Controller(this.app);
+    this.controller = new Controller(this.app, new MongoService());
   }
 
   private setConfig(): void {
