@@ -21,4 +21,4 @@ To learn different tech stacks, I rebuilt the backend multiple times using diffe
 
 ## [Firebase/GCP](./src/firebase)
 
-## [MERN Stack in typescript](/server)
+## [MERN Stack in Typescript](/server)
