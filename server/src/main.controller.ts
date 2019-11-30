@@ -1,6 +1,7 @@
 import { Application } from 'express';
 import MongoService from './services/mongo/mongo.service';
 import auth from './middleware/auth';
+import unsplash from './services/unsplash/unsplash';
 
 export default class Controller {
   private dataService: MongoService;
@@ -23,5 +24,6 @@ export default class Controller {
       .route('/api/card/:cardId')
       .put(auth, this.dataService.editCard)
       .delete(auth, this.dataService.deleteCard);
+    this.app.route('/api/getImages').get(auth, unsplash);
   }
 }

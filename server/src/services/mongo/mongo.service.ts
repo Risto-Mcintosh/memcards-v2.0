@@ -3,7 +3,7 @@ import mongoose, { Error } from 'mongoose';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import joiValidation from '../joiValidation/validation';
-import generateAuthToken from '../JsonWebTokens';
+import generateAuthToken from '../tokenGenerator';
 import { Flashcard } from './models/flashcard.model';
 import UserModel, { User } from './models/user.model';
 
@@ -79,10 +79,15 @@ export default class MongoService {
   }
 
   public async getAllDecks(req: Request, res: Response) {
-    const user = await UserModel.findById(res.locals.user._id).select(
-      '-password -email'
-    );
-    res.send(user);
+    try {
+      const user = await UserModel.findById(res.locals.user._id).select(
+        '-password -email'
+      );
+      res.status(200).send(user);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send();
+    }
   }
 
   public createDeck(req: Request, res: Response) {
@@ -99,9 +104,10 @@ export default class MongoService {
         async (err: Error, user: User) => {
           if (err) throw err;
           if (!user) return res.status(400).send('user not found');
-          user.decks.push(newDeck);
+          const deckLength = user.decks.push(newDeck);
+          const cardId = user.decks[deckLength - 1].data[0]._id;
           await user.save();
-          return res.status(201).send();
+          return res.status(201).send(cardId);
         }
       );
     } catch (e) {
@@ -153,9 +159,10 @@ export default class MongoService {
             return res.status(400).send({ err: 'user not found' });
 
           const deck = user.decks.id(req.body.deckId);
-          deck.data.push(newCard);
+          const deckLength = deck.data.push(newCard);
+          const cardId = deck.data[deckLength - 1];
           user.save();
-          return res.status(201).send();
+          return res.status(201).send({ cardId: cardId._id });
         }
       );
     } catch (e) {
@@ -197,7 +204,7 @@ export default class MongoService {
           card.image = editedCard.image;
 
           user.save();
-          return res.status(200).send(card);
+          return res.status(200).send('card edited');
         }
       );
     } catch (e) {
