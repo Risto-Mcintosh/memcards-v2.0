@@ -1,4 +1,4 @@
-## MERN Stack implementation for [Memcards](../../README.md)
+## MERN Stack implementation for [Memcards](../README.md)
 
 Because I'm going to be consently rebuilding the backend to learn to new tech, I design the [API controller](./src/main.controller.ts) to be loosely coupled in order to easily swapout services *(AWS, MySQL, Azure, ect..)*. With that, I just have to create a new class that implements the [DataService interface](./src/services/dataService.types.ts) and change 2-3 lines of code in the [app file](./src/app.ts) to use it.
 
