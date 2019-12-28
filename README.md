@@ -17,7 +17,7 @@ Make flashcards more effective with photos provided by [Unsplash](https://unspla
 
 ## Backend
 
-To learn different tech stacks, I've rebuilt the backend multiple times using different technologies. Links to each iteration are below
+To learn different tech stacks, I've rebuilt the backend using different technologies. Links to each iteration are below
 
 ## [Firebase/GCP](./src/firebase)
 
