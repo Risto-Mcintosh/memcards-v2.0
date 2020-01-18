@@ -107,19 +107,16 @@ export function getCard(card) {
   return (dispatch, getState) => {
     const { deck } = getState();
     const { shuffledDeck, data } = deck;
-    let selectedCard;
+    let selectedCard = card === 'random' ? shuffledDeck.pop() : card;
 
-    if (card === 'random') {
-      selectedCard = shuffledDeck.pop();
-    } else {
-      selectedCard = card;
-    }
+    const deckIsEmpty = data.length <= 0;
+    const noCardsLeftToStudy = data.length >= 1 && !selectedCard;
 
-    if (data.length <= 0) {
+    if (deckIsEmpty) {
       history.push('/decks');
       selectedCard = {};
     }
-    if (data.length >= 1 && selectedCard === undefined) {
+    if (noCardsLeftToStudy) {
       history.push('/completed');
       selectedCard = {};
     }
