@@ -34,7 +34,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint \"./**/*.js\" ",
+    "lint": "eslint \"./src/**/*.js\" ",
     "lint:fix": "npm run lint -- --fix",
     "start:ci": "start-server-and-test start http://localhost:3000 test",
     "cy:run": "cypress run",
