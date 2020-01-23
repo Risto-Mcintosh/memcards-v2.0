@@ -6,6 +6,7 @@ Because I'm going to be constantly rebuilding the backend to learn to new tech, 
 
 Instantiating the MongoDB service class
 
+```TypeScript
     /*
     app.ts
     */
@@ -27,11 +28,11 @@ Instantiating the MongoDB service class
 
     // ...... 
     }
-
+```
 
 
 The API Controller
-
+```TypeScript
     /*
     main.controller.ts
     */
@@ -59,10 +60,12 @@ The API Controller
         this.app.route('/api/getImages').get(auth, unsplash);
       }
     }
+```
 
 
 DataService interface
 
+```TypeScript
     /*
     dataService.types.ts
     */
@@ -77,3 +80,4 @@ DataService interface
       editCard(req: Request, res: Response): Promise<Response> | void;
       deleteCard(req: Request, res: Response): Promise<Response> | void;
     }
+```
