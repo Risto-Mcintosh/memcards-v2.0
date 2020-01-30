@@ -214,6 +214,7 @@ export default class MongoService implements DataService {
 
   public deleteCard(req: Request, res: Response) {
     const cardToDelete = req.params.cardId;
+
     try {
       UserModel.findById(
         res.locals.user._id,

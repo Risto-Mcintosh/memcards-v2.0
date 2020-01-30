@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import cookieParser from 'cookie-parser';
 
 import Controller from './main.controller';
-import MongoService from './services/mongo/mongo.service';
+import DataService from './services/mongo/mongo.service';
 
 class App {
   public app: Application;
@@ -12,8 +12,8 @@ class App {
   constructor() {
     this.app = express();
     this.setConfig();
-    MongoService.setConfig();
-    this.controller = new Controller(this.app, new MongoService());
+    DataService.setConfig();
+    this.controller = new Controller(this.app, new DataService());
   }
 
   private setConfig(): void {
