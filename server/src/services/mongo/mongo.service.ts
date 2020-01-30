@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import mongoose, { Error } from 'mongoose';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
-import joiValidation from '../joiValidation/validation';
 import generateAuthToken from '../tokenGenerator';
 import { Flashcard } from './models/flashcard.model';
 import UserModel, { User } from './models/user.model';
@@ -21,9 +20,6 @@ export default class MongoService implements DataService {
 
   public async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const { error } = joiValidation.validateLogin(req.body);
-      if (error) throw error;
-
       const user = await UserModel.findOne({ email: req.body.email })
         .lean()
         .then((doc: User) => doc);
@@ -51,9 +47,6 @@ export default class MongoService implements DataService {
 
   public async createUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const { error } = joiValidation.validateUser(req.body);
-      if (error) throw error;
-
       const emailExist = await UserModel.exists({ email: req.body.email });
       if (emailExist) return res.status(400).send('email is already in use');
 
@@ -84,18 +77,16 @@ export default class MongoService implements DataService {
   }
 
   public createDeck(req: Request, res: Response, next: NextFunction) {
+    const newDeck = {
+      name: req.body.deckName,
+      data: [{ ...req.body.card }]
+    };
     try {
-      const { error } = joiValidation.validateFlashcard(req.body.card);
-      if (error) throw error;
-
-      const newDeck = {
-        name: req.body.deckName,
-        data: [{ ...req.body.card }]
-      };
       UserModel.findById(
         res.locals.user._id,
         async (err: Error, user: User) => {
           if (err) throw err;
+
           if (!user) return res.status(404).send('user not found');
           const deckLength = user.decks.push(newDeck);
           const cardId = user.decks[deckLength - 1].data[0]._id;
@@ -132,14 +123,12 @@ export default class MongoService implements DataService {
 
   public createCard(req: Request, res: Response, next: NextFunction) {
     const newCard: Flashcard = req.body.card;
-
-    const { error: validationError } = joiValidation.validateFlashcard(newCard);
-    if (validationError) return next(validationError);
     try {
       UserModel.findById(
         res.locals.user._id,
         async (err: Error, user: User) => {
           if (err) throw err;
+
           const { deck } = new QueryHelper(user, next).getDeck(req.body.deckId);
 
           if (!deck) return;
@@ -150,18 +139,14 @@ export default class MongoService implements DataService {
         }
       );
     } catch (e) {
-      return next(e);
+      next(e);
     }
   }
 
   public editCard(req: Request, res: Response, next: NextFunction) {
     const cardToEdit = req.params.cardId;
     const editedCard: Flashcard = req.body.card;
-
     try {
-      const { error } = joiValidation.validateFlashcard(req.body.card);
-      if (error) throw error;
-
       UserModel.findById(
         res.locals.user._id,
         async (err: Error, user: User) => {
@@ -187,7 +172,6 @@ export default class MongoService implements DataService {
 
   public deleteCard(req: Request, res: Response, next: NextFunction) {
     const cardToDelete = req.params.cardId;
-
     try {
       UserModel.findById(
         res.locals.user._id,

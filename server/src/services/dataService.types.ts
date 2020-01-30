@@ -20,25 +20,25 @@ export interface DataService {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response> | void;
+  ): Promise<void | Response> | void;
   deleteDeck(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response> | void;
+  ): Promise<void | Response> | void;
   createCard(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response> | void;
+  ): Promise<void | Response> | void;
   editCard(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response> | void;
+  ): Promise<void | Response> | void;
   deleteCard(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response> | void;
+  ): Promise<void | Response> | void;
 }

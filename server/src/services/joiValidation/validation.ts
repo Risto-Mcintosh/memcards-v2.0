@@ -1,6 +1,5 @@
 import Joi from '@hapi/joi';
 import { User } from '../mongo/models/user.model';
-import { Deck } from '../mongo/models/deck.model';
 import { Flashcard } from '../mongo/models/flashcard.model';
 
 function validateUser(user: User) {
@@ -57,8 +56,17 @@ function validateFlashcard(flashcard: Flashcard) {
   return schema.validate(flashcard);
 }
 
+function validateDeckName(deckName: string) {
+  const schema = Joi.string()
+    .max(100)
+    .required();
+
+  return schema.validate(deckName);
+}
+
 export default {
   validateUser,
   validateLogin,
-  validateFlashcard
+  validateFlashcard,
+  validateDeckName
 };
