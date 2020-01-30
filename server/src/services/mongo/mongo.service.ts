@@ -10,7 +10,7 @@ import QueryHelper from './queryHelper';
 
 dotenv.config();
 export default class MongoService implements DataService {
-  static setConfig() {
+  static config() {
     mongoose.connect('mongodb://localhost/memcards', {
       useNewUrlParser: true
     });

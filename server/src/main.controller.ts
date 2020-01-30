@@ -1,7 +1,6 @@
-import { Application } from 'express';
+import { Router } from 'express';
 import { DataService } from './services/dataService.types';
 import auth from './middleware/auth';
-import errorHandler from './middleware/errorHandler';
 import {
   validateFlashcard,
   validateLogin,
@@ -11,41 +10,37 @@ import {
 import unsplash from './services/unsplash/unsplash';
 
 export default class Controller {
-  private app: Application;
+  public router: Router;
 
   private dataService: DataService;
 
-  constructor(_app: Application, _dataService: DataService) {
-    this.app = _app;
+  constructor(_dataService: DataService) {
+    this.router = Router();
     this.dataService = _dataService;
     this.routes();
-    this.app.use(errorHandler);
   }
 
-  public routes() {
-    this.app.route('/api/login').post(validateLogin, this.dataService.login);
-    this.app
-      .route('/api/register')
-      .post(validateUser, this.dataService.createUser);
-    this.app.route('/api/decks').get(auth, this.dataService.getAllDecks);
-    this.app
-      .route('/api/deck')
-      .post(
-        auth,
-        validateDeckName,
-        validateFlashcard,
-        this.dataService.createDeck
-      );
-    this.app
-      .route('/api/deck/:deckId')
-      .delete(auth, this.dataService.deleteDeck);
-    this.app
-      .route('/api/card')
-      .post(auth, validateFlashcard, this.dataService.createCard);
-    this.app
-      .route('/api/card/:cardId')
-      .put(auth, validateFlashcard, this.dataService.editCard)
-      .delete(auth, this.dataService.deleteCard);
-    this.app.route('/api/getImages').get(auth, unsplash);
+  private routes() {
+    const {
+      login,
+      createUser,
+      getAllDecks,
+      createCard,
+      editCard,
+      deleteDeck,
+      deleteCard,
+      createDeck
+    } = this.dataService;
+    const { router } = this;
+
+    router.post('/login', validateLogin, login);
+    router.post('/register', validateUser, createUser);
+    router.get('/decks', auth, getAllDecks);
+    router.post('/deck', auth, validateDeckName, validateFlashcard, createDeck);
+    router.delete('/deck/:deckId', auth, deleteDeck);
+    router.post('/card', auth, validateFlashcard, createCard);
+    router.put('/card/:cardId', auth, validateFlashcard, editCard);
+    router.delete('/card/:cardId', auth, deleteCard);
+    router.get('/getImages', auth, unsplash);
   }
 }
