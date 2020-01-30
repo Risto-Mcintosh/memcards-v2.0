@@ -1,6 +1,5 @@
 import express, { Application } from 'express';
 import cookieParser from 'cookie-parser';
-
 import Controller from './main.controller';
 import DataService from './services/mongo/mongo.service';
 

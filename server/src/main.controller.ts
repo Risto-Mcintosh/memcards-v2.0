@@ -1,6 +1,7 @@
 import { Application } from 'express';
 import { DataService } from './services/dataService.types';
 import auth from './middleware/auth';
+import errorHandler from './middleware/errorHandler';
 import unsplash from './services/unsplash/unsplash';
 
 export default class Controller {
@@ -12,6 +13,7 @@ export default class Controller {
     this.app = _app;
     this.dataService = _dataService;
     this.routes();
+    this.app.use(errorHandler);
   }
 
   public routes() {

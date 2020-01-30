@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import mongoose, { Error } from 'mongoose';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
@@ -7,6 +7,7 @@ import generateAuthToken from '../tokenGenerator';
 import { Flashcard } from './models/flashcard.model';
 import UserModel, { User } from './models/user.model';
 import { DataService } from '../dataService.types';
+import QueryHelper from './queryHelper';
 
 dotenv.config();
 export default class MongoService implements DataService {
@@ -18,7 +19,7 @@ export default class MongoService implements DataService {
     mongoose.connection.once('open', () => console.log('database started'));
   }
 
-  public async login(req: Request, res: Response) {
+  public async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { error } = joiValidation.validateLogin(req.body);
       if (error) throw error;
@@ -44,15 +45,11 @@ export default class MongoService implements DataService {
         .status(200)
         .send({ mes: 'login successful!' });
     } catch (e) {
-      if (e.name === 'ValidationError') {
-        return res.status(400).send(e.details[0].message);
-      }
-      console.log(e);
-      return res.status(500).send();
+      return next(e);
     }
   }
 
-  public async createUser(req: Request, res: Response) {
+  public async createUser(req: Request, res: Response, next: NextFunction) {
     try {
       const { error } = joiValidation.validateUser(req.body);
       if (error) throw error;
@@ -71,27 +68,22 @@ export default class MongoService implements DataService {
       await newUser.save();
       return res.status(201).send(newUser._id);
     } catch (e) {
-      if (e.name === 'ValidationError') {
-        return res.status(400).send(e.details[0].message);
-      }
-      console.log(e);
-      return res.status(500).send();
+      return next(e);
     }
   }
 
-  public async getAllDecks(req: Request, res: Response) {
+  public async getAllDecks(req: Request, res: Response, next: NextFunction) {
     try {
       const user = await UserModel.findById(res.locals.user._id).select(
         '-password -email'
       );
       return res.status(200).send(user);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send();
+    } catch (e) {
+      return next(e);
     }
   }
 
-  public createDeck(req: Request, res: Response) {
+  public createDeck(req: Request, res: Response, next: NextFunction) {
     try {
       const { error } = joiValidation.validateFlashcard(req.body.card);
       if (error) throw error;
@@ -112,16 +104,11 @@ export default class MongoService implements DataService {
         }
       );
     } catch (e) {
-      if (e.name === 'ValidationError') {
-        res.status(400).send(e.details[0].message);
-      } else {
-        console.log(e);
-        res.status(500).send();
-      }
+      next(e);
     }
   }
 
-  public deleteDeck(req: Request, res: Response) {
+  public deleteDeck(req: Request, res: Response, next: NextFunction) {
     const deckToDelete = req.params.deckId;
     try {
       UserModel.findById(
@@ -129,20 +116,21 @@ export default class MongoService implements DataService {
         async (err: Error, user: User) => {
           if (err) throw err;
 
-          if (user === null) return res.status(404).send('user not found');
+          const { deck } = new QueryHelper(user, next).getDeck(deckToDelete);
+          if (!deck) return;
 
-          user.decks.id(deckToDelete).remove();
+          deck.remove();
+
           await user.save();
-          return res.status(200).send();
+          res.status(200).send();
         }
       );
     } catch (e) {
-      console.log(e);
-      res.status(500).send();
+      next(e);
     }
   }
 
-  public createCard(req: Request, res: Response) {
+  public createCard(req: Request, res: Response, next: NextFunction) {
     const newCard: Flashcard = {
       ...req.body.card
     };
@@ -164,55 +152,39 @@ export default class MongoService implements DataService {
         return res.status(201).send({ cardId: cardId._id });
       });
     } catch (e) {
-      if (e.name === 'ValidationError') {
-        res.status(400).send(e.details[0].message);
-      } else {
-        console.log(e);
-        res.status(500).send();
-      }
+      next(e);
     }
   }
 
-  public editCard(req: Request, res: Response) {
+  public editCard(req: Request, res: Response, next: NextFunction) {
     const cardToEdit = req.params.cardId;
+    const editedCard: Flashcard = req.body.card;
 
     try {
       const { error } = joiValidation.validateFlashcard(req.body.card);
       if (error) throw error;
 
-      const editedCard: Flashcard = req.body.card;
-
       UserModel.findById(res.locals.user._id, (err: Error, user: User) => {
         if (err) throw err;
 
-        if (user === null) return res.status(404).send('user not found');
-
-        const deck = user.decks.id(req.body.deckId);
-
-        if (deck === null) return res.status(404).send('deck not found');
-
-        const card = deck.data.id(cardToEdit);
-
-        if (card === null) return res.status(404).send('card not found');
+        const { card } = new QueryHelper(user, next)
+          .getDeck(req.body.deckId)
+          .getCard(cardToEdit);
+        if (!card) return;
 
         card.front = editedCard.front;
         card.back = editedCard.back;
         card.image = editedCard.image;
 
         user.save();
-        return res.status(200).send('card edited');
+        res.status(200).send('card edited');
       });
     } catch (e) {
-      if (e.name === 'ValidationError') {
-        res.status(400).send(e.details[0].message);
-      } else {
-        console.log(e);
-        res.status(500).send();
-      }
+      next(e);
     }
   }
 
-  public deleteCard(req: Request, res: Response) {
+  public deleteCard(req: Request, res: Response, next: NextFunction) {
     const cardToDelete = req.params.cardId;
 
     try {
@@ -221,21 +193,18 @@ export default class MongoService implements DataService {
         async (err: Error, user: User) => {
           if (err) throw err;
 
-          if (user === null) return res.status(404).send('user not found');
+          const { card } = new QueryHelper(user, next)
+            .getDeck(req.body.deckId)
+            .getCard(cardToDelete);
+          if (!card) return;
 
-          const deck = user.decks.id(req.body.deckId);
-
-          if (deck === null) return res.status(404).send('deck not found');
-
-          deck.data.id(cardToDelete).remove();
-
+          card.remove();
           await user.save();
-          return res.status(200).send('card deleted');
+          res.status(200).send('card deleted');
         }
       );
     } catch (e) {
-      console.log(e);
-      res.status(500).send();
+      next(e);
     }
   }
 }
