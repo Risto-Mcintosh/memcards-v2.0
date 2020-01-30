@@ -131,28 +131,26 @@ export default class MongoService implements DataService {
   }
 
   public createCard(req: Request, res: Response, next: NextFunction) {
-    const newCard: Flashcard = {
-      ...req.body.card
-    };
+    const newCard: Flashcard = req.body.card;
 
+    const { error: validationError } = joiValidation.validateFlashcard(newCard);
+    if (validationError) return next(validationError);
     try {
-      const { error } = joiValidation.validateFlashcard(newCard);
-      if (error) throw error;
+      UserModel.findById(
+        res.locals.user._id,
+        async (err: Error, user: User) => {
+          if (err) throw err;
+          const { deck } = new QueryHelper(user, next).getDeck(req.body.deckId);
 
-      UserModel.findById(res.locals.user._id, (err: Error, user: User) => {
-        if (err) throw err;
-
-        if (user === null)
-          return res.status(404).send({ err: 'user not found' });
-
-        const deck = user.decks.id(req.body.deckId);
-        const deckLength = deck.data.push(newCard);
-        const cardId = deck.data[deckLength - 1];
-        user.save();
-        return res.status(201).send({ cardId: cardId._id });
-      });
+          if (!deck) return;
+          const deckLength = deck.data.push(newCard);
+          const cardId = deck.data[deckLength - 1];
+          await user.save();
+          res.status(201).send({ cardId: cardId._id });
+        }
+      );
     } catch (e) {
-      next(e);
+      return next(e);
     }
   }
 
@@ -164,21 +162,24 @@ export default class MongoService implements DataService {
       const { error } = joiValidation.validateFlashcard(req.body.card);
       if (error) throw error;
 
-      UserModel.findById(res.locals.user._id, (err: Error, user: User) => {
-        if (err) throw err;
+      UserModel.findById(
+        res.locals.user._id,
+        async (err: Error, user: User) => {
+          if (err) throw err;
 
-        const { card } = new QueryHelper(user, next)
-          .getDeck(req.body.deckId)
-          .getCard(cardToEdit);
-        if (!card) return;
+          const { card } = new QueryHelper(user, next)
+            .getDeck(req.body.deckId)
+            .getCard(cardToEdit);
+          if (!card) return;
 
-        card.front = editedCard.front;
-        card.back = editedCard.back;
-        card.image = editedCard.image;
+          card.front = editedCard.front;
+          card.back = editedCard.back;
+          card.image = editedCard.image;
 
-        user.save();
-        res.status(200).send('card edited');
-      });
+          await user.save();
+          res.status(200).send('card edited');
+        }
+      );
     } catch (e) {
       next(e);
     }
