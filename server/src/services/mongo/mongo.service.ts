@@ -104,7 +104,7 @@ export default class MongoService implements DataService {
         res.locals.user._id,
         async (err: Error, user: User) => {
           if (err) throw err;
-          if (!user) return res.status(400).send('user not found');
+          if (!user) return res.status(404).send('user not found');
           const deckLength = user.decks.push(newDeck);
           const cardId = user.decks[deckLength - 1].data[0]._id;
           await user.save();
@@ -129,7 +129,7 @@ export default class MongoService implements DataService {
         async (err: Error, user: User) => {
           if (err) throw err;
 
-          if (user === null) return res.status(400).send('user not found');
+          if (user === null) return res.status(404).send('user not found');
 
           user.decks.id(deckToDelete).remove();
           await user.save();
@@ -155,7 +155,7 @@ export default class MongoService implements DataService {
         if (err) throw err;
 
         if (user === null)
-          return res.status(400).send({ err: 'user not found' });
+          return res.status(404).send({ err: 'user not found' });
 
         const deck = user.decks.id(req.body.deckId);
         const deckLength = deck.data.push(newCard);
@@ -185,15 +185,15 @@ export default class MongoService implements DataService {
       UserModel.findById(res.locals.user._id, (err: Error, user: User) => {
         if (err) throw err;
 
-        if (user === null) return res.status(400).send('user not found');
+        if (user === null) return res.status(404).send('user not found');
 
         const deck = user.decks.id(req.body.deckId);
 
-        if (deck === null) return res.status(400).send('deck not found');
+        if (deck === null) return res.status(404).send('deck not found');
 
         const card = deck.data.id(cardToEdit);
 
-        if (card === null) return res.status(400).send('card not found');
+        if (card === null) return res.status(404).send('card not found');
 
         card.front = editedCard.front;
         card.back = editedCard.back;
@@ -221,11 +221,11 @@ export default class MongoService implements DataService {
         async (err: Error, user: User) => {
           if (err) throw err;
 
-          if (user === null) return res.status(400).send('user not found');
+          if (user === null) return res.status(404).send('user not found');
 
           const deck = user.decks.id(req.body.deckId);
 
-          if (deck === null) return res.status(400).send('deck not found');
+          if (deck === null) return res.status(404).send('deck not found');
 
           deck.data.id(cardToDelete).remove();
 
