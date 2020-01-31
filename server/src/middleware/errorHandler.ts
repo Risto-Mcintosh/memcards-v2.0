@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
-import { ValidationError } from '@hapi/joi';
+import { Request, Response, ErrorRequestHandler, NextFunction } from 'express';
+import ClientError from '../utils/clientError';
 
 export default function errorHandler(
   err: ErrorRequestHandler,
@@ -7,11 +7,15 @@ export default function errorHandler(
   res: Response,
   next: NextFunction
 ) {
-  console.log(err);
-
-  if (err.name === 'ValidationError') {
-    const message = (err as unknown) as ValidationError;
-    return res.status(400).send(message.details[0].message);
+  if (res.headersSent) {
+    return next(err);
   }
+
+  if (err instanceof ClientError) {
+    const error = (err as unknown) as ClientError;
+    return res.status(404).send(error.message);
+  }
+
+  console.log(err);
   return res.status(500).send(err);
 }
