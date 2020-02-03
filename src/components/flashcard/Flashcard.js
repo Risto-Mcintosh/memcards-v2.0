@@ -1,28 +1,15 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import { useSpring, animated } from 'react-spring';
+import { useSpring } from 'react-spring';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import FlashcardBody from './FlashcardBody';
 
 const StyledContainer = styled(Container)`
   width: 60%;
 
   @media screen and (min-width: 768px) {
     max-width: 37%;
-  }
-`;
-
-const FlashCardBody = styled(animated.div)`
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  height: 100%;
-  width: 100%;
-  text-align: center;
-  position: absolute;
-  padding: 0px 2px;
-  h3 {
-    margin: 0;
   }
 `;
 
@@ -42,30 +29,18 @@ export default function FlashCard({ card, deckName }) {
           className="position-relative"
           style={{ width: '250px', height: '250px' }}
         >
-          <FlashCardBody
-            className="bg-light border shadow"
+          <FlashcardBody
+            cardText={card.front}
+            style={{ transform, backfaceVisibility: 'hidden' }}
+          />
+          <FlashcardBody
+            cardText={card.back}
+            cardImage={card.image}
             style={{
               transform: transform.interpolate(t => `${t} rotateY(180deg)`),
               opacity: card.cardSide ? 1 : 0
             }}
-          >
-            <h3>{card.back}</h3>
-          </FlashCardBody>
-          <FlashCardBody
-            className="bg-light border shadow"
-            style={{ transform, backfaceVisibility: 'hidden' }}
-          >
-            <h3>{card.front}</h3>
-            {!card.image || card.image === null ? null : (
-              <div>
-                <img
-                  src={card.image.src}
-                  alt={card.image.alt}
-                  style={{ width: '100%', padding: '0px 4px' }}
-                />
-              </div>
-            )}
-          </FlashCardBody>
+          />
         </div>
       </StyledContainer>
     </Container>

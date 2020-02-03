@@ -50,6 +50,11 @@ export const state = {
       alt: 'some text'
     },
     back: 'Cascading Style Sheets'
+  },
+  user: {
+    isAuthenticated: true,
+    uid: 'skljhier24762',
+    isAnonymous: true
   }
 };
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import FlashCard from '../components/FlashCard';
+import FlashCard from '../components/flashcard/Flashcard';
 import Layout from '../components/Layout';
 import FlipCard from '../components/FlipCard';
 import { getCard, flipCard, setCurrentDeck } from '../actions/actionCreator';
@@ -42,10 +42,7 @@ const mapDispatchToProps = {
   setCurrentDeck
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Flashcard);
+export default connect(mapStateToProps, mapDispatchToProps)(Flashcard);
 
 Flashcard.propTypes = {
   getCard: PropTypes.func.isRequired,

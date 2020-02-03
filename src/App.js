@@ -3,7 +3,7 @@ import { Router, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import history from './history';
 import FlashcardView from './Views/flashcardView';
-import AddEditView from './Views/addEditView';
+import AddEditView from './Views/addEditView.tsx';
 import AllDecksView from './Views/allDecksView';
 import WelcomeView from './Views/welcomeView';
 import DeckCompleted from './components/DeckCompleted';

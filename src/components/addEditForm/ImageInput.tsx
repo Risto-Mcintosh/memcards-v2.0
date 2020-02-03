@@ -1,19 +1,25 @@
 import React from 'react';
 import { ImageAdd } from 'styled-icons/boxicons-regular/ImageAdd';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
-const StyledButton = styled.div`
-  ${({ thumbnail }) => thumbnail
-    && `
+interface ButtonProps {
+  readonly thumbnail: string | undefined;
+  readonly addImage: boolean;
+}
+
+const StyledButton = styled.div<ButtonProps>`
+  ${({ thumbnail }) =>
+    thumbnail &&
+    `
   background-image: url(${thumbnail});
     background-size: cover;
     background-position: center;
   height: 70px;
   width: 140px;
   `}
-  ${({ addImage }) => addImage
-    && `
+  ${({ addImage }) =>
+    addImage &&
+    `
   width: 70px;
 `}
 `;
@@ -33,13 +39,3 @@ function ImageInput({ searchToggle, setToggle, image }) {
 }
 
 export default ImageInput;
-
-ImageInput.propTypes = {
-  searchToggle: PropTypes.bool.isRequired,
-  setToggle: PropTypes.func.isRequired,
-  image: PropTypes.object
-};
-
-ImageInput.defaultProps = {
-  image: null
-};
