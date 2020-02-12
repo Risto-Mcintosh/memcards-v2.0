@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import FlashcardFrom from './FlashcardForm';
 import { DeckNameInput } from './DeckNameInputs';
-import { FormValues } from './addEditForm.types';
+import { Flashcard } from '../../types';
 
 type Props = {
-  createDeck: (arg0: FormValues) => void;
+  createDeck: (arg0: Flashcard) => void;
 };
 
 export default function NewDeckForm({ createDeck }: Props) {
-  const [formValue, setFormValue] = useState<FormValues | null>({
+  const [formValue, setFormValue] = useState<Flashcard | null>({
     deckName: '',
     frontOfCard: '',
     backOfCard: '',

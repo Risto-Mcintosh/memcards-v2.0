@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormValues } from './addEditForm.types';
+import { Flashcard } from '../../types';
 import FlashcardFrom from './FlashcardForm';
 import { DeckNameReadOnly } from './DeckNameInputs';
 
@@ -9,7 +9,7 @@ export default function EditCard({ updateCard, location, card, deck }) {
   const backOfCard = card.back;
   const cardImage = card.image;
 
-  const [formValue, setFormValue] = useState<FormValues | null>({
+  const [formValue, setFormValue] = useState<Flashcard | null>({
     deckName,
     frontOfCard,
     backOfCard,

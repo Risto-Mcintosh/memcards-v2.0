@@ -6,35 +6,7 @@ import firebaseConfig from './firebaseConfig';
 firebase.initializeApp(firebaseConfig);
 firebase.firestore().enablePersistence();
 
-const db = firebase.firestore();
-
-export async function createNewDeck(values, uid) {
-  const {
-    deckName,
-    frontOfCard: front,
-    backOfCard: back,
-    cardImage: image
-  } = values;
-
-  try {
-    await db
-      .collection(`users/${uid}/decks`)
-      .doc(deckName)
-      .set({ name: deckName, editable: true, cardCount: 1 });
-    const cardId = await db
-      .collection(`users/${uid}/decks/${deckName}/data`)
-      .add({
-        front,
-        image,
-        back
-      })
-      .then(docRef => docRef.id);
-    return cardId;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
+export const db = firebase.firestore();
 
 async function getAllCards(deckName, uid) {
   try {
@@ -52,6 +24,33 @@ async function getAllCards(deckName, uid) {
   } catch (err) {
     console.log(err);
     return [];
+  }
+}
+
+export async function createNewDeck(values, uid) {
+  const {
+    deckName,
+    frontOfCard: front,
+    backOfCard: back,
+    cardImage: image
+  } = values;
+  try {
+    await db
+      .collection(`users/${uid}/decks`)
+      .doc(deckName)
+      .set({ name: deckName, editable: true, cardCount: 1 });
+    const cardId = await db
+      .collection(`users/${uid}/decks/${deckName}/data`)
+      .add({
+        front,
+        image,
+        back
+      })
+      .then(docRef => docRef.id);
+    return cardId;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 }
 

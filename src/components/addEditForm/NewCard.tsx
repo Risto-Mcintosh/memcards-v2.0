@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { FormValues } from './addEditForm.types';
+import { Flashcard } from '../../types';
 import FlashcardFrom from './FlashcardForm';
 import { DeckSelectInput } from './DeckNameInputs';
 import SnackBar from '../SnackBar';
 
 type Props = {
-  addNewCard: (arg0: FormValues) => void;
+  addNewCard: (arg0: Flashcard) => void;
   location: {
     state: {
       selectedDeckName: string;
@@ -29,7 +29,7 @@ export default function NewCard({ addNewCard, location, decks }: Props) {
     snackBarMessage = location.state.snackBar.message;
   }
 
-  const [formValue, setFormValue] = useState<FormValues | null>({
+  const [formValue, setFormValue] = useState<Flashcard | null>({
     deckName,
     frontOfCard: '',
     backOfCard: '',

@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import spanish100 from './Data/100spanish.json';
-import capitalCities from './Data/capital_cities.json';
-import webDevAcronyms from './Data/web_development_acronyms.json';
+import spanish100 from './data/100spanish.json';
+import capitalCities from './data/capital_cities.json';
+import webDevAcronyms from './data/web_development_acronyms.json';
 import appReducer from './reducers/index';
 
 export const initialState = [spanish100, capitalCities, webDevAcronyms];

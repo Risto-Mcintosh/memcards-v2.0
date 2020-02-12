@@ -1,19 +1,19 @@
 import React, { useState, Dispatch, SetStateAction } from 'react';
-import { FormValues } from './addEditForm.types';
+import { Flashcard } from '../../types';
 import { Container, Form, Button } from 'react-bootstrap';
 import FormHeading from './FormHeading';
 import ImageInput from './ImageInput';
 import ImageSearch from '../imagesearch/ImageSearch';
 
 type Props = {
-  formValue: FormValues;
+  formValue: Flashcard;
   formHeading: string;
   subheading?: string;
   handleSubmit: (e: React.FormEvent) => void;
   handleChange: (e: React.FormEvent) => void;
   /** Input component from ./DeckNameInputs */
   DeckNameInput: React.ReactElement;
-  setFormValue: Dispatch<SetStateAction<FormValues>>;
+  setFormValue: Dispatch<SetStateAction<Flashcard>>;
   snackBar?: React.ReactNode;
 };
 
