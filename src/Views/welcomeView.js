@@ -3,21 +3,23 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LogIn from '../components/LogIn';
+import Landing from '../components/landing/Landing';
+import LogInForm from '../components/landing/LogInForm';
+import RegisterForm from '../components/landing/RegisterForm';
 import Loading from '../components/loading';
 
-function welcomeView({ user }) {
-  return (
-    <>
-      {Object.entries(user).length === 0 ? (
-        <Loading />
-      ) : !user.isAuthenticated ? (
-        <LogIn />
-      ) : (
-        <Redirect to="/" />
-      )}
-    </>
-  );
+function selectForm(props) {
+  console.log(props.match.path);
+  switch (props.match.path) {
+    case '/register':
+      return <RegisterForm {...props} />;
+    default:
+      return <LogInForm {...props} />;
+  }
+}
+
+function welcomeView({ user, ...props }) {
+  return <Landing form={selectForm(props)} />;
 }
 
 function mapStateToProps(state) {

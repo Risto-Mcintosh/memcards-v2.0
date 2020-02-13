@@ -44,10 +44,10 @@ function DeckCompleted({ deckName, setCurrentDeck, getCard }) {
   );
 }
 
-export default connect(
-  state => ({ deckName: state.deck.name }),
-  { setCurrentDeck, getCard }
-)(DeckCompleted);
+export default connect(state => ({ deckName: state.deck.name }), {
+  setCurrentDeck,
+  getCard
+})(DeckCompleted);
 
 DeckCompleted.propTypes = {
   deckName: PropTypes.string.isRequired,

@@ -11,6 +11,7 @@ import DeckCompleted from './components/DeckCompleted';
 const App = () => (
   <Router history={history}>
     <Route exact path="/login" component={WelcomeView} />
+    <Route exact path="/register" component={WelcomeView} />
     <PrivateRoute exact path="/" component={AllDecksView} />
     <PrivateRoute exact path="/decks" component={AllDecksView} />
     <PrivateRoute exact path="/deck/:deckName" component={FlashcardView} />
