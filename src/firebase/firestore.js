@@ -4,7 +4,6 @@ import 'firebase/auth';
 import firebaseConfig from './firebaseConfig';
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore().enablePersistence();
 
 export const db = firebase.firestore();
 

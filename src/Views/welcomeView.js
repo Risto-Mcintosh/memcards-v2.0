@@ -1,8 +1,7 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setAuthenticatedUser } from '../actions/actionCreator';
 import Landing from '../components/landing/Landing';
 import LogInForm from '../components/landing/LogInForm';
 import RegisterForm from '../components/landing/RegisterForm';
@@ -28,7 +27,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(welcomeView);
+export default connect(mapStateToProps, { setAuthenticatedUser })(welcomeView);
 
 welcomeView.propTypes = {
   user: PropTypes.object

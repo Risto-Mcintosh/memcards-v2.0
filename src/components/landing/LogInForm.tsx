@@ -1,21 +1,48 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
+import { loginUser, LoginUserValues } from '../../service/auth';
+import { Formik, Form, FormikHelpers } from 'formik';
 import { TextFromField } from '../../elements/TextFormField';
+import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { AxiosError } from 'axios';
 
-function LogInForm() {
+const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('invalid email')
+    .required('email is required'),
+  password: Yup.string().required('password is required')
+});
+
+type Props = {
+  setAuthenticatedUser: (isAuthenticated: boolean, userName: string) => void;
+};
+
+function LogInForm({ setAuthenticatedUser }: Props) {
+  const initialValues: LoginUserValues = {
+    email: '',
+    password: ''
+  };
   return (
-    <div>
+    <>
       <Formik
-        initialValues={{
-          userName: '',
-          password: ''
+        initialValues={initialValues}
+        validateOnChange={false}
+        validationSchema={LoginSchema}
+        onSubmit={(values, { setErrors }: FormikHelpers<LoginUserValues>) => {
+          loginUser(values)
+            .then(response => setAuthenticatedUser(true, response.data))
+            .catch((err: AxiosError) =>
+              setErrors({
+                email: err.response.data,
+                password: err.response.data
+              })
+            );
+          return;
         }}
-        onSubmit={() => console.log('submitted!')}
       >
         <Form>
-          <TextFromField label="User Name" srOnlyLabel={true} name="userName" />
+          <TextFromField label="Email" srOnlyLabel={true} name="email" />
           <TextFromField
             label="Password"
             srOnlyLabel={true}
@@ -42,7 +69,7 @@ function LogInForm() {
           Sign In As Guest
         </Link>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -232,9 +232,13 @@ export function flipCard(bool = false) {
   };
 }
 
-export function setAuthenticatedUser(isAuthenticated, uid, isAnonymous) {
+export function setAuthenticatedUser(isAuthenticated, user, isAnonymous) {
+  if (isAuthenticated) {
+    history.push('/');
+  }
+
   return {
     type: 'AUTHENTICATED_USER',
-    payload: { isAuthenticated, uid, isAnonymous }
+    payload: { isAuthenticated, user, isAnonymous }
   };
 }

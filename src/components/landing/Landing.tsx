@@ -28,7 +28,7 @@ function Landing({ form }: Props) {
       </div>
       <h1 className="text-white">Memcards</h1>
       {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} /> */}
-      {form}
+      <div className=" bg-white p-3 rounded">{form}</div>
     </div>
   );
 }

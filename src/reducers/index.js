@@ -50,7 +50,7 @@ function user(state = {}, action) {
       return {
         ...state,
         isAuthenticated: action.payload.isAuthenticated,
-        uid: action.payload.uid,
+        user: action.payload.user,
         isAnonymous: action.payload.isAnonymous
       };
     default:

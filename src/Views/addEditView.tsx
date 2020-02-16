@@ -21,7 +21,6 @@ function loadComponent(props) {
 }
 
 function addEditView(props) {
-  // eslint-disable-next-line react/destructuring-assignment
   return <Layout>{loadComponent(props)}</Layout>;
 }
 
