@@ -1,42 +1,80 @@
 import axios from 'axios';
-import { Flashcard, uid } from '../types';
+import API from './urls';
+import { Flashcard, Deck } from '../types';
 
-const DATA_SERVICE_URL = '';
+class DataService {
+  userId: string;
 
-export async function createNewDeck(values: Flashcard, uid: uid) {
-  const {
-    deckName,
-    frontOfCard: front,
-    backOfCard: back,
-    cardImage: image
-  } = values;
-  try {
-    await axios.post(DATA_SERVICE_URL, {
-      data: {
-        deckName,
+  constructor(userId: string) {
+    this.userId = userId;
+    this.configAxios();
+  }
+
+  configAxios() {
+    axios.defaults.params = { userId: this.userId };
+  }
+
+  async getAllDecks() {
+    return axios.get(API.getAllDecks);
+  }
+
+  async createNewDeck(deck: Deck) {
+    const {
+      deckName,
+      frontOfCard: front,
+      backOfCard: back,
+      cardImage: image
+    } = deck;
+
+    return axios.post(API.createDeck, {
+      deckName,
+      front,
+      image,
+      back
+    });
+  }
+
+  async deleteDeckInDB(deckId: string) {
+    return axios.delete(API.deleteDeck(deckId));
+  }
+  async addCardToDB(card: Deck) {
+    const {
+      deckName,
+      frontOfCard: front,
+      backOfCard: back,
+      cardImage: image
+    } = card;
+
+    return axios.post(API.createCard, {
+      deckName,
+      front,
+      back,
+      image
+    });
+  }
+
+  async editCardInDB(deckId: string, newCardValues: Flashcard, cardId: string) {
+    const {
+      frontOfCard: front,
+      backOfCard: back,
+      cardImage: image
+    } = newCardValues;
+
+    return axios.post(API.editORDeleteCard(cardId), {
+      deckId,
+      card: {
         front,
-        image,
-        back
+        back,
+        image
       }
     });
+  }
 
-    // **** TODO ****
-    // return cardId;
-
-    // await db
-    //   .collection(`users/${uid}/decks`)
-    //   .doc(deckName)
-    //   .set({ name: deckName, editable: true, cardCount: 1 });
-    // const cardId = await db
-    //   .collection(`users/${uid}/decks/${deckName}/data`)
-    //   .add({
-    //     front,
-    //     image,
-    //     back
-    //   })
-    //   .then(docRef => docRef.id);
-  } catch (error) {
-    console.log(error);
-    return null;
+  async deleteCardInDB(deckId: string, cardId: string) {
+    return axios.delete(API.editORDeleteCard(cardId), {
+      params: {
+        deckId
+      }
+    });
   }
 }

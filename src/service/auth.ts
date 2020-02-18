@@ -1,4 +1,5 @@
 import axios from 'axios';
+import API from './urls';
 import { setAuthenticatedUser, hydrate } from '../actions/actionCreator';
 import history from '../history';
 import store from '../store';
@@ -11,7 +12,7 @@ export interface LoginUserValues {
 }
 
 export async function loginUser({ email, password }: LoginUserValues) {
-  return await axios.post('/api/login', {
+  return axios.post(API.login, {
     email,
     password
   });
@@ -28,7 +29,7 @@ export async function registerUser({
   userName,
   password
 }: RegisterUserValues) {
-  return await axios.post('/api/register', {
+  return axios.post(API.register, {
     email,
     userName,
     password

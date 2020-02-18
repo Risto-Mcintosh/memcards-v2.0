@@ -1,6 +1,4 @@
 export type Flashcard = {
-  /** Name of deck */
-  deckName: string;
   frontOfCard: string;
   backOfCard: string;
   cardImage?: null | {
@@ -10,4 +8,6 @@ export type Flashcard = {
   };
 };
 
-export type uid = string;
+export type Deck = Flashcard & {
+  deckName: string;
+};
