@@ -6,9 +6,9 @@ export function filterList(original, modified) {
   return original.filter(o => o.id !== modified.id);
 }
 
-function DeckFilter(allDecks, modifiedDeck, deckName) {
+function DeckFilter(allDecks, modifiedDeck, deckId) {
   return [
-    ...filterList(allDecks, findId(modifiedDeck, deckName)),
+    ...filterList(allDecks, findId(modifiedDeck, deckId)),
     ...modifiedDeck
   ];
 }
@@ -26,18 +26,18 @@ export function CardFilter(allDecks, modifiedCard, deckName, cardId) {
   ];
 }
 
-function filterState(currState, deckName, cardData, cardId) {
+function filterState(currState, deckName, deckId, cardData, cardId) {
   return DeckFilter(
     currState,
     [
       {
-        id: deckName,
+        id: deckId,
         name: deckName,
         editable: true,
-        data: CardFilter(currState, cardData, deckName, cardId)
+        data: CardFilter(currState, cardData, deckId, cardId)
       }
     ],
-    deckName
+    deckId
   );
 }
 

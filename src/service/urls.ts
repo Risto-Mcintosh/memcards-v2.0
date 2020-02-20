@@ -1,4 +1,4 @@
-const BASE_URL = 'api';
+const BASE_URL = '/api';
 export default {
   login: BASE_URL + '/login',
   register: BASE_URL + '/register',

@@ -1,9 +1,5 @@
 import axios from 'axios';
 import API from './urls';
-import { setAuthenticatedUser, hydrate } from '../actions/actionCreator';
-import history from '../history';
-import store from '../store';
-
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 export interface LoginUserValues {

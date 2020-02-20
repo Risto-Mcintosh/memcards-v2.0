@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 function decks(state = [], action) {
   switch (action.type) {
     case 'HYDRATE':
-      return [...state, ...action.payload];
+      return [...state, ...action.payload.decks];
     case 'DELETE_CARD':
       return [...action.payload.filteredState];
     case 'CREATE_NEW_DECK':
@@ -46,12 +46,21 @@ function card(state = {}, action) {
 
 function user(state = {}, action) {
   switch (action.type) {
+    case 'HYDRATE':
+      return {
+        ...state,
+        isAuthenticated: true,
+        user: {
+          userId: action.payload.id,
+          userName: action.payload.userName
+        }
+      };
     case 'AUTHENTICATED_USER':
+      localStorage.setItem('userId', action.payload.user.userId);
       return {
         ...state,
         isAuthenticated: action.payload.isAuthenticated,
-        user: action.payload.user,
-        isAnonymous: action.payload.isAnonymous
+        user: action.payload.user
       };
     default:
       return state;

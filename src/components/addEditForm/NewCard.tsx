@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flashcard } from '../../types';
+import { Flashcard, Deck } from '../../types';
 import FlashcardFrom from './FlashcardForm';
 import { DeckSelectInput } from './DeckNameInputs';
 import SnackBar from '../SnackBar';
@@ -29,7 +29,7 @@ export default function NewCard({ addNewCard, location, decks }: Props) {
     snackBarMessage = location.state.snackBar.message;
   }
 
-  const [formValue, setFormValue] = useState<Flashcard | null>({
+  const [formValue, setFormValue] = useState<Deck | null>({
     deckName,
     frontOfCard: '',
     backOfCard: '',

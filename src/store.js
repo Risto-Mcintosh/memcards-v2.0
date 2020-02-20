@@ -4,6 +4,7 @@ import spanish100 from './data/100spanish.json';
 import capitalCities from './data/capital_cities.json';
 import webDevAcronyms from './data/web_development_acronyms.json';
 import appReducer from './reducers/index';
+import { hydrate } from './actions/actionCreator';
 
 export const initialState = [spanish100, capitalCities, webDevAcronyms];
 
@@ -24,5 +25,7 @@ const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
+
+store.dispatch(hydrate());
 
 export default store;

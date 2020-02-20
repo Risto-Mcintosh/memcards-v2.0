@@ -6,17 +6,14 @@ import AllDecks from '../components/AllDecks';
 import {
   setCurrentDeck,
   clearCard,
-  getCard,
   deleteDeck
 } from '../actions/actionCreator';
 import Loading from '../components/loading';
 
 function AllDecksView(props) {
-  // eslint-disable-next-line no-shadow
   const { clearCard, decks } = props;
   useEffect(() => {
     clearCard();
-    // eslint-disable-next-line
   }, []);
 
   if (decks.length <= 0) {
@@ -37,15 +34,11 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    setCurrentDeck,
-    clearCard,
-    getCard,
-    deleteDeck
-  }
-)(AllDecksView);
+export default connect(mapStateToProps, {
+  setCurrentDeck,
+  clearCard,
+  deleteDeck
+})(AllDecksView);
 
 AllDecksView.propTypes = {
   clearCard: PropTypes.func.isRequired,

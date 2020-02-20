@@ -16,9 +16,10 @@ const LoginSchema = Yup.object().shape({
 
 type Props = {
   setAuthenticatedUser: (isAuthenticated: boolean, userName: string) => void;
+  hydrate: () => void;
 };
 
-function LogInForm({ setAuthenticatedUser }: Props) {
+function LogInForm({ setAuthenticatedUser, hydrate }: Props) {
   const initialValues: LoginUserValues = {
     email: '',
     password: ''
@@ -31,7 +32,10 @@ function LogInForm({ setAuthenticatedUser }: Props) {
         validationSchema={LoginSchema}
         onSubmit={(values, { setErrors }: FormikHelpers<LoginUserValues>) => {
           loginUser(values)
-            .then(response => setAuthenticatedUser(true, response.data))
+            .then(response => {
+              setAuthenticatedUser(true, response.data);
+              hydrate();
+            })
             .catch((err: AxiosError) =>
               setErrors({
                 email: err.response.data,

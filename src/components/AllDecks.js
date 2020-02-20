@@ -8,7 +8,6 @@ import AddNewButtons from './AddNewButtons';
 export default function AllDecks({
   decks,
   setCurrentDeck,
-  getCard,
   deck: toggle,
   deleteDeck
 }) {
@@ -19,11 +18,10 @@ export default function AllDecks({
           <ListGroup.Item
             as={Link}
             to={`/deck/${deck.name}`}
-            key={deck.name}
-            onClick={async (e) => {
+            key={deck.id}
+            onClick={async e => {
               e.stopPropagation();
               await setCurrentDeck(deck);
-              getCard('random');
             }}
             data-testid={deck.editable ? 'userMade' : 'preMade'}
             action
@@ -39,10 +37,10 @@ export default function AllDecks({
                 <Delete
                   className="text-danger"
                   style={{ width: '30px', pointerEvents: 'auto' }}
-                  onClick={(e) => {
+                  onClick={e => {
                     e.stopPropagation();
                     e.preventDefault();
-                    deleteDeck(deck.name);
+                    deleteDeck(deck.id);
                   }}
                 />
               )}

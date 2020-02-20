@@ -35,6 +35,7 @@ export default function deleteButton({
           onClick={() => deleteCard(deck, card.id)}
           style={{ width: '30px' }}
         />
+        {console.log(card)}
       </Nav.Link>
     );
   }

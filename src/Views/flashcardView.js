@@ -1,7 +1,5 @@
-/* eslint-disable no-shadow */
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FlashCard from '../components/flashcard/Flashcard';
 import Layout from '../components/Layout';
@@ -9,17 +7,17 @@ import FlipCard from '../components/FlipCard';
 import { getCard, flipCard, setCurrentDeck } from '../actions/actionCreator';
 
 function Flashcard(props) {
-  const { deck, card, location, getCard, decks } = props;
+  const { deck, card, location, getCard } = props;
 
-  if (
-    Object.entries(decks) <= 0 ||
-    (Object.entries(deck) <= 0 && Object.entries(card) <= 0 && !location.state)
-  ) {
-    return <Redirect to="/decks" />;
-  }
-  if (location.state && Object.entries(card) <= 0) {
-    getCard(location.state.card);
-  }
+  const noMoreCards = Object.entries(card) <= 0;
+  const cardPassedThoughLocationState = location.state && noMoreCards;
+  const newCard = cardPassedThoughLocationState
+    ? location.state.card
+    : 'random';
+
+  React.useEffect(() => {
+    getCard(newCard);
+  }, [location.state]);
 
   return (
     <Layout>

@@ -1,29 +1,48 @@
 import shuffle from 'lodash.shuffle';
-import {
-  getAllDecks,
-  createNewDeck,
-  addCardToDB,
-  editCardInDB,
-  deleteDeckInDB,
-  deleteCardInDB
-} from '../firebase/firestore';
+import { AxiosError } from 'axios';
+import DataService from '../service/data';
 import filterState from '../utils/filter';
 import history from '../history';
 
+let db: DataService;
+
+export function setAuthenticatedUser(isAuthenticated: boolean, user) {
+  return dispatch => {
+    console.log('isAuthenticated', isAuthenticated);
+    dispatch({
+      type: 'AUTHENTICATED_USER',
+      payload: { isAuthenticated, user }
+    });
+    if (isAuthenticated) {
+      history.push('/');
+    } else {
+      history.push('/login');
+    }
+  };
+}
+
+function handleResponseRejection(err: AxiosError, dispatch) {
+  const { status } = err.response;
+  console.log('handleResponseRejection');
+  if (status === 400 || status === 401) {
+    dispatch(setAuthenticatedUser(false, {}));
+  }
+  history.push('/');
+}
+
 export function hydrate() {
   return async (dispatch, getState) => {
-    const { uid } = getState().user;
-    let cloudStorage;
-    try {
-      cloudStorage = await getAllDecks(uid);
-    } catch (e) {
-      console.log(e);
-    }
-
-    dispatch({
-      type: 'HYDRATE',
-      payload: cloudStorage
-    });
+    const userId = localStorage.getItem('userId') || getState().user.userId;
+    db = new DataService(userId);
+    await db
+      .getAllDecks()
+      .then(res => {
+        dispatch({
+          type: 'HYDRATE',
+          payload: res.data
+        });
+      })
+      .catch(err => handleResponseRejection(err, dispatch));
   };
 }
 
@@ -36,22 +55,24 @@ export function createDeck(values) {
       cardImage: image
     } = values;
     const state = getState().decks;
-    const { uid } = getState().user;
 
     history.push('/add/card', {
       selectedDeckName: values.deckName,
       snackBar: { show: true, message: 'New Deck Created!' }
     });
 
-    // const deckCount = state.filter(deck => deck.editable === true).length + 1;
+    const cardId = await db
+      .createNewDeck(values)
+      .then(res => res.data)
+      .catch(err => handleResponseRejection(err, dispatch));
 
-    const cardId = await createNewDeck(values, uid);
-
+    const deckId = `deckName${Math.random()}`;
     dispatch({
       type: 'CREATE_NEW_DECK',
       payload: filterState(
         state,
         deckName,
+        deckId,
         [
           {
             id: cardId,
@@ -74,8 +95,9 @@ export function deleteDeckToggle(bool = false) {
 }
 export function deleteDeck(deckId) {
   return (dispatch, getState) => {
-    const { uid } = getState().user;
-    deleteDeckInDB(deckId, uid);
+    db.deleteDeckInDB(deckId).catch(err =>
+      handleResponseRejection(err, dispatch)
+    );
     const currentDecks = getState().decks;
     const newDeckList = currentDecks.filter(deck => deck.id !== deckId);
 
@@ -129,7 +151,6 @@ export function getCard(card) {
 
 export function addNewCard(values) {
   return async (dispatch, getState) => {
-    const { uid } = getState().user;
     const state = getState().decks;
     const {
       deckName,
@@ -138,12 +159,17 @@ export function addNewCard(values) {
       cardImage: image
     } = values;
 
-    const cardId = await addCardToDB(values, uid);
+    const { id: deckId } = state.find(deck => deck.name === deckName);
+    const cardId = await db
+      .addCardToDB(values, deckId)
+      .then(res => res.data.cardId)
+      .catch(err => handleResponseRejection(err, dispatch));
     dispatch({
       type: 'ADD_NEW_CARD',
       payload: filterState(
         state,
         deckName,
+        deckId,
         [
           {
             id: cardId,
@@ -161,10 +187,11 @@ export function addNewCard(values) {
 export function updateCard(deckId, card, cardId) {
   return async (dispatch, getState) => {
     const state = getState().decks;
-    const { uid } = getState().user;
     const { frontOfCard: front, backOfCard: back, cardImage: image } = card;
 
-    editCardInDB(deckId, card, cardId, uid);
+    db.editCardInDB(deckId, card, cardId).catch(err =>
+      handleResponseRejection(err, dispatch)
+    );
 
     history.push(`/deck/${card.deckName}`, {
       deckName: card.deckName,
@@ -181,6 +208,7 @@ export function updateCard(deckId, card, cardId) {
       payload: filterState(
         state,
         card.deckName,
+        deckId,
         [
           {
             id: cardId,
@@ -198,8 +226,9 @@ export function updateCard(deckId, card, cardId) {
 export function deleteCard(deck, cardId) {
   return async (dispatch, getState) => {
     const state = getState().decks;
-    const { uid } = getState().user;
-    deleteCardInDB(deck.id, cardId, uid);
+    console.log(cardId);
+
+    db.deleteCardInDB(deck.id, cardId);
     const currentDeck = getState().deck;
 
     const newCards = currentDeck.data.filter(card => card.id !== cardId);
@@ -207,10 +236,14 @@ export function deleteCard(deck, cardId) {
     dispatch({
       type: 'DELETE_CARD',
       payload: {
-        filteredState: filterState(state, deck.id, newCards),
+        filteredState: filterState(state, deck.name, deck.id, newCards),
         newCards
       }
     });
+
+    if (newCards.length === 0) {
+      return history.push('/decks');
+    }
 
     history.push(`/deck/${deck.name}`, {
       deckName: deck.name,
@@ -229,16 +262,5 @@ export function flipCard(bool = false) {
   return {
     type: 'FLIP_CARD',
     payload: !bool
-  };
-}
-
-export function setAuthenticatedUser(isAuthenticated, user, isAnonymous) {
-  if (isAuthenticated) {
-    history.push('/');
-  }
-
-  return {
-    type: 'AUTHENTICATED_USER',
-    payload: { isAuthenticated, user, isAnonymous }
   };
 }
