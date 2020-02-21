@@ -23,8 +23,8 @@ const FlashcardBody = ({ cardText, cardImage, style }) => (
     {!cardImage ? null : (
       <div>
         <img
-          src={cardImage.image.src}
-          alt={cardImage.image.alt}
+          src={cardImage.src}
+          alt={cardImage.alt}
           style={{ width: '100%', padding: '0px 4px' }}
         />
       </div>

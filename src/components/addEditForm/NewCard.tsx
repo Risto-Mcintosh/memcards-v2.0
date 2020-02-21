@@ -59,7 +59,7 @@ export default function NewCard({ addNewCard, location, decks }: Props) {
 
   return (
     <FlashcardFrom
-      formHeading="Edit Card"
+      formHeading="Add New Card"
       handleSubmit={handleSubmit}
       handleChange={handleChange}
       DeckNameInput={

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import getImagesFromUnsplash from '../../service/unsplash';
 import PropTypes from 'prop-types';
 import { useSpring, animated } from 'react-spring';
-import axios from 'axios';
 import { Form, InputGroup } from 'react-bootstrap';
 import styled from 'styled-components';
 import CloseRemoveButton from './CloseRemoveButton';
@@ -31,43 +31,28 @@ const StyledContainer = styled.div`
 function ImageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
-  const [term, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [prevSearchTerm, setPrevTerm] = useState('');
   const [loadingImages, setLoadingImages] = useState(false);
-  const unsplashURL =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:8888/.netlify/functions/unsplash'
-      : 'https://memcards.netlify.com/.netlify/functions/unsplash';
 
   function getImages(e) {
     e.preventDefault();
-    if (term.length < 3) return;
-    if (prevSearchTerm === term) return;
-    setPage(1);
+    if (searchTerm.length < 3) return;
+    if (prevSearchTerm === searchTerm) return;
     setLoadingImages(true);
-    axios(unsplashURL, {
-      params: {
-        page,
-        searchTerm: term
-      }
-    })
+    getImagesFromUnsplash(page, searchTerm)
       .then(res => {
         setLoadingImages(false);
         setImages(res.data.results);
       })
       .catch(() => setLoadingImages(false));
 
-    setPrevTerm(term);
+    setPrevTerm(searchTerm);
   }
 
   function getMoreImages() {
     const pageCount = page + 1;
-    axios(unsplashURL, {
-      params: {
-        page: pageCount,
-        searchTerm: term
-      }
-    }).then(res => {
+    getImagesFromUnsplash(pageCount, searchTerm).then(res => {
       setImages(images.concat(res.data.results));
     });
     setPage(pageCount);
@@ -124,7 +109,7 @@ function ImageSearch({ searchToggle, setToggle, formValue, setFormValue }) {
               <InputGroup>
                 <Form.Control
                   onChange={e => setSearchTerm(e.target.value)}
-                  value={term}
+                  value={searchTerm}
                   type="text"
                   className="rounded-0"
                   placeholder="Search Images"
