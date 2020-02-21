@@ -2,7 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { deleteDeckToggle, deleteCard } from '../../actions/actionCreator';
+import {
+  deleteDeckToggle,
+  deleteCard,
+  getCard
+} from '../../actions/actionCreator';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 
@@ -36,8 +40,7 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    { deleteDeckToggle, deleteCard }
-  )(Navigation)
+  connect(mapStateToProps, { deleteDeckToggle, deleteCard, getCard })(
+    Navigation
+  )
 );

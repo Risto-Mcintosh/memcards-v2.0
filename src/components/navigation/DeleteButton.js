@@ -10,7 +10,8 @@ export default function deleteButton({
   deck,
   card,
   deleteDeckToggle,
-  deleteCard
+  deleteCard,
+  getCard
 }) {
   if ((match.path === '/decks' || match.path === '/') && editableDecks) {
     return (
@@ -32,10 +33,12 @@ export default function deleteButton({
         as="button"
       >
         <Delete
-          onClick={() => deleteCard(deck, card.id)}
+          onClick={() => {
+            deleteCard(deck, card.id);
+            getCard('random');
+          }}
           style={{ width: '30px' }}
         />
-        {console.log(card)}
       </Nav.Link>
     );
   }
@@ -48,5 +51,6 @@ deleteButton.propTypes = {
   deck: PropTypes.object,
   card: PropTypes.object,
   deleteDeckToggle: PropTypes.func,
-  deleteCard: PropTypes.func
+  deleteCard: PropTypes.func,
+  getCard: PropTypes.func
 };

@@ -3,7 +3,13 @@ import { Deck } from '../../types';
 import FlashcardFrom from './FlashcardForm';
 import { DeckNameReadOnly } from './DeckNameInputs';
 
-export default function EditCard({ updateCard, location, card, deck }) {
+export default function EditCard({
+  updateCard,
+  getCard,
+  location,
+  card,
+  deck
+}) {
   const deckName = location.state.selectedDeckName;
   const frontOfCard = card.front;
   const backOfCard = card.back;
@@ -19,6 +25,12 @@ export default function EditCard({ updateCard, location, card, deck }) {
   const handleSubmit = e => {
     e.preventDefault();
     updateCard(deck.id, formValue, card.id);
+    getCard({
+      id: card.id,
+      front: formValue.frontOfCard,
+      back: formValue.backOfCard,
+      image: formValue.cardImage
+    });
     setFormValue({
       deckName: formValue.deckName,
       frontOfCard: '',
@@ -33,7 +45,7 @@ export default function EditCard({ updateCard, location, card, deck }) {
 
   return (
     <FlashcardFrom
-      formHeading="Add New Card"
+      formHeading="Edit Card"
       handleSubmit={handleSubmit}
       handleChange={handleChange}
       DeckNameInput={<DeckNameReadOnly value={formValue.deckName} />}

@@ -9,7 +9,8 @@ export default function AllDecks({
   decks,
   setCurrentDeck,
   deck: toggle,
-  deleteDeck
+  deleteDeck,
+  getCard
 }) {
   return (
     <Container className="d-flex flex-column position-relative">
@@ -22,6 +23,7 @@ export default function AllDecks({
             onClick={async e => {
               e.stopPropagation();
               await setCurrentDeck(deck);
+              getCard('random');
             }}
             data-testid={deck.editable ? 'userMade' : 'preMade'}
             action

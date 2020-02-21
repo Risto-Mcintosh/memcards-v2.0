@@ -7,17 +7,7 @@ import FlipCard from '../components/FlipCard';
 import { getCard, flipCard, setCurrentDeck } from '../actions/actionCreator';
 
 function Flashcard(props) {
-  const { deck, card, location, getCard } = props;
-
-  const noMoreCards = Object.entries(card) <= 0;
-  const cardPassedThoughLocationState = location.state && noMoreCards;
-  const newCard = cardPassedThoughLocationState
-    ? location.state.card
-    : 'random';
-
-  React.useEffect(() => {
-    getCard(newCard);
-  }, [location.state]);
+  const { deck, card } = props;
 
   return (
     <Layout>

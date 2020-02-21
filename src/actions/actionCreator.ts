@@ -8,7 +8,6 @@ let db: DataService;
 
 export function setAuthenticatedUser(isAuthenticated: boolean, user) {
   return dispatch => {
-    console.log('isAuthenticated', isAuthenticated);
     dispatch({
       type: 'AUTHENTICATED_USER',
       payload: { isAuthenticated, user }
@@ -23,7 +22,6 @@ export function setAuthenticatedUser(isAuthenticated: boolean, user) {
 
 function handleResponseRejection(err: AxiosError, dispatch) {
   const { status } = err.response;
-  console.log('handleResponseRejection');
   if (status === 400 || status === 401) {
     dispatch(setAuthenticatedUser(false, {}));
   }
@@ -193,15 +191,7 @@ export function updateCard(deckId, card, cardId) {
       handleResponseRejection(err, dispatch)
     );
 
-    history.push(`/deck/${card.deckName}`, {
-      deckName: card.deckName,
-      card: {
-        id: cardId,
-        front,
-        back,
-        image
-      }
-    });
+    history.push(`/deck/${card.deckName}`);
 
     dispatch({
       type: 'UPDATE_CARD',
@@ -226,7 +216,6 @@ export function updateCard(deckId, card, cardId) {
 export function deleteCard(deck, cardId) {
   return async (dispatch, getState) => {
     const state = getState().decks;
-    console.log(cardId);
 
     db.deleteCardInDB(deck.id, cardId);
     const currentDeck = getState().deck;

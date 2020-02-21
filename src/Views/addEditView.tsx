@@ -5,7 +5,12 @@ import NewDeckForm from '../components/addEditForm/NewDeck';
 import EditCardForm from '../components/addEditForm/EditCard';
 import NewCardForm from '../components/addEditForm/NewCard';
 import Layout from '../components/Layout';
-import { createDeck, addNewCard, updateCard } from '../actions/actionCreator';
+import {
+  createDeck,
+  addNewCard,
+  updateCard,
+  getCard
+} from '../actions/actionCreator';
 
 function loadComponent(props) {
   switch (props.match.path) {
@@ -32,6 +37,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { createDeck, addNewCard, updateCard })(
-  addEditView
-);
+export default connect(mapStateToProps, {
+  createDeck,
+  addNewCard,
+  updateCard,
+  getCard
+})(addEditView);

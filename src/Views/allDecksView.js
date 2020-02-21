@@ -6,7 +6,8 @@ import AllDecks from '../components/AllDecks';
 import {
   setCurrentDeck,
   clearCard,
-  deleteDeck
+  deleteDeck,
+  getCard
 } from '../actions/actionCreator';
 import Loading from '../components/loading';
 
@@ -14,7 +15,7 @@ function AllDecksView(props) {
   const { clearCard, decks } = props;
   useEffect(() => {
     clearCard();
-  }, []);
+  });
 
   if (decks.length <= 0) {
     return <Loading loader />;
@@ -37,7 +38,8 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   setCurrentDeck,
   clearCard,
-  deleteDeck
+  deleteDeck,
+  getCard
 })(AllDecksView);
 
 AllDecksView.propTypes = {
