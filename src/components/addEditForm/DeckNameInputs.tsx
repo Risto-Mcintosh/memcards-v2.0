@@ -33,7 +33,6 @@ export const DeckSelectInput = ({
   value,
   deckList = []
 }: Props) => {
-  const editableDecks = deckList.filter(deck => deck.editable === true);
   return (
     <Form.Control
       as="select"
@@ -45,7 +44,7 @@ export const DeckSelectInput = ({
       onChange={handleChange}
     >
       <option />
-      {editableDecks.map(deck => (
+      {deckList.map(deck => (
         <option value={deck.name} key={deck.id}>
           {deck.name}
         </option>

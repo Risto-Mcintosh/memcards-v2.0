@@ -6,14 +6,13 @@ import { Nav } from 'react-bootstrap';
 
 export default function deleteButton({
   match,
-  editableDecks,
   deck,
   card,
   deleteDeckToggle,
   deleteCard,
   getCard
 }) {
-  if ((match.path === '/decks' || match.path === '/') && editableDecks) {
+  if (match.path === '/decks' || match.path === '/') {
     return (
       <Nav.Link
         className="text-white mr-2 p-0 bg-transparent border-0"
@@ -26,7 +25,7 @@ export default function deleteButton({
       </Nav.Link>
     );
   }
-  if (match.path === '/deck/:deckName' && deck.editable) {
+  if (match.path === '/deck/:deckName') {
     return (
       <Nav.Link
         className="text-white mr-2 p-0 bg-transparent border-0"
@@ -47,7 +46,6 @@ export default function deleteButton({
 
 deleteButton.propTypes = {
   match: PropTypes.object,
-  editableDecks: PropTypes.bool,
   deck: PropTypes.object,
   card: PropTypes.object,
   deleteDeckToggle: PropTypes.func,

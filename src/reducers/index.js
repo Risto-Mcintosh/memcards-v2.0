@@ -3,12 +3,11 @@ import { combineReducers } from 'redux';
 function decks(state = [], action) {
   switch (action.type) {
     case 'HYDRATE':
-      return [...state, ...action.payload.decks];
+      return [...state, ...action.payload];
     case 'DELETE_CARD':
-      return [...action.payload.filteredState];
+      return [...action.payload.stateUpdate];
     case 'CREATE_NEW_DECK':
     case 'DELETE_DECK':
-    case 'UPDATE_CARD':
     case 'ADD_NEW_CARD':
       return [...action.payload];
     default:
@@ -35,7 +34,6 @@ function card(state = {}, action) {
       return action.payload;
     case 'FLIP_CARD':
       return { ...state, cardSide: action.payload };
-    case 'UPDATE_CARD':
     case 'CLEAR_CARD':
     case 'DELETE_CARD':
       return {};
@@ -56,7 +54,7 @@ function user(state = {}, action) {
         }
       };
     case 'AUTHENTICATED_USER':
-      localStorage.setItem('userId', action.payload.user.userId);
+      localStorage.setItem('user', action.payload.user);
       return {
         ...state,
         isAuthenticated: action.payload.isAuthenticated,

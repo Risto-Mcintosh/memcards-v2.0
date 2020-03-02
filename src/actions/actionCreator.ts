@@ -21,6 +21,7 @@ export function setAuthenticatedUser(isAuthenticated: boolean, user) {
 }
 
 function handleResponseRejection(err: AxiosError, dispatch) {
+  console.log(err);
   const { status } = err.response;
   if (status === 400 || status === 401) {
     dispatch(setAuthenticatedUser(false, {}));
@@ -30,11 +31,15 @@ function handleResponseRejection(err: AxiosError, dispatch) {
 
 export function hydrate() {
   return async (dispatch, getState) => {
-    const userId = localStorage.getItem('userId') || getState().user.userId;
-    db = new DataService(userId);
+    const user = localStorage.getItem('user') || getState().user.userId;
+    db = new DataService(user.id);
+    console.log('userId:', user);
+
     await db
       .getAllDecks()
       .then(res => {
+        console.log(res);
+
         dispatch({
           type: 'HYDRATE',
           payload: res.data
@@ -67,20 +72,7 @@ export function createDeck(values) {
     const deckId = `deckName${Math.random()}`;
     dispatch({
       type: 'CREATE_NEW_DECK',
-      payload: filterState(
-        state,
-        deckName,
-        deckId,
-        [
-          {
-            id: cardId,
-            front,
-            back,
-            image
-          }
-        ],
-        cardId
-      )
+      payload: {}
     });
   };
 }
@@ -108,17 +100,48 @@ export function deleteDeck(deckId) {
 
 export function setCurrentDeck(deckName) {
   return async (dispatch, getState) => {
-    const deck = getState().decks.find(item => {
-      const nameFound = typeof deckName === 'string' ? deckName : deckName.name;
-      return item.name === nameFound;
-    });
-    const shuffledDeck = shuffle(deck.data);
+    let deckInMemory = getState().deck;
+    let payload;
+
+    if (deckName === deckInMemory.name) {
+      payload = shuffledDeckWithDataFromStore();
+    } else {
+      deckInMemory = selectNewDeckFromState();
+      payload = await getDeckFromDB(deckInMemory);
+    }
+
     dispatch({
       type: 'SET_CURRENT_DECK',
-      payload: { ...deck, shuffledDeck }
+      payload
     });
-    if (deck.data.length <= 0) {
+
+    if (deckInMemory.cardCount <= 0) {
       history.push('/decks');
+    }
+
+    function shuffledDeckWithDataFromStore() {
+      deckInMemory.shuffledDeck = shuffle(deckInMemory.data);
+      return deckInMemory;
+    }
+
+    async function getDeckFromDB(deck) {
+      const dataFromDB = await db
+        .getDeck(deck.id)
+        .then(res => res.data)
+        .catch(err => handleResponseRejection(err, dispatch));
+      return {
+        ...deck,
+        data: dataFromDB,
+        shuffledDeck: shuffle(dataFromDB)
+      };
+    }
+
+    function selectNewDeckFromState() {
+      return getState().decks.find(item => {
+        const nameFound =
+          typeof deckName === 'string' ? deckName : deckName.name;
+        return item.name === nameFound;
+      });
     }
   };
 }
@@ -150,43 +173,32 @@ export function getCard(card) {
 export function addNewCard(values) {
   return async (dispatch, getState) => {
     const state = getState().decks;
-    const {
-      deckName,
-      frontOfCard: front,
-      backOfCard: back,
-      cardImage: image
-    } = values;
 
-    const { id: deckId } = state.find(deck => deck.name === deckName);
-    const cardId = await db
-      .addCardToDB(values, deckId)
+    const deckToEdit = state.find(deck => deck.name === values.deckName);
+
+    await db
+      .addCardToDB(values, deckToEdit.id)
       .then(res => res.data.cardId)
       .catch(err => handleResponseRejection(err, dispatch));
+
     dispatch({
       type: 'ADD_NEW_CARD',
-      payload: filterState(
-        state,
-        deckName,
-        deckId,
-        [
-          {
-            id: cardId,
-            front,
-            back,
-            image
-          }
-        ],
-        cardId
-      )
+      payload: incrementDeckCardCount()
     });
+
+    function incrementDeckCardCount() {
+      return state.map(deck => {
+        if (deck.id === deckToEdit.id) {
+          ++deck.cardCount;
+        }
+        return deck;
+      });
+    }
   };
 }
 
 export function updateCard(deckId, card, cardId) {
-  return async (dispatch, getState) => {
-    const state = getState().decks;
-    const { frontOfCard: front, backOfCard: back, cardImage: image } = card;
-
+  return async dispatch => {
     db.editCardInDB(deckId, card, cardId).catch(err =>
       handleResponseRejection(err, dispatch)
     );
@@ -194,21 +206,7 @@ export function updateCard(deckId, card, cardId) {
     history.push(`/deck/${card.deckName}`);
 
     dispatch({
-      type: 'UPDATE_CARD',
-      payload: filterState(
-        state,
-        card.deckName,
-        deckId,
-        [
-          {
-            id: cardId,
-            front,
-            back,
-            image
-          }
-        ],
-        cardId
-      )
+      type: 'UPDATE_CARD'
     });
   };
 }
@@ -218,14 +216,14 @@ export function deleteCard(deck, cardId) {
     const state = getState().decks;
 
     db.deleteCardInDB(deck.id, cardId);
-    const currentDeck = getState().deck;
+    const selectedDeck = getState().deck;
 
-    const newCards = currentDeck.data.filter(card => card.id !== cardId);
+    const newCards = selectedDeck.data.filter(card => card.id !== cardId);
 
     dispatch({
       type: 'DELETE_CARD',
       payload: {
-        filteredState: filterState(state, deck.name, deck.id, newCards),
+        stateUpdate: decrementDeckCardCount(),
         newCards
       }
     });
@@ -238,6 +236,15 @@ export function deleteCard(deck, cardId) {
       deckName: deck.name,
       card: 'random'
     });
+
+    function decrementDeckCardCount() {
+      return state.map(deck => {
+        if (deck.id === selectedDeck.id) {
+          --deck.cardCount;
+        }
+        return deck;
+      });
+    }
   };
 }
 

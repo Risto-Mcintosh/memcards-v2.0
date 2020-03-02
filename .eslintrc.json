@@ -28,6 +28,10 @@
     "react/forbid-prop-types": "off",
     "react/prop-types": "warn",
     "comma-dangle": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      { "functions": false }
+    ],
     "@typescript-eslint/explicit-function-return-type": "off"
   },
   "settings": {

@@ -13,7 +13,6 @@ export const state = {
   decks: [
     {
       name: 'Test Images Flashcards',
-      editable: false,
       data: [
         {
           front: 'CSS',
@@ -29,7 +28,6 @@ export const state = {
   ],
   deck: {
     name: 'Test Images Flashcards',
-    editable: false,
     data: [
       {
         front: 'CSS',

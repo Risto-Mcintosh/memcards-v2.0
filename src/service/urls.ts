@@ -5,13 +5,21 @@ export default {
   createDeck: BASE_URL + '/deck',
   getAllDecks: BASE_URL + '/decks',
   /** appends deckId to api url  */
+  getDeck(deckId: string) {
+    return BASE_URL + `/deck/${deckId}`;
+  },
+  /** appends deckId to api url  */
   deleteDeck(deckId: string) {
     return BASE_URL + `/deck/${deckId}`;
   },
-  createCard: BASE_URL + '/card',
-  /** appends cardId to api url  */
-  editORDeleteCard(cardId: string) {
-    return BASE_URL + `/card/${cardId}`;
+  createCard(deckId: string) {
+    return BASE_URL + `/deck/${deckId}/card`;
   },
-  images: BASE_URL + '/images'
+  /** appends cardId to api url  */
+  editORDeleteCard(deckId: string, cardId: string) {
+    return BASE_URL + `/deck/${deckId}/card/${cardId}`;
+  },
+  images(pageNumber: number, searchTerm: string) {
+    return `https://api.unsplash.com/search/photos?page=${pageNumber}&query=${searchTerm}&orientation=landscape`;
+  }
 };

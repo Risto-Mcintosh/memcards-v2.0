@@ -4,7 +4,6 @@ import { AddCircle } from 'styled-icons/material/AddCircle';
 import { Folder } from 'styled-icons/fa-solid/Folder';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
-import PropTypes from 'prop-types';
 
 const ButtonContainer = styled.div`
   position: absolute;
@@ -19,7 +18,7 @@ const ButtonContainer = styled.div`
   }
 `;
 
-export default function AddNewButtons({ userMadeDecks }) {
+export default function AddNewButtons() {
   const [show, toggle] = useState(false);
 
   const ShowButtonsSpring = useSpring({
@@ -56,10 +55,10 @@ export default function AddNewButtons({ userMadeDecks }) {
           </p>
           <Link
             to="/add/card"
-            className={`${!userMadeDecks ? 'text-muted' : 'text-primary'}`}
+            className="text-primary"
             style={{
               width: '32px',
-              pointerEvents: `${!userMadeDecks ? 'none' : 'auto'} `
+              pointerEvents: 'auto'
             }}
           >
             <AddCircle style={{ width: '100%' }} />
@@ -75,7 +74,3 @@ export default function AddNewButtons({ userMadeDecks }) {
     </ButtonContainer>
   );
 }
-
-AddNewButtons.propTypes = {
-  userMadeDecks: PropTypes.bool.isRequired
-};

@@ -33,7 +33,6 @@ function Navigation(props) {
 
 function mapStateToProps(state) {
   return {
-    editableDecks: state.decks.some(deck => deck.editable === true),
     deck: state.deck,
     card: state.card
   };

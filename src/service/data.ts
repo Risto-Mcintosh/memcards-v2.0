@@ -17,6 +17,10 @@ export default class DataService {
     return axios.get(API.getAllDecks, this.axiosConfig);
   }
 
+  async getDeck(deckId: string) {
+    return axios.get(API.getDeck(deckId), this.axiosConfig);
+  }
+
   async createNewDeck(deck: Deck) {
     const {
       deckName,
@@ -47,19 +51,13 @@ export default class DataService {
     const { frontOfCard: front, backOfCard: back, cardImage: image } = card;
 
     return axios.post(
-      API.createCard,
+      API.createCard(deckId),
       {
         front,
         back,
         image
       },
-      {
-        ...this.axiosConfig,
-        params: {
-          ...this.axiosConfig.params,
-          deckId
-        }
-      }
+      this.axiosConfig
     );
   }
 
@@ -71,29 +69,17 @@ export default class DataService {
     } = newCardValues;
 
     return axios.put(
-      API.editORDeleteCard(cardId),
+      API.editORDeleteCard(deckId, cardId),
       {
         front,
         back,
         image
       },
-      {
-        ...this.axiosConfig,
-        params: {
-          ...this.axiosConfig.params,
-          deckId
-        }
-      }
+      this.axiosConfig
     );
   }
 
   async deleteCardInDB(deckId: string, cardId: string) {
-    return axios.delete(API.editORDeleteCard(cardId), {
-      ...this.axiosConfig,
-      params: {
-        ...this.axiosConfig.params,
-        deckId
-      }
-    });
+    return axios.delete(API.editORDeleteCard(deckId, cardId), this.axiosConfig);
   }
 }

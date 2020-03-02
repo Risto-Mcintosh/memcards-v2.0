@@ -13,28 +13,13 @@ function DeckFilter(allDecks, modifiedDeck, deckId) {
   ];
 }
 
-export function CardFilter(allDecks, modifiedCard, deckName, cardId) {
-  const filteredDeck = findId(allDecks, deckName);
-
-  if (modifiedCard.length > 1 || !cardId || !filteredDeck) {
-    return modifiedCard;
-  }
-
-  return [
-    ...filterList(filteredDeck.data, findId(modifiedCard, cardId)),
-    ...modifiedCard
-  ];
-}
-
-function filterState(currState, deckName, deckId, cardData, cardId) {
+function filterState(currState, deckName, deckId) {
   return DeckFilter(
     currState,
     [
       {
         id: deckId,
-        name: deckName,
-        editable: true,
-        data: CardFilter(currState, cardData, deckId, cardId)
+        name: deckName
       }
     ],
     deckId

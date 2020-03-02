@@ -25,17 +25,16 @@ export default function AllDecks({
               await setCurrentDeck(deck);
               getCard('random');
             }}
-            data-testid={deck.editable ? 'userMade' : 'preMade'}
             action
             className={`d-flex justify-content-between ${
-              deck.data.length <= 0 ? 'text-muted' : null
+              deck.cardCount <= 0 ? 'text-muted' : null
             }`}
             style={{
-              pointerEvents: `${deck.data.length <= 0 ? 'none' : 'auto'} `
+              pointerEvents: `${deck.cardCount <= 0 ? 'none' : 'auto'} `
             }}
           >
             <div className="d-flex align-items-center">
-              {deck.editable && toggle.toggleDelete && (
+              {toggle.toggleDelete && (
                 <Delete
                   className="text-danger"
                   style={{ width: '30px', pointerEvents: 'auto' }}
@@ -48,13 +47,11 @@ export default function AllDecks({
               )}
               <div className="h5">{deck.name}</div>
             </div>
-            <div className=" font-weight-bold">{deck.data.length}</div>
+            <div className=" font-weight-bold">{deck.cardCount}</div>
           </ListGroup.Item>
         ))}
       </ListGroup>
-      <AddNewButtons
-        userMadeDecks={decks.some(deck => deck.editable === true)}
-      />
+      <AddNewButtons />
     </Container>
   );
 }
