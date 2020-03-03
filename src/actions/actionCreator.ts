@@ -1,7 +1,6 @@
 import shuffle from 'lodash.shuffle';
 import { AxiosError } from 'axios';
 import DataService from '../service/data';
-import filterState from '../utils/filter';
 import history from '../history';
 
 let db: DataService;
@@ -13,6 +12,7 @@ export function setAuthenticatedUser(isAuthenticated: boolean, user) {
       payload: { isAuthenticated, user }
     });
     if (isAuthenticated) {
+      localStorage.setItem('user', JSON.stringify(user));
       history.push('/');
     } else {
       history.push('/login');
@@ -21,7 +21,6 @@ export function setAuthenticatedUser(isAuthenticated: boolean, user) {
 }
 
 function handleResponseRejection(err: AxiosError, dispatch) {
-  console.log(err);
   const { status } = err.response;
   if (status === 400 || status === 401) {
     dispatch(setAuthenticatedUser(false, {}));
@@ -31,15 +30,13 @@ function handleResponseRejection(err: AxiosError, dispatch) {
 
 export function hydrate() {
   return async (dispatch, getState) => {
-    const user = localStorage.getItem('user') || getState().user.userId;
-    db = new DataService(user.id);
-    console.log('userId:', user);
+    const user = JSON.parse(localStorage.getItem('user')) || getState().user;
+    if (!user) return dispatch(setAuthenticatedUser(false, {}));
+    db = new DataService(user.userId);
 
     await db
       .getAllDecks()
       .then(res => {
-        console.log(res);
-
         dispatch({
           type: 'HYDRATE',
           payload: res.data
@@ -50,29 +47,20 @@ export function hydrate() {
 }
 
 export function createDeck(values) {
-  return async (dispatch, getState) => {
-    const {
-      deckName,
-      frontOfCard: front,
-      backOfCard: back,
-      cardImage: image
-    } = values;
-    const state = getState().decks;
-
-    history.push('/add/card', {
-      selectedDeckName: values.deckName,
-      snackBar: { show: true, message: 'New Deck Created!' }
-    });
-
-    const cardId = await db
+  return async dispatch => {
+    const deckId = await db
       .createNewDeck(values)
       .then(res => res.data)
       .catch(err => handleResponseRejection(err, dispatch));
 
-    const deckId = `deckName${Math.random()}`;
     dispatch({
       type: 'CREATE_NEW_DECK',
-      payload: {}
+      payload: { name: values.deckName, id: deckId, cardCount: 1 }
+    });
+
+    history.push('/add/card', {
+      selectedDeckName: values.deckName,
+      snackBar: { show: true, message: 'New Deck Created!' }
     });
   };
 }
@@ -258,5 +246,13 @@ export function flipCard(bool = false) {
   return {
     type: 'FLIP_CARD',
     payload: !bool
+  };
+}
+
+export function logout() {
+  localStorage.removeItem('user');
+  window.location.reload();
+  return {
+    type: 'LOGOUT_USER'
   };
 }

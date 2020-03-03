@@ -14,6 +14,10 @@ export async function loginUser({ email, password }: LoginUserValues) {
   });
 }
 
+export async function logOutUser() {
+  await axios.post(API.logout);
+}
+
 export interface RegisterUserValues {
   email: string;
   userName: string;

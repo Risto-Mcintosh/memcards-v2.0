@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { logOutUser } from '../../service/auth';
 import {
   deleteDeckToggle,
   deleteCard,
-  getCard
+  getCard,
+  logout
 } from '../../actions/actionCreator';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
@@ -24,6 +26,18 @@ function Navigation(props) {
             </Nav.Link>
             <EditButton {...props} />
             <DeleteButton {...props} />
+            <Nav.Link
+              className="text-white px-1"
+              as={Button}
+              aria-label="logout"
+              variant="secondary"
+              onClick={async () => {
+                await logOutUser();
+                props.logout();
+              }}
+            >
+              Logout
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -39,7 +53,7 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(
-  connect(mapStateToProps, { deleteDeckToggle, deleteCard, getCard })(
+  connect(mapStateToProps, { deleteDeckToggle, deleteCard, getCard, logout })(
     Navigation
   )
 );

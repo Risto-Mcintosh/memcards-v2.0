@@ -1,6 +1,7 @@
 const BASE_URL = '/api';
 export default {
   login: BASE_URL + '/login',
+  logout: BASE_URL + '/logout',
   register: BASE_URL + '/register',
   createDeck: BASE_URL + '/deck',
   getAllDecks: BASE_URL + '/decks',
