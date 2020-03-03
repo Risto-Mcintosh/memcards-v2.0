@@ -9,7 +9,6 @@ import RegisterForm from '../components/landing/RegisterForm';
 import Loading from '../components/loading';
 
 function selectForm(props) {
-  console.log(props.match.path);
   switch (props.match.path) {
     case '/register':
       return <RegisterForm {...props} />;
@@ -19,7 +18,6 @@ function selectForm(props) {
 }
 
 function welcomeView({ user, ...props }) {
-  console.log('user:', user);
   return (
     <>
       {!Object.entries(user).length ? (
