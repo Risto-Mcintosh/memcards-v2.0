@@ -12,12 +12,12 @@ import {
 import Loading from '../components/loading';
 
 function AllDecksView(props) {
-  const { clearCard, decks } = props;
+  const { clearCard, user } = props;
   useEffect(() => {
     clearCard();
   });
 
-  if (decks.length <= 0) {
+  if (!user.isAuthenticated) {
     return <Loading loader />;
   }
 
@@ -31,7 +31,8 @@ function AllDecksView(props) {
 function mapStateToProps(state) {
   return {
     decks: state.decks,
-    deck: state.deck
+    deck: state.deck,
+    user: state.user
   };
 }
 

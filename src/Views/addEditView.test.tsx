@@ -29,7 +29,7 @@ it('should render the Create New Deck form ', () => {
 it('should render the Edit Card form ', () => {
   props.match.path = '/add/card';
   const { getByTestId } = renderWithRedux(<AddEditView {...props} />);
-  const fromHeading = 'Edit Card';
+  const fromHeading = 'Add New Card';
   expect(getByTestId('form-heading')).toHaveTextContent(fromHeading);
 });
 
