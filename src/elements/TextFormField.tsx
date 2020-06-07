@@ -1,8 +1,8 @@
-import React from 'react';
-import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
-import { useField } from 'formik';
+import React from "react";
+import { FormControl, FormGroup, FormLabel } from "react-bootstrap";
+import { useField } from "formik";
 
-type inputFieldType = 'text' | 'email' | 'password';
+type inputFieldType = "text" | "email" | "password";
 
 type Props = {
   label: string;
@@ -13,9 +13,9 @@ type Props = {
   type?: inputFieldType;
 };
 
-export function TextFromField({
+export function TextFormField({
   label,
-  type = 'text',
+  type = "text",
   srOnlyLabel = false,
   ...props
 }: Props) {

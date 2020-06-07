@@ -1,23 +1,19 @@
-import React from 'react';
-import { registerUser, RegisterUserValues } from '../../service/auth';
-import { Formik, Form, FormikHelpers } from 'formik';
-import { TextFromField } from '../../elements/TextFormField';
-import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import { AxiosError } from 'axios';
+import React from "react";
+import { registerUser, RegisterUserValues } from "../../service/auth";
+import { Formik, Form, FormikHelpers } from "formik";
+import { TextFormField } from "../../elements/TextFormField";
+import * as Yup from "yup";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { AxiosError } from "axios";
 
 const RegisterSchema = Yup.object().shape({
   userName: Yup.string()
-    .matches(/^\S*$/, 'no spaces allowed')
+    .matches(/^\S*$/, "no spaces allowed")
     .required()
     .trim(),
-  email: Yup.string()
-    .email('invalid email')
-    .required('email is required'),
-  password: Yup.string()
-    .required('password is required')
-    .min(5)
+  email: Yup.string().email("invalid email").required("email is required"),
+  password: Yup.string().required("password is required").min(5)
 });
 
 type Props = {
@@ -26,9 +22,9 @@ type Props = {
 
 function RegisterForm({ setAuthenticatedUser }: Props) {
   const initialValues: RegisterUserValues = {
-    userName: '',
-    email: '',
-    password: ''
+    userName: "",
+    email: "",
+    password: ""
   };
 
   return (
@@ -42,16 +38,16 @@ function RegisterForm({ setAuthenticatedUser }: Props) {
           { setFieldError }: FormikHelpers<RegisterUserValues>
         ) => {
           registerUser(values)
-            .then(response => setAuthenticatedUser(true, response.data))
+            .then((response) => setAuthenticatedUser(true, response.data))
             .catch((err: AxiosError) =>
-              setFieldError('email', err.response.data)
+              setFieldError("email", err.response.data)
             );
         }}
       >
         <Form>
-          <TextFromField label="User Name" srOnlyLabel={true} name="userName" />
-          <TextFromField label="Email" srOnlyLabel={true} name="email" />
-          <TextFromField
+          <TextFormField label="User Name" srOnlyLabel={true} name="userName" />
+          <TextFormField label="Email" srOnlyLabel={true} name="email" />
+          <TextFormField
             label="Password"
             srOnlyLabel={true}
             name="password"

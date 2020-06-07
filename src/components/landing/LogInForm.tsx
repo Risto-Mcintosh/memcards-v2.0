@@ -1,17 +1,15 @@
-import React from 'react';
-import { loginUser, LoginUserValues } from '../../service/auth';
-import { Formik, Form, FormikHelpers } from 'formik';
-import { TextFromField } from '../../elements/TextFormField';
-import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import { AxiosError } from 'axios';
+import React from "react";
+import { loginUser, LoginUserValues } from "../../service/auth";
+import { Formik, Form, FormikHelpers } from "formik";
+import { TextFormField } from "../../elements/TextFormField";
+import * as Yup from "yup";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { AxiosError } from "axios";
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('invalid email')
-    .required('email is required'),
-  password: Yup.string().required('password is required')
+  email: Yup.string().email("invalid email").required("email is required"),
+  password: Yup.string().required("password is required")
 });
 
 type Props = {
@@ -21,8 +19,8 @@ type Props = {
 
 function LogInForm({ setAuthenticatedUser, hydrate }: Props) {
   const initialValues: LoginUserValues = {
-    email: '',
-    password: ''
+    email: "",
+    password: ""
   };
   return (
     <>
@@ -32,7 +30,7 @@ function LogInForm({ setAuthenticatedUser, hydrate }: Props) {
         validationSchema={LoginSchema}
         onSubmit={(values, { setErrors }: FormikHelpers<LoginUserValues>) => {
           loginUser(values)
-            .then(response => {
+            .then((response) => {
               setAuthenticatedUser(true, response.data);
               hydrate();
             })
@@ -46,8 +44,8 @@ function LogInForm({ setAuthenticatedUser, hydrate }: Props) {
         }}
       >
         <Form>
-          <TextFromField label="Email" srOnlyLabel={true} name="email" />
-          <TextFromField
+          <TextFormField label="Email" srOnlyLabel={true} name="email" />
+          <TextFormField
             label="Password"
             srOnlyLabel={true}
             name="password"
