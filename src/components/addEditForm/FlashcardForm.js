@@ -1,21 +1,8 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { Flashcard } from '../../types';
+import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import FormHeading from './FormHeading';
 import ImageInput from './ImageInput';
 import ImageSearch from '../imagesearch/ImageSearch';
-
-type Props = {
-  formValue: Flashcard;
-  formHeading: string;
-  subheading?: string;
-  handleSubmit: (e: React.FormEvent) => void;
-  handleChange: (e: React.FormEvent) => void;
-  /** Input component from ./DeckNameInputs */
-  DeckNameInput: React.ReactElement;
-  setFormValue: Dispatch<SetStateAction<Flashcard>>;
-  snackBar?: React.ReactNode;
-};
 
 export default function FlashcardForm({
   formValue,
@@ -26,7 +13,7 @@ export default function FlashcardForm({
   DeckNameInput,
   setFormValue,
   snackBar
-}: Props) {
+}) {
   const [searchToggle, setToggle] = useState(false);
 
   return (

@@ -1,26 +1,20 @@
-import React from "react";
-import { loginUser, LoginUserValues } from "../../service/auth";
-import { Formik, Form, FormikHelpers } from "formik";
-import { TextFormField } from "../../elements/TextFormField";
-import * as Yup from "yup";
-import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
-import { AxiosError } from "axios";
+import React from 'react';
+import { loginUser } from '../../service/auth';
+import { Formik, Form } from 'formik';
+import { TextFormField } from '../../elements/TextFormField';
+import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email("invalid email").required("email is required"),
-  password: Yup.string().required("password is required")
+  email: Yup.string().email('invalid email').required('email is required'),
+  password: Yup.string().required('password is required')
 });
 
-type Props = {
-  setAuthenticatedUser: (isAuthenticated: boolean, userName: string) => void;
-  hydrate: () => void;
-};
-
-function LogInForm({ setAuthenticatedUser, hydrate }: Props) {
-  const initialValues: LoginUserValues = {
-    email: "",
-    password: ""
+function LogInForm({ setAuthenticatedUser, hydrate }) {
+  const initialValues = {
+    email: '',
+    password: ''
   };
   return (
     <>
@@ -28,13 +22,13 @@ function LogInForm({ setAuthenticatedUser, hydrate }: Props) {
         initialValues={initialValues}
         validateOnChange={false}
         validationSchema={LoginSchema}
-        onSubmit={(values, { setErrors }: FormikHelpers<LoginUserValues>) => {
+        onSubmit={(values, { setErrors }) => {
           loginUser(values)
             .then((response) => {
               setAuthenticatedUser(true, response.data);
               hydrate();
             })
-            .catch((err: AxiosError) =>
+            .catch((err) =>
               setErrors({
                 email: err.response.data,
                 password: err.response.data

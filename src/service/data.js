@@ -1,11 +1,8 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import API from './urls';
-import { Flashcard, Deck } from '../types';
 
 export default class DataService {
-  axiosConfig: AxiosRequestConfig;
-
-  constructor(userId: string) {
+  constructor(userId) {
     this.axiosConfig = {
       params: {
         userId
@@ -17,11 +14,11 @@ export default class DataService {
     return axios.get(API.getAllDecks, this.axiosConfig);
   }
 
-  async getDeck(deckId: string) {
+  async getDeck(deckId) {
     return axios.get(API.getDeck(deckId), this.axiosConfig);
   }
 
-  async createNewDeck(deck: Deck) {
+  async createNewDeck(deck) {
     const {
       deckName,
       frontOfCard: front,
@@ -43,11 +40,11 @@ export default class DataService {
     );
   }
 
-  async deleteDeckInDB(deckId: string) {
+  async deleteDeckInDB(deckId) {
     return axios.delete(API.deleteDeck(deckId), this.axiosConfig);
   }
 
-  async addCardToDB(card: Deck, deckId: string) {
+  async addCardToDB(card, deckId) {
     const { frontOfCard: front, backOfCard: back, cardImage: image } = card;
 
     return axios.post(
@@ -61,7 +58,7 @@ export default class DataService {
     );
   }
 
-  async editCardInDB(deckId: string, newCardValues: Flashcard, cardId: string) {
+  async editCardInDB(deckId, newCardValues, cardId) {
     const {
       frontOfCard: front,
       backOfCard: back,
@@ -79,7 +76,7 @@ export default class DataService {
     );
   }
 
-  async deleteCardInDB(deckId: string, cardId: string) {
+  async deleteCardInDB(deckId, cardId) {
     return axios.delete(API.editORDeleteCard(deckId, cardId), this.axiosConfig);
   }
 }

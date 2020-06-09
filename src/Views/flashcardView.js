@@ -1,10 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import FlashCard from '../components/flashcard/Flashcard';
-import Layout from '../components/Layout';
-import FlipCard from '../components/FlipCard';
-import { getCard, flipCard, setCurrentDeck } from '../actions/actionCreator';
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import FlashCard from "../components/flashcard/Flashcard";
+import Layout from "../components/Layout";
+import FlipCard from "../components/FlipCard";
+import { getCard, flipCard, setCurrentDeck } from "../actions/actionCreator";
 
 function Flashcard(props) {
   const { deck, card } = props;

@@ -1,27 +1,12 @@
 import React, { useState } from 'react';
-import { Flashcard, Deck } from '../../types';
 import FlashcardFrom from './FlashcardForm';
 import { DeckSelectInput } from './DeckNameInputs';
 import SnackBar from '../SnackBar';
 
-type Props = {
-  addNewCard: (arg0: Flashcard) => void;
-  location: {
-    state: {
-      selectedDeckName: string;
-      snackBar: {
-        show: boolean;
-        message: string;
-      };
-    };
-  };
-  decks: any[];
-};
-
-export default function NewCard({ addNewCard, location, decks }: Props) {
+export default function NewCard({ addNewCard, location, decks }) {
   let deckName = '';
   let showSnackBar = false;
-  let snackBarMessage: string;
+  let snackBarMessage;
 
   if (location.state) {
     deckName = location.state.selectedDeckName;
@@ -29,7 +14,7 @@ export default function NewCard({ addNewCard, location, decks }: Props) {
     snackBarMessage = location.state.snackBar.message;
   }
 
-  const [formValue, setFormValue] = useState<Deck | null>({
+  const [formValue, setFormValue] = useState({
     deckName,
     frontOfCard: '',
     backOfCard: '',
@@ -41,7 +26,7 @@ export default function NewCard({ addNewCard, location, decks }: Props) {
     message: snackBarMessage
   });
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     addNewCard(formValue);
     setSnackBar({ show: true, message: 'New Card Added!' });
@@ -53,7 +38,7 @@ export default function NewCard({ addNewCard, location, decks }: Props) {
     });
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 

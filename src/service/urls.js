@@ -6,21 +6,21 @@ export default {
   createDeck: BASE_URL + '/deck',
   getAllDecks: BASE_URL + '/decks',
   /** appends deckId to api url  */
-  getDeck(deckId: string) {
+  getDeck(deckId) {
     return BASE_URL + `/deck/${deckId}`;
   },
   /** appends deckId to api url  */
-  deleteDeck(deckId: string) {
+  deleteDeck(deckId) {
     return BASE_URL + `/deck/${deckId}`;
   },
-  createCard(deckId: string) {
+  createCard(deckId) {
     return BASE_URL + `/deck/${deckId}/card`;
   },
   /** appends cardId to api url  */
-  editORDeleteCard(deckId: string, cardId: string) {
+  editORDeleteCard(deckId, cardId) {
     return BASE_URL + `/deck/${deckId}/card/${cardId}`;
   },
-  images(pageNumber: number, searchTerm: string) {
+  images(pageNumber, searchTerm) {
     return `https://api.unsplash.com/search/photos?page=${pageNumber}&query=${searchTerm}&orientation=landscape`;
   }
 };

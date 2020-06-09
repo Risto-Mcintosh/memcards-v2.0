@@ -1,24 +1,13 @@
-import React from "react";
-import { FormControl, FormGroup, FormLabel } from "react-bootstrap";
-import { useField } from "formik";
-
-type inputFieldType = "text" | "email" | "password";
-
-type Props = {
-  label: string;
-  name: string;
-  /** Hides the label visually */
-  srOnlyLabel?: boolean;
-  /** 'text' | 'email' | 'password'  */
-  type?: inputFieldType;
-};
+import React from 'react';
+import { FormControl, FormGroup, FormLabel } from 'react-bootstrap';
+import { useField } from 'formik';
 
 export function TextFormField({
   label,
-  type = "text",
+  type = 'text',
   srOnlyLabel = false,
   ...props
-}: Props) {
+}) {
   const [field, meta] = useField(props);
   return (
     <FormGroup controlId={props.name}>

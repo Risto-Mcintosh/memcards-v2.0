@@ -1,11 +1,6 @@
 import React from 'react';
 
-type Props = {
-  heading: string;
-  subheading?: string;
-};
-
-export default function FormHeading({ heading, subheading = null }: Props) {
+export default function FormHeading({ heading, subheading = null }) {
   return (
     <div className="px-1 text-center">
       <h1 data-testid="form-heading">{heading}</h1>

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.4",
+    "@types/lodash.shuffle": "^4.2.6",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "chance": "^1.1.6",
@@ -26,7 +27,6 @@
     "start-server-and-test": "^1.11.0",
     "styled-components": "^4.4.1",
     "styled-icons": "^7.15.1",
-    "typescript": "^3.9.5",
     "yup": "^0.28.5"
   },
   "scripts": {
@@ -74,8 +74,6 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^4.4.3",
     "@types/yup": "^0.26.37",
-    "@typescript-eslint/eslint-plugin": "^2.34.0",
-    "@typescript-eslint/parser": "^2.34.0",
     "cypress": "^3.8.3",
     "eslint-config-prettier": "^6.11.0",
     "eslint-import-resolver-typescript": "^2.0.0",

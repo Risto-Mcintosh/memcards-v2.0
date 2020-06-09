@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 import FlashcardFrom from './FlashcardForm';
 import { DeckNameInput } from './DeckNameInputs';
-import { Flashcard, Deck } from '../../types';
 
-type Props = {
-  createDeck: (arg0: Flashcard) => void;
-};
-
-export default function NewDeckForm({ createDeck }: Props) {
-  const [formValue, setFormValue] = useState<Deck | null>({
+export default function NewDeckForm({ createDeck }) {
+  const [formValue, setFormValue] = useState({
     deckName: '',
     frontOfCard: '',
     backOfCard: '',
     cardImage: null
   });
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     createDeck(formValue);
     setFormValue({
@@ -26,7 +21,7 @@ export default function NewDeckForm({ createDeck }: Props) {
     });
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 

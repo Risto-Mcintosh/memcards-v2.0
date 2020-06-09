@@ -1,12 +1,11 @@
 import shuffle from 'lodash.shuffle';
-import { AxiosError } from 'axios';
 import DataService from '../service/data';
 import history from '../history';
 
-let db: DataService;
+let db;
 
-export function setAuthenticatedUser(isAuthenticated: boolean, user) {
-  return dispatch => {
+export function setAuthenticatedUser(isAuthenticated, user) {
+  return (dispatch) => {
     dispatch({
       type: 'AUTHENTICATED_USER',
       payload: { isAuthenticated, user }
@@ -20,7 +19,7 @@ export function setAuthenticatedUser(isAuthenticated: boolean, user) {
   };
 }
 
-function handleResponseRejection(err: AxiosError, dispatch) {
+function handleResponseRejection(err, dispatch) {
   const { status } = err.response;
   if (status === 400 || status === 401) {
     dispatch(setAuthenticatedUser(false, {}));
@@ -36,22 +35,22 @@ export function hydrate() {
 
     await db
       .getAllDecks()
-      .then(res => {
+      .then((res) => {
         dispatch({
           type: 'HYDRATE',
           payload: res.data
         });
       })
-      .catch(err => handleResponseRejection(err, dispatch));
+      .catch((err) => handleResponseRejection(err, dispatch));
   };
 }
 
 export function createDeck(values) {
-  return async dispatch => {
+  return async (dispatch) => {
     const deckId = await db
       .createNewDeck(values)
-      .then(res => res.data)
-      .catch(err => handleResponseRejection(err, dispatch));
+      .then((res) => res.data)
+      .catch((err) => handleResponseRejection(err, dispatch));
 
     dispatch({
       type: 'CREATE_NEW_DECK',
@@ -73,11 +72,11 @@ export function deleteDeckToggle(bool = false) {
 }
 export function deleteDeck(deckId) {
   return (dispatch, getState) => {
-    db.deleteDeckInDB(deckId).catch(err =>
+    db.deleteDeckInDB(deckId).catch((err) =>
       handleResponseRejection(err, dispatch)
     );
     const currentDecks = getState().decks;
-    const newDeckList = currentDecks.filter(deck => deck.id !== deckId);
+    const newDeckList = currentDecks.filter((deck) => deck.id !== deckId);
 
     dispatch({
       type: 'DELETE_DECK',
@@ -115,8 +114,8 @@ export function setCurrentDeck(deckName) {
     async function getDeckFromDB(deck) {
       const dataFromDB = await db
         .getDeck(deck.id)
-        .then(res => res.data)
-        .catch(err => handleResponseRejection(err, dispatch));
+        .then((res) => res.data)
+        .catch((err) => handleResponseRejection(err, dispatch));
       return {
         ...deck,
         data: dataFromDB,
@@ -125,7 +124,7 @@ export function setCurrentDeck(deckName) {
     }
 
     function selectNewDeckFromState() {
-      return getState().decks.find(item => {
+      return getState().decks.find((item) => {
         const nameFound =
           typeof deckName === 'string' ? deckName : deckName.name;
         return item.name === nameFound;
@@ -162,12 +161,12 @@ export function addNewCard(values) {
   return async (dispatch, getState) => {
     const state = getState().decks;
 
-    const deckToEdit = state.find(deck => deck.name === values.deckName);
+    const deckToEdit = state.find((deck) => deck.name === values.deckName);
 
     await db
       .addCardToDB(values, deckToEdit.id)
-      .then(res => res.data.cardId)
-      .catch(err => handleResponseRejection(err, dispatch));
+      .then((res) => res.data.cardId)
+      .catch((err) => handleResponseRejection(err, dispatch));
 
     dispatch({
       type: 'ADD_NEW_CARD',
@@ -175,7 +174,7 @@ export function addNewCard(values) {
     });
 
     function incrementDeckCardCount() {
-      return state.map(deck => {
+      return state.map((deck) => {
         if (deck.id === deckToEdit.id) {
           ++deck.cardCount;
         }
@@ -186,8 +185,8 @@ export function addNewCard(values) {
 }
 
 export function updateCard(deckId, card, cardId) {
-  return async dispatch => {
-    db.editCardInDB(deckId, card, cardId).catch(err =>
+  return async (dispatch) => {
+    db.editCardInDB(deckId, card, cardId).catch((err) =>
       handleResponseRejection(err, dispatch)
     );
 
@@ -206,7 +205,7 @@ export function deleteCard(deck, cardId) {
     db.deleteCardInDB(deck.id, cardId);
     const selectedDeck = getState().deck;
 
-    const newCards = selectedDeck.data.filter(card => card.id !== cardId);
+    const newCards = selectedDeck.data.filter((card) => card.id !== cardId);
 
     dispatch({
       type: 'DELETE_CARD',
@@ -226,7 +225,7 @@ export function deleteCard(deck, cardId) {
     });
 
     function decrementDeckCardCount() {
-      return state.map(deck => {
+      return state.map((deck) => {
         if (deck.id === selectedDeck.id) {
           --deck.cardCount;
         }

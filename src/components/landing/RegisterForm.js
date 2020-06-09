@@ -1,30 +1,25 @@
-import React from "react";
-import { registerUser, RegisterUserValues } from "../../service/auth";
-import { Formik, Form, FormikHelpers } from "formik";
-import { TextFormField } from "../../elements/TextFormField";
-import * as Yup from "yup";
-import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
-import { AxiosError } from "axios";
+import React from 'react';
+import { registerUser } from '../../service/auth';
+import { Formik, Form } from 'formik';
+import { TextFormField } from '../../elements/TextFormField';
+import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const RegisterSchema = Yup.object().shape({
   userName: Yup.string()
-    .matches(/^\S*$/, "no spaces allowed")
+    .matches(/^\S*$/, 'no spaces allowed')
     .required()
     .trim(),
-  email: Yup.string().email("invalid email").required("email is required"),
-  password: Yup.string().required("password is required").min(5)
+  email: Yup.string().email('invalid email').required('email is required'),
+  password: Yup.string().required('password is required').min(5)
 });
 
-type Props = {
-  setAuthenticatedUser: (isAuthenticated: boolean, userName: string) => void;
-};
-
-function RegisterForm({ setAuthenticatedUser }: Props) {
-  const initialValues: RegisterUserValues = {
-    userName: "",
-    email: "",
-    password: ""
+function RegisterForm({ setAuthenticatedUser }) {
+  const initialValues = {
+    userName: '',
+    email: '',
+    password: ''
   };
 
   return (
@@ -33,15 +28,10 @@ function RegisterForm({ setAuthenticatedUser }: Props) {
         initialValues={initialValues}
         validationSchema={RegisterSchema}
         validateOnChange={false}
-        onSubmit={(
-          values,
-          { setFieldError }: FormikHelpers<RegisterUserValues>
-        ) => {
+        onSubmit={(values, { setFieldError }) => {
           registerUser(values)
             .then((response) => setAuthenticatedUser(true, response.data))
-            .catch((err: AxiosError) =>
-              setFieldError("email", err.response.data)
-            );
+            .catch((err) => setFieldError('email', err.response.data));
         }}
       >
         <Form>

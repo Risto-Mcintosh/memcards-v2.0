@@ -2,12 +2,7 @@ import React from 'react';
 import { ImageAdd } from 'styled-icons/boxicons-regular/ImageAdd';
 import styled from 'styled-components';
 
-interface ButtonProps {
-  readonly thumbnail: string | undefined;
-  readonly addImage: boolean;
-}
-
-const StyledButton = styled.div<ButtonProps>`
+const StyledButton = styled.div`
   ${({ thumbnail }) =>
     thumbnail &&
     `

@@ -2,12 +2,7 @@ import axios from 'axios';
 import API from './urls';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-export interface LoginUserValues {
-  email: string;
-  password: string;
-}
-
-export async function loginUser({ email, password }: LoginUserValues) {
+export async function loginUser({ email, password }) {
   return axios.post(API.login, {
     email,
     password
@@ -18,17 +13,7 @@ export async function logOutUser() {
   await axios.post(API.logout);
 }
 
-export interface RegisterUserValues {
-  email: string;
-  userName: string;
-  password: string;
-}
-
-export async function registerUser({
-  email,
-  userName,
-  password
-}: RegisterUserValues) {
+export async function registerUser({ email, userName, password }) {
   return axios.post(API.register, {
     email,
     userName,

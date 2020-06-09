@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Deck } from '../../types';
 import FlashcardFrom from './FlashcardForm';
 import { DeckNameReadOnly } from './DeckNameInputs';
 
@@ -15,14 +14,14 @@ export default function EditCard({
   const backOfCard = card.back;
   const cardImage = card.image;
 
-  const [formValue, setFormValue] = useState<Deck | null>({
+  const [formValue, setFormValue] = useState({
     deckName,
     frontOfCard,
     backOfCard,
     cardImage
   });
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     updateCard(deck.id, formValue, card.id);
     getCard({
@@ -39,7 +38,7 @@ export default function EditCard({
     });
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 

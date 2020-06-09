@@ -1,13 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-type Props = {
-  handleChange?: (e: React.FormEvent) => void;
-  value?: string;
-  deckList?: any[];
-};
-
-export const DeckNameInput = ({ handleChange, value }: Props) => (
+export const DeckNameInput = ({ handleChange, value }) => (
   <Form.Control
     required
     value={value}
@@ -18,7 +12,7 @@ export const DeckNameInput = ({ handleChange, value }: Props) => (
   />
 );
 
-export const DeckNameReadOnly = ({ value }: Props) => (
+export const DeckNameReadOnly = ({ value }) => (
   <Form.Control
     plaintext
     readOnly
@@ -28,11 +22,7 @@ export const DeckNameReadOnly = ({ value }: Props) => (
   />
 );
 
-export const DeckSelectInput = ({
-  handleChange,
-  value,
-  deckList = []
-}: Props) => {
+export const DeckSelectInput = ({ handleChange, value, deckList = [] }) => {
   return (
     <Form.Control
       as="select"
@@ -44,7 +34,7 @@ export const DeckSelectInput = ({
       onChange={handleChange}
     >
       <option />
-      {deckList.map(deck => (
+      {deckList.map((deck) => (
         <option value={deck.name} key={deck.id}>
           {deck.name}
         </option>

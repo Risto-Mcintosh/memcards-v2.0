@@ -5,11 +5,7 @@ import React from 'react';
 // import signInFlow from '../../firebase/auth';
 import { ReactComponent as FlashCardsSVG } from '../../images/flashcards.svg';
 
-type Props = {
-  form: React.ReactNode;
-};
-
-function Landing({ form }: Props) {
+function Landing({ form }) {
   // const uiConfig = {
   //   signInFlow: 'popup',
   //   signInOptions: [
