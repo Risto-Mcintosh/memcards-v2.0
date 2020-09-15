@@ -10,6 +10,7 @@ export function setAuthenticatedUser(isAuthenticated, user) {
       type: 'AUTHENTICATED_USER',
       payload: { isAuthenticated, user }
     });
+    console.log({ user });
     if (isAuthenticated) {
       localStorage.setItem('user', JSON.stringify(user));
       history.push('/');
@@ -20,6 +21,7 @@ export function setAuthenticatedUser(isAuthenticated, user) {
 }
 
 function handleResponseRejection(err, dispatch) {
+  console.log({ err: err.message });
   const { status } = err.response;
   if (status === 400 || status === 401) {
     dispatch(setAuthenticatedUser(false, {}));
@@ -29,8 +31,16 @@ function handleResponseRejection(err, dispatch) {
 
 export function hydrate() {
   return async (dispatch, getState) => {
-    const user = JSON.parse(localStorage.getItem('user')) || getState().user;
-    if (!user) return dispatch(setAuthenticatedUser(false, {}));
+    let user;
+    if (process.env.REACT_APP_NO_SERVER) {
+      user = { userId: 123 };
+    } else {
+      user = JSON.parse(localStorage.getItem('user')) || getState().user;
+    }
+
+    if (!Object.entries(user).length)
+      return dispatch(setAuthenticatedUser(false, {}));
+
     db = new DataService(user.userId);
 
     await db

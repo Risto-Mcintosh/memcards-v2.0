@@ -14,6 +14,7 @@ export async function logOutUser() {
 }
 
 export async function registerUser({ email, userName, password }) {
+  console.log('post');
   return axios.post(API.register, {
     email,
     userName,

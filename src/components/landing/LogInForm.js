@@ -28,12 +28,13 @@ function LogInForm({ setAuthenticatedUser, hydrate }) {
               setAuthenticatedUser(true, response.data);
               hydrate();
             })
-            .catch((err) =>
+            .catch((err) => {
+              console.log(err);
               setErrors({
                 email: err.response.data,
                 password: err.response.data
-              })
-            );
+              });
+            });
           return;
         }}
       >
