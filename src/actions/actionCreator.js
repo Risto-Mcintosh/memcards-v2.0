@@ -31,9 +31,13 @@ function handleResponseRejection(err, dispatch) {
 
 export function hydrate() {
   return async (dispatch, getState) => {
-    // const user = JSON.parse(localStorage.getItem('user')) || getState().user;
-    const user = { userId: '123', isAuthenticated: true };
-    console.log({ user: !user });
+    let user;
+    if (process.env.REACT_APP_NO_SERVER) {
+      user = { userId: 123 };
+    } else {
+      user = JSON.parse(localStorage.getItem('user')) || getState().user;
+    }
+
     if (!Object.entries(user).length)
       return dispatch(setAuthenticatedUser(false, {}));
 
