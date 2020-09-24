@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { AddCircle } from 'styled-icons/material/AddCircle';
-import { Folder } from 'styled-icons/fa-solid/Folder';
+import { AddCircle } from '@styled-icons/material/AddCircle';
+import { Folder } from '@styled-icons/fa-solid/Folder';
 import { Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 

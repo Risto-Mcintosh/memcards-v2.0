@@ -1,7 +1,8 @@
-import { Server, Model, belongsTo, hasMany, Factory } from 'miragejs';
+import { createServer, Model, belongsTo, hasMany, Factory } from 'miragejs';
 
 export function makeServer({ environment = 'test' } = {}) {
-  let server = new Server({
+  console.log(environment);
+  return createServer({
     environment,
     models: {
       user: Model,
@@ -87,6 +88,4 @@ export function makeServer({ environment = 'test' } = {}) {
       });
     }
   });
-
-  return server;
 }

@@ -16,7 +16,6 @@ function AllDecksView(props) {
   useEffect(() => {
     clearCard();
   });
-
   if (!user.isAuthenticated) {
     return <Loading loader />;
   }

@@ -7,6 +7,7 @@ export const DeckNameInput = ({ handleChange, value }) => (
     value={value}
     name="deckName"
     type="text"
+    data-testid="deck-name-input"
     placeholder="Deck Name"
     onChange={handleChange}
   />

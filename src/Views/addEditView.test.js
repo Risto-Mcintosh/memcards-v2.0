@@ -1,14 +1,15 @@
 import React from 'react';
 import AddEditView from './addEditView';
 import renderWithRedux from '../utils/testWithRedux';
-import { render } from '@testing-library/react';
-import { createDeck, addNewCard, updateCard } from '../actions/actionCreator';
-
-jest.mock('../actions/actionCreator', () => ({
-  createDeck: jest.fn(),
-  updateCard: jest.fn(),
-  addNewCard: jest.fn()
-}));
+import App from '../App';
+import {
+  render,
+  prettyDOM,
+  waitForElementToBeRemoved,
+  waitFor,
+  screen
+} from '@testing-library/react';
+import { makeServer } from '../server';
 
 const props = {
   match: {
@@ -18,6 +19,30 @@ const props = {
     state: undefined
   }
 };
+
+let server;
+
+beforeEach(() => {
+  server = makeServer();
+  server.create('deck', {
+    name: 'Test 1',
+    editable: true,
+    data: server.createList('flashcard', 5),
+    cardCount: 5
+  });
+});
+
+afterEach(() => {
+  server.shutdown();
+});
+
+it.only('should render the create new deck form', async () => {
+  const { container, getByTestId, getByText } = renderWithRedux(<App />);
+  await waitForElementToBeRemoved(() => getByTestId('loading'), {
+    timeout: 10000
+  });
+  console.log(prettyDOM(container));
+});
 
 it('should render the Create New Deck form ', () => {
   props.match.path = '/add/newdeck';

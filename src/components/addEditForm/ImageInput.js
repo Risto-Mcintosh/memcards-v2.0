@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageAdd } from 'styled-icons/boxicons-regular/ImageAdd';
+import { ImageAdd } from '@styled-icons/boxicons-regular/ImageAdd';
 import styled from 'styled-components';
 
 const StyledButton = styled.div`

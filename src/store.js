@@ -22,6 +22,8 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-store.dispatch(hydrate());
+if (process.env.NODE_ENV !== 'test') {
+  store.dispatch(hydrate());
+}
 
 export default store;

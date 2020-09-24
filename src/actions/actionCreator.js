@@ -37,7 +37,7 @@ export function hydrate() {
     } else {
       user = JSON.parse(localStorage.getItem('user')) || getState().user;
     }
-
+    console.log({ user });
     if (!Object.entries(user).length)
       return dispatch(setAuthenticatedUser(false, {}));
 

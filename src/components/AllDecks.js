@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
-import { Delete } from 'styled-icons/material/Delete';
+import { Delete } from '@styled-icons/material/Delete';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AddNewButtons from './AddNewButtons';
@@ -15,12 +15,12 @@ export default function AllDecks({
   return (
     <Container className="d-flex flex-column position-relative">
       <ListGroup variant="flush" className="mt-3">
-        {decks.map(deck => (
+        {decks.map((deck) => (
           <ListGroup.Item
             as={Link}
             to={`/deck/${deck.name}`}
             key={deck.id}
-            onClick={async e => {
+            onClick={async (e) => {
               e.stopPropagation();
               await setCurrentDeck(deck);
               getCard('random');
@@ -38,7 +38,7 @@ export default function AllDecks({
                 <Delete
                   className="text-danger"
                   style={{ width: '30px', pointerEvents: 'auto' }}
-                  onClick={e => {
+                  onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
                     deleteDeck(deck.id);

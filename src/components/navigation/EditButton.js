@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Edit } from 'styled-icons/material/Edit';
+import { Edit } from '@styled-icons/material/Edit';
 import { Link } from 'react-router-dom';
 
 export default function editButton({ card, deck, match }) {
