@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import history from './history';
 import FlashcardView from './Views/flashcardView';
@@ -9,7 +9,7 @@ import WelcomeView from './Views/welcomeView';
 import DeckCompleted from './components/DeckCompleted';
 
 const App = () => (
-  <Router>
+  <Router history={history}>
     <Route exact path="/login" component={WelcomeView} />
     <Route exact path="/register" component={WelcomeView} />
     <PrivateRoute exact path="/" component={AllDecksView} />
