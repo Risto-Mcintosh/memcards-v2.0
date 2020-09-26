@@ -1,7 +1,6 @@
 import { createServer, Model, belongsTo, hasMany, Factory } from 'miragejs';
 
 export function makeServer({ environment = 'test' } = {}) {
-  console.log(environment);
   return createServer({
     environment,
     models: {
@@ -45,7 +44,6 @@ export function makeServer({ environment = 'test' } = {}) {
       this.namespace = '/api';
       this.passthrough('https://api.unsplash.com/search/**');
       this.get('/decks', (schema) => {
-        console.log(schema.decks.all());
         return schema.db.decks;
       });
 

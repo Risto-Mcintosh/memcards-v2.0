@@ -25,11 +25,11 @@ export default function FlashcardForm({
             className="col-9 col-md-7 col-lg-6 p-0 pt-md-5"
             onSubmit={handleSubmit}
           >
-            <Form.Group controlId="editDeckName">
+            <Form.Group controlId="deckName">
               <Form.Label>Deck Name:</Form.Label>
               {DeckNameInput}
             </Form.Group>
-            <Form.Group controlId="frontOfFlashcard">
+            <Form.Group controlId="cardFront">
               <Form.Label>Front:</Form.Label>
               <Form.Control
                 required
@@ -48,7 +48,7 @@ export default function FlashcardForm({
                 image={formValue.cardImage}
               />
             </Form.Group>
-            <Form.Group controlId="BackOfFlashcard">
+            <Form.Group controlId="cardBack">
               <Form.Label>Back:</Form.Label>
               <Form.Control
                 required

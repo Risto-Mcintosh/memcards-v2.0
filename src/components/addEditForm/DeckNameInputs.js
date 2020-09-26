@@ -33,6 +33,7 @@ export const DeckSelectInput = ({ handleChange, value, deckList = [] }) => {
       type="text"
       placeholder="Deck Name"
       onChange={handleChange}
+      data-testid="deck-name-select"
     >
       <option />
       {deckList.map((deck) => (
