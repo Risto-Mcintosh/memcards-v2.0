@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Spinner } from 'react-bootstrap';
 import { ReactComponent as FlashCardsSVG } from '../images/flashcards.svg';
 
-export default function Loading({ loader }) {
+export default function Loading() {
   return (
     <div
       data-testid="loading"
@@ -13,19 +12,9 @@ export default function Loading({ loader }) {
         <FlashCardsSVG className="w-100" />
       </div>
       <h1 className="text-white">Memcards</h1>
-      {loader && (
-        <Spinner animation="border" variant="success" role="status">
-          <span className="sr-only">Loading...</span>
-        </Spinner>
-      )}
+      <Spinner animation="border" variant="success" role="status">
+        <span className="sr-only">Loading...</span>
+      </Spinner>
     </div>
   );
 }
-
-Loading.propTypes = {
-  loader: PropTypes.bool
-};
-
-Loading.defaultProps = {
-  loader: false
-};

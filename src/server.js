@@ -13,6 +13,22 @@ export function makeServer({ environment = 'test' } = {}) {
       })
     },
     factories: {
+      deck: Factory.extend({
+        name(i) {
+          return `Test Deck ${i + 1}`;
+        },
+        editable: true,
+        afterCreate(deck, server) {
+          if (!deck.attrs.data) {
+            deck.update({
+              data: server.createList('flashcard', 1),
+              cardCount: 1
+            });
+          } else {
+            deck.update({ cardCount: deck.attrs.data.length });
+          }
+        }
+      }),
       flashcard: Factory.extend({
         front(i) {
           return `front ${i}`;
@@ -32,11 +48,8 @@ export function makeServer({ environment = 'test' } = {}) {
 
     seeds(server) {
       server.create('user', { userId: '123', isAuthenticated: true });
-      server.create('deck', {
-        name: 'Test 1',
-        editable: true,
-        data: server.createList('flashcard', 5),
-        cardCount: 5
+      server.createList('deck', 4).forEach((deck) => {
+        deck.update({ data: server.createList('flashcard', 3), cardCount: 3 });
       });
     },
 
@@ -66,6 +79,7 @@ export function makeServer({ environment = 'test' } = {}) {
       this.post('/deck/:id/card', (schema, request) => {
         const deckId = request.params.id;
         const data = JSON.parse(request.requestBody);
+        console.log({ data, deckId });
         return schema.create('flashcard', { deckId, ...data });
       });
 

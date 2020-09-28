@@ -17,6 +17,7 @@ export default function AllDecks({
       <ListGroup variant="flush" className="mt-3">
         {decks.map((deck) => (
           <ListGroup.Item
+            data-testid="test-deck"
             as={Link}
             to={`/deck/${deck.name}`}
             key={deck.id}

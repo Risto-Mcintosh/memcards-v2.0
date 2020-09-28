@@ -8,7 +8,7 @@ import { hydrate } from './actions/actionCreator';
 
 // export const initialState = [spanish100, capitalCities, webDevAcronyms];
 
-const rootReducer = (state, action) => {
+export const rootReducer = (state, action) => {
   return appReducer(state, action);
 };
 

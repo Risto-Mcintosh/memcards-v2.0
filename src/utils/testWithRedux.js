@@ -1,14 +1,17 @@
 import React from 'react';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import history from '../history';
 import { Router } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
-import store from '../store';
+import { rootReducer } from '../store';
 import { hydrate } from '../actions/actionCreator';
 
 afterEach(cleanup);
 
 function testWithRedux(ui, { route } = { route: '' }) {
+  const store = createStore(rootReducer, applyMiddleware(thunk));
   store.dispatch(hydrate());
   if (route) {
     history.push(route);

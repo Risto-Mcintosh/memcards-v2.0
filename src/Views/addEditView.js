@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import NewDeckForm from '../components/addEditForm/NewDeck';
 import EditCardForm from '../components/addEditForm/EditCard';
 import NewCardForm from '../components/addEditForm/NewCard';
+import Loader from '../components/loading';
 import Layout from '../components/Layout';
 import {
   createDeck,
@@ -26,7 +27,11 @@ function loadComponent(props) {
 }
 
 function addEditView(props) {
-  return <Layout>{loadComponent(props)}</Layout>;
+  return !props.decks.length ? (
+    <Loader />
+  ) : (
+    <Layout>{loadComponent(props)}</Layout>
+  );
 }
 
 function mapStateToProps(state) {
