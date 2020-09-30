@@ -18,7 +18,11 @@ const CardBody = styled(animated.div)`
 `;
 
 const FlashcardBody = ({ cardText, cardImage, style }) => (
-  <CardBody className="bg-light border shadow" style={style}>
+  <CardBody
+    className="bg-light border shadow"
+    data-testid="flashcard"
+    style={style}
+  >
     <h3>{cardText}</h3>
     {!cardImage ? null : (
       <div>
