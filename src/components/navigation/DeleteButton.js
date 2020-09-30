@@ -32,6 +32,7 @@ export default function deleteButton({
         as="button"
       >
         <Delete
+          data-testid="delete-button"
           onClick={() => {
             deleteCard(deck, card.id);
             getCard('random');

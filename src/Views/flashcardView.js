@@ -1,14 +1,16 @@
-import React from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import FlashCard from "../components/flashcard/Flashcard";
-import Layout from "../components/Layout";
-import FlipCard from "../components/FlipCard";
-import { getCard, flipCard, setCurrentDeck } from "../actions/actionCreator";
+import React from 'react';
+import { connect } from 'react-redux';
+import FlashCard from '../components/flashcard/Flashcard';
+import Layout from '../components/Layout';
+import FlipCard from '../components/FlipCard';
+import { getCard, flipCard, setCurrentDeck } from '../actions/actionCreator';
+import Loading from '../components/loading';
 
 function Flashcard(props) {
   const { deck, card } = props;
-
+  if (!card.front) {
+    return <Loading />;
+  }
   return (
     <Layout>
       <FlashCard card={card} deckName={deck.name} />
@@ -31,18 +33,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Flashcard);
-
-Flashcard.propTypes = {
-  getCard: PropTypes.func.isRequired,
-  deck: PropTypes.object,
-  card: PropTypes.object,
-  location: PropTypes.object,
-  decks: PropTypes.array
-};
-
-Flashcard.defaultProps = {
-  deck: {},
-  card: {},
-  location: {},
-  decks: {}
-};

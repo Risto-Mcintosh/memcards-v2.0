@@ -9,6 +9,7 @@ export default function editButton({ card, deck, match }) {
   }
   return (
     <Link
+      data-testid="edit-button"
       className="text-white mr-2"
       to={{
         pathname: `/edit/card/${card.id}`,

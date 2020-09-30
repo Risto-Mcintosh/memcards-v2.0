@@ -14,7 +14,7 @@ export default function AllDecks({
 }) {
   return (
     <Container className="d-flex flex-column position-relative">
-      <ListGroup variant="flush" className="mt-3">
+      <ListGroup variant="flush" className="mt-3" data-testid="deck-list">
         {decks.map((deck) => (
           <ListGroup.Item
             data-testid="test-deck"
@@ -30,9 +30,10 @@ export default function AllDecks({
             className={`d-flex justify-content-between ${
               deck.cardCount <= 0 ? 'text-muted' : null
             }`}
-            style={{
-              pointerEvents: `${deck.cardCount <= 0 ? 'none' : 'auto'} `
-            }}
+            disabled={deck.cardCount <= 0 ? true : false}
+            // style={{
+            //   pointerEvents: `${deck.cardCount <= 0 ? 'none' : 'auto'} `
+            // }}
           >
             <div className="d-flex align-items-center">
               {toggle.toggleDelete && (

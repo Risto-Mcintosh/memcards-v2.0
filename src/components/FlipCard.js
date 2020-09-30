@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button, Container, Row, Col
-} from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 
 export default function FlipCard({ flipCard, card, getCard }) {
   return (
@@ -11,6 +9,7 @@ export default function FlipCard({ flipCard, card, getCard }) {
         <Col className=" col-12 col-md-8 p-0">
           {!card.cardSide ? (
             <Button
+              data-testid="flip-card"
               className="rounded-0 w-100 h-100"
               onClick={() => flipCard(card.cardSide)}
               variant="secondary"
@@ -19,6 +18,7 @@ export default function FlipCard({ flipCard, card, getCard }) {
             </Button>
           ) : (
             <Button
+              data-testid="flip-card"
               className="rounded-0 w-100 h-100"
               onClick={() => {
                 flipCard(card.cardSide);

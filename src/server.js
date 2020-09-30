@@ -17,17 +17,8 @@ export function makeServer({ environment = 'test' } = {}) {
         name(i) {
           return `Test Deck ${i + 1}`;
         },
-        editable: true,
-        afterCreate(deck, server) {
-          if (!deck.attrs.data) {
-            deck.update({
-              data: server.createList('flashcard', 1),
-              cardCount: 1
-            });
-          } else {
-            deck.update({ cardCount: deck.attrs.data.length });
-          }
-        }
+        cardCount: 0,
+        editable: true
       }),
       flashcard: Factory.extend({
         front(i) {

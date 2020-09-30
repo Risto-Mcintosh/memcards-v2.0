@@ -20,7 +20,10 @@ function DeckCompleted({ deckName, setCurrentDeck, getCard }) {
   return (
     <Layout>
       <Container className=" d-flex justify-content-center align-items-center ">
-        <Card className="bg-light border shadow p-3">
+        <Card
+          className="bg-light border shadow p-3"
+          data-testid="deck-complete"
+        >
           <h2 className="m-0">{deckName}</h2>
           <p className="mb-0">Congratulations! You have finished this deck.</p>
           <div className="w-100 d-flex justify-content-around">
@@ -44,7 +47,7 @@ function DeckCompleted({ deckName, setCurrentDeck, getCard }) {
   );
 }
 
-export default connect(state => ({ deckName: state.deck.name }), {
+export default connect((state) => ({ deckName: state.deck.name }), {
   setCurrentDeck,
   getCard
 })(DeckCompleted);

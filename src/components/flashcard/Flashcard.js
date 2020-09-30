@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { useSpring } from 'react-spring';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import FlashcardBody from './FlashcardBody';
 
@@ -37,7 +36,7 @@ export default function FlashCard({ card, deckName }) {
             cardText={card.back}
             cardImage={card.image}
             style={{
-              transform: transform.interpolate(t => `${t} rotateY(180deg)`),
+              transform: transform.interpolate((t) => `${t} rotateY(180deg)`),
               opacity: card.cardSide ? 1 : 0
             }}
           />
@@ -46,8 +45,3 @@ export default function FlashCard({ card, deckName }) {
     </Container>
   );
 }
-
-FlashCard.propTypes = {
-  card: PropTypes.object.isRequired,
-  deckName: PropTypes.string.isRequired
-};
