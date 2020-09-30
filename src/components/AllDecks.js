@@ -38,6 +38,7 @@ export default function AllDecks({
             <div className="d-flex align-items-center">
               {toggle.toggleDelete && (
                 <Delete
+                  data-testid="delete-deck"
                   className="text-danger"
                   style={{ width: '30px', pointerEvents: 'auto' }}
                   onClick={(e) => {

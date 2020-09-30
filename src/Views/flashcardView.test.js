@@ -6,13 +6,11 @@ import {
   waitFor,
   waitForElementToBeRemoved,
   prettyDOM,
-  fireEvent,
-  cleanup
+  fireEvent
 } from '@testing-library/react';
 import { makeServer } from '../server';
 import userEvent from '@testing-library/user-event';
 
-afterEach(cleanup);
 it('should redirect to home page when all cards are deleted from deck', async () => {
   const server = makeServer();
   server
@@ -52,7 +50,7 @@ it('should show Completed page', async () => {
   server.shutdown();
 });
 
-it.only('should successfully edit a flashcard', async () => {
+it('should successfully edit a flashcard', async () => {
   const server = makeServer();
   server
     .create('deck')

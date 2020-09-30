@@ -13,6 +13,8 @@ afterEach(cleanup);
 function testWithRedux(ui, { route } = { route: '' }) {
   const store = createStore(rootReducer, applyMiddleware(thunk));
   store.dispatch(hydrate());
+  // have to push to home page here to "reset" the history object
+  history.push('/');
   if (route) {
     history.push(route);
   }

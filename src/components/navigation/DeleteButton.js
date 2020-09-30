@@ -19,6 +19,7 @@ export default function deleteButton({
         as="button"
       >
         <Delete
+          data-testid="delete-button"
           onClick={() => deleteDeckToggle(deck.toggleDelete)}
           style={{ width: '30px' }}
         />

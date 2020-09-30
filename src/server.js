@@ -52,7 +52,6 @@ export function makeServer({ environment = 'test' } = {}) {
       });
 
       this.get('/deck/:id', (schema, request) => {
-        console.log(schema.decks.find(request.params.id));
         return schema.db.flashcards.where({ deckId: request.params.id });
       });
 

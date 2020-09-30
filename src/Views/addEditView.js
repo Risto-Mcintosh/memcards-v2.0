@@ -27,6 +27,7 @@ function loadComponent(props) {
 }
 
 function addEditView(props) {
+  // TODO what if there isn't any Decks?
   return !props.decks.length ? (
     <Loader />
   ) : (
