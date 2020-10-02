@@ -12,6 +12,7 @@ export default function AllDecks({
   deleteDeck,
   getCard
 }) {
+  console.log({ decks });
   return (
     <Container className="d-flex flex-column position-relative">
       <ListGroup variant="flush" className="mt-3" data-testid="deck-list">

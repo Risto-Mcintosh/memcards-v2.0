@@ -10,26 +10,30 @@ import {
   getCard
 } from '../actions/actionCreator';
 import Loading from '../components/loading';
+import { useDeckList } from '../utils/useClient';
 
 function AllDecksView(props) {
   const { clearCard, user } = props;
-  useEffect(() => {
-    clearCard();
-  });
-  if (!user.isAuthenticated) {
+  const { data, isLoading } = useDeckList();
+  // console.log(data);
+  // useEffect(() => {
+  //   clearCard();
+  // });
+
+  if (!user.isAuthenticated || isLoading) {
     return <Loading loader />;
   }
 
   return (
     <Layout>
-      <AllDecks {...props} />
+      <AllDecks decks={data} {...props} />
     </Layout>
   );
 }
 
 function mapStateToProps(state) {
   return {
-    decks: state.decks,
+    // decks: state.decks,
     deck: state.deck,
     user: state.user
   };
