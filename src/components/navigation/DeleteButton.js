@@ -26,7 +26,7 @@ export default function deleteButton({
       </Nav.Link>
     );
   }
-  if (match.path === '/deck/:deckName') {
+  if (match.path === '/decks/:deckName') {
     return (
       <Nav.Link
         className="text-white mr-2 p-0 bg-transparent border-0"

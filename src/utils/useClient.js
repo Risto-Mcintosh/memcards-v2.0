@@ -9,4 +9,10 @@ function useDeckList() {
   });
 }
 
-export { useDeckList };
+function useDeck(deckId) {
+  return useQuery({
+    queryKey: 'deck',
+    queryFn: () => client(URLS.getDeck(deckId))
+  });
+}
+export { useDeckList, useDeck };

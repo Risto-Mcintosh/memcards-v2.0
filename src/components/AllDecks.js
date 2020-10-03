@@ -20,7 +20,7 @@ export default function AllDecks({
           <ListGroup.Item
             data-testid="test-deck"
             as={Link}
-            to={`/deck/${deck.name}`}
+            to={`/decks/${deck.id}`}
             key={deck.id}
             onClick={async (e) => {
               e.stopPropagation();

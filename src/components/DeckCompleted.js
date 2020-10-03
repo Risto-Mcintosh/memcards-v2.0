@@ -29,7 +29,7 @@ function DeckCompleted({ deckName, setCurrentDeck, getCard }) {
           <div className="w-100 d-flex justify-content-around">
             <Link
               className="btn btn-primary"
-              to={`/deck/${deckName}`}
+              to={`/decks/${deckName}`}
               onClick={async () => {
                 await setCurrentDeck(deckName);
                 getCard('random');

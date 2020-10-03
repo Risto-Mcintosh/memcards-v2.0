@@ -7,7 +7,6 @@ export default async function client(url, { data, ...config } = {}) {
     data: data,
     ...config
   });
-  console.log({ response });
   if (response.statusText === 'OK') {
     return response.data;
   } else {

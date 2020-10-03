@@ -199,7 +199,7 @@ export function updateCard(deckId, card, cardId) {
       handleResponseRejection(err, dispatch)
     );
 
-    history.push(`/deck/${card.deckName}`);
+    history.push(`/decks/${card.deckName}`);
 
     dispatch({
       type: 'UPDATE_CARD'
@@ -228,7 +228,7 @@ export function deleteCard(deck, cardId) {
       return history.push('/decks');
     }
 
-    history.push(`/deck/${deck.name}`, {
+    history.push(`/decks/${deck.name}`, {
       deckName: deck.name,
       card: 'random'
     });

@@ -5,16 +5,28 @@ import Layout from '../components/Layout';
 import FlipCard from '../components/FlipCard';
 import { getCard, flipCard, setCurrentDeck } from '../actions/actionCreator';
 import Loading from '../components/loading';
+import { useDeck } from '../utils/useClient';
+import { useParams } from 'react-router-dom';
+import useFlashcard from '../utils/useFlashcard';
 
 function Flashcard(props) {
-  const { deck, card } = props;
-  if (!card.front) {
+  const { deck } = props;
+  const { deckId } = useParams();
+  const { data, isLoading } = useDeck(deckId);
+  const { card, getCard, isBack, flipCard } = useFlashcard(data);
+
+  if (!card || isLoading) {
     return <Loading />;
   }
   return (
     <Layout>
-      <FlashCard card={card} deckName={deck.name} />
-      <FlipCard {...props} />
+      <FlashCard card={card} deckName={deck.name} isBack={isBack} />
+      <FlipCard
+        {...props}
+        flipCard={flipCard}
+        isBack={isBack}
+        getCard={getCard}
+      />
     </Layout>
   );
 }
@@ -27,7 +39,7 @@ function mapStateToProps(state) {
   };
 }
 const mapDispatchToProps = {
-  getCard,
+  // getCard,
   flipCard,
   setCurrentDeck
 };

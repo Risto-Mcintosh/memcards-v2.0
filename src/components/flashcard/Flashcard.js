@@ -12,9 +12,9 @@ const StyledContainer = styled(Container)`
   }
 `;
 
-export default function FlashCard({ card, deckName }) {
+export default function FlashCard({ card, deckName, isBack }) {
   const { transform } = useSpring({
-    transform: `perspective(600px) rotateY(${card.cardSide ? 180 : 0}deg)`
+    transform: `perspective(600px) rotateY(${isBack ? 180 : 0}deg)`
   });
 
   return (
@@ -37,7 +37,7 @@ export default function FlashCard({ card, deckName }) {
             cardImage={card.image}
             style={{
               transform: transform.interpolate((t) => `${t} rotateY(180deg)`),
-              opacity: card.cardSide ? 1 : 0
+              opacity: isBack ? 1 : 0
             }}
           />
         </div>

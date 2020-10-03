@@ -13,8 +13,9 @@ const App = () => (
     <Route exact path="/register" component={WelcomeView} />
     <PrivateRoute exact path="/" component={AllDecksView} />
     <PrivateRoute exact path="/decks" component={AllDecksView} />
-    <PrivateRoute exact path="/deck/:deckName" component={FlashcardView} />
+    <PrivateRoute exact path="/decks/:deckId" component={FlashcardView} />
     <PrivateRoute exact path="/completed" component={DeckCompleted} />
+    {/* update this route to /add/deck */}
     <PrivateRoute exact path="/add/newdeck" component={AddEditView} />
     <PrivateRoute exact path="/add/card" component={AddEditView} />
     <PrivateRoute exact path="/edit/card/:cardId" component={AddEditView} />

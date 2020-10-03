@@ -2,31 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 
-export default function FlipCard({ flipCard, card, getCard }) {
+export default function FlipCard({ flipCard, isBack, card, getCard }) {
   return (
     <Container fluid className=" bg-primary">
       <Row className="h-100 mx-n3 d-flex justify-content-center">
         <Col className=" col-12 col-md-8 p-0">
-          {!card.cardSide ? (
+          {isBack ? (
             <Button
               data-testid="flip-card"
               className="rounded-0 w-100 h-100"
-              onClick={() => flipCard(card.cardSide)}
+              onClick={() => {
+                getCard();
+              }}
               variant="secondary"
             >
-              Show Answer
+              Next Card
             </Button>
           ) : (
             <Button
               data-testid="flip-card"
               className="rounded-0 w-100 h-100"
-              onClick={() => {
-                flipCard(card.cardSide);
-                getCard('random');
-              }}
+              onClick={() => flipCard((s) => !s)}
               variant="secondary"
             >
-              Next Card
+              Show Answer
             </Button>
           )}
         </Col>
