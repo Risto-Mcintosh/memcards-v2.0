@@ -11,7 +11,7 @@ import {
 import { makeServer } from '../server';
 import userEvent from '@testing-library/user-event';
 
-it('should redirect to home page when all cards are deleted from deck', async () => {
+it.skip('should redirect to home page when all cards are deleted from deck', async () => {
   const server = makeServer();
   server
     .create('deck')
@@ -50,7 +50,7 @@ it('should show Completed page', async () => {
   server.shutdown();
 });
 
-it('should successfully edit a flashcard', async () => {
+it.skip('should successfully edit a flashcard', async () => {
   const server = makeServer();
   server
     .create('deck')

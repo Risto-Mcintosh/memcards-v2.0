@@ -15,4 +15,25 @@ function useDeck(deckId) {
     queryFn: () => client(URLS.getDeck(deckId))
   });
 }
-export { useDeckList, useDeck };
+
+const onDeckDelete = (deckId) => {
+  const prevData = queryCache.getQueryData('deckList');
+
+  if (prevData) {
+    const newDeckList = prevData.filter((deck) => deck.id !== deckId);
+    queryCache.setQueryData('deckList', newDeckList);
+  }
+  return prevData;
+};
+
+function useDeckDelete() {
+  return useMutation(
+    (deckId) => client(URLS.deleteDeck(deckId), { method: 'delete' }),
+    {
+      onMutate: onDeckDelete,
+      onError: (error, deck, prevData) => queryCache.setQueryData(prevData),
+      onSettled: () => queryCache.invalidateQueries('deckList')
+    }
+  );
+}
+export { useDeckList, useDeck, useDeckDelete };

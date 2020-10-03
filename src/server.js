@@ -82,6 +82,7 @@ export function makeServer({ environment = 'test' } = {}) {
       this.del('/deck/:id', (schema, request) => {
         const deck = schema.decks.find(request.params.id);
         deck.destroy();
+        return 'deck deleted!';
       });
 
       this.del('/deck/:deckId/card/:cardId', (schema, request) => {

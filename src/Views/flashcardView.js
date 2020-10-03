@@ -6,18 +6,24 @@ import FlipCard from '../components/FlipCard';
 import { getCard, flipCard, setCurrentDeck } from '../actions/actionCreator';
 import Loading from '../components/loading';
 import { useDeck } from '../utils/useClient';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import useFlashcard from '../utils/useFlashcard';
 
 function Flashcard(props) {
   const { deck } = props;
   const { deckId } = useParams();
+  const history = useHistory();
   const { data, isLoading } = useDeck(deckId);
-  const { card, getCard, isBack, flipCard } = useFlashcard(data);
-
+  const { card, getCard, isBack, flipCard, noCardsLeftToStudy } = useFlashcard(
+    data
+  );
+  if (noCardsLeftToStudy) {
+    return history.push('/completed');
+  }
   if (!card || isLoading) {
     return <Loading />;
   }
+
   return (
     <Layout>
       <FlashCard card={card} deckName={deck.name} isBack={isBack} />

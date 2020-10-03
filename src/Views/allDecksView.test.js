@@ -1,7 +1,11 @@
 import React from 'react';
 import renderWithRedux from '../utils/testWithRedux';
 import App from '../App';
-import { prettyDOM, waitForElementToBeRemoved } from '@testing-library/react';
+import {
+  prettyDOM,
+  waitForElementToBeRemoved,
+  waitFor
+} from '@testing-library/react';
 import { makeServer } from '../server';
 import userEvent from '@testing-library/user-event';
 
@@ -32,6 +36,7 @@ it('should delete deck', async () => {
   const testDeck = getByTestId('test-deck');
   userEvent.click(getByTestId('delete-button'));
   userEvent.click(getByTestId('delete-deck'));
-  expect(testDeck).not.toBeInTheDocument();
+  await waitFor(() => expect(testDeck).not.toBeInTheDocument());
+
   server.shutdown();
 });

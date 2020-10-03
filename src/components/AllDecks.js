@@ -4,15 +4,16 @@ import { Delete } from '@styled-icons/material/Delete';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AddNewButtons from './AddNewButtons';
+import { useDeckDelete } from '../utils/useClient';
 
 export default function AllDecks({
   decks,
   setCurrentDeck,
   deck: toggle,
-  deleteDeck,
+  // deleteDeck,
   getCard
 }) {
-  console.log({ decks });
+  const [deleteDeck] = useDeckDelete();
   return (
     <Container className="d-flex flex-column position-relative">
       <ListGroup variant="flush" className="mt-3" data-testid="deck-list">
