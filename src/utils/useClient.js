@@ -36,4 +36,27 @@ function useDeckDelete() {
     }
   );
 }
-export { useDeckList, useDeck, useDeckDelete };
+
+const onFlashcardDelete = (card) => {
+  const prevData = queryCache.getQueryData('deck');
+  if (prevData) {
+    queryCache.setQueryData(
+      'deck',
+      prevData.filter((deck) => deck.id !== card.id)
+    );
+  }
+  return prevData;
+};
+
+function useFlashcardDelete() {
+  return useMutation(
+    (card) =>
+      client(URLS.editORDeleteCard(card.deckId, card.id), { method: 'delete' }),
+    {
+      onMutate: onFlashcardDelete,
+      onError: (error, deck, prevData) => queryCache.setQueryData(prevData)
+      // onSettled: () => queryCache.invalidateQueries('deck')
+    }
+  );
+}
+export { useDeckList, useDeck, useDeckDelete, useFlashcardDelete };

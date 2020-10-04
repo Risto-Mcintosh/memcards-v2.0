@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import Layout from '../components/Layout';
 import AllDecks from '../components/AllDecks';
 import {
@@ -13,7 +12,7 @@ import Loading from '../components/loading';
 import { useDeckList } from '../utils/useClient';
 
 function AllDecksView(props) {
-  const { clearCard, user } = props;
+  const { user } = props;
   const { data, isLoading } = useDeckList();
   // console.log(data);
   // useEffect(() => {
@@ -45,8 +44,3 @@ export default connect(mapStateToProps, {
   deleteDeck,
   getCard
 })(AllDecksView);
-
-AllDecksView.propTypes = {
-  clearCard: PropTypes.func.isRequired,
-  decks: PropTypes.array.isRequired
-};

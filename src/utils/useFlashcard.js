@@ -18,12 +18,13 @@ function useFlashcard(deck = []) {
       const firstCard = sDeck.pop();
       setDeck(sDeck);
       setCard(firstCard);
+      flipCard(false);
       // setState({
       //   card: firstCard,
       //   shuffledDeck: sDeck
       // });
     }
-  }, [deck, setDeck, setDeck]);
+  }, [deck, setDeck, setCard, flipCard]);
   const deckIsEmpty = deck.length <= 0;
 
   const getCard = () => {

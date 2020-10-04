@@ -51,9 +51,3 @@ export default connect((state) => ({ deckName: state.deck.name }), {
   setCurrentDeck,
   getCard
 })(DeckCompleted);
-
-DeckCompleted.propTypes = {
-  deckName: PropTypes.string.isRequired,
-  setCurrentDeck: PropTypes.func.isRequired,
-  getCard: PropTypes.func.isRequired
-};

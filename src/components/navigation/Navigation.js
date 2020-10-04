@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useLocation, useRouteMatch, withRouter } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { useFlashcardContext } from '../../Views/flashcardView-context';
 import { logOutUser } from '../../service/auth';
 import {
   deleteDeckToggle,
@@ -11,8 +12,26 @@ import {
 } from '../../actions/actionCreator';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
+import DeleteToggle from './DeleteToggle';
 
 function Navigation(props) {
+  const card = useFlashcardContext();
+  const { pathname } = useLocation();
+  const match = useRouteMatch('/decks/:deckId');
+  function renderDeleteButton() {
+    if (pathname === '/decks' || pathname === '/') {
+      return (
+        <DeleteToggle
+          deck={props.deck}
+          deleteDeckToggle={props.deleteDeckToggle}
+        />
+      );
+    } else if (match?.isExact) {
+      return <DeleteButton flashcard={card} />;
+    } else {
+      return null;
+    }
+  }
   return (
     <>
       <Navbar className="position-relative" bg="primary" expand="lg">
@@ -25,7 +44,7 @@ function Navigation(props) {
               Decks
             </Nav.Link>
             <EditButton {...props} />
-            <DeleteButton {...props} />
+            {renderDeleteButton()}
             <Nav.Link
               className="text-white px-1"
               as={Button}

@@ -1,39 +1,49 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FlashCard from '../components/flashcard/Flashcard';
+import { FlashcardProvider } from './flashcardView-context';
 import Layout from '../components/Layout';
 import FlipCard from '../components/FlipCard';
-import { getCard, flipCard, setCurrentDeck } from '../actions/actionCreator';
+import { flipCard, setCurrentDeck } from '../actions/actionCreator';
 import Loading from '../components/loading';
 import { useDeck } from '../utils/useClient';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import useFlashcard from '../utils/useFlashcard';
 
 function Flashcard(props) {
   const { deck } = props;
   const { deckId } = useParams();
-  const history = useHistory();
   const { data, isLoading } = useDeck(deckId);
-  const { card, getCard, isBack, flipCard, noCardsLeftToStudy } = useFlashcard(
-    data
-  );
+  const {
+    card,
+    getCard,
+    isBack,
+    flipCard,
+    noCardsLeftToStudy,
+    deckIsEmpty
+  } = useFlashcard(data);
   if (noCardsLeftToStudy) {
-    return history.push('/completed');
+    return <Redirect to="/completed" />;
   }
   if (!card || isLoading) {
     return <Loading />;
   }
+  if (deckIsEmpty) {
+    return <Redirect to="/" />;
+  }
 
   return (
-    <Layout>
-      <FlashCard card={card} deckName={deck.name} isBack={isBack} />
-      <FlipCard
-        {...props}
-        flipCard={flipCard}
-        isBack={isBack}
-        getCard={getCard}
-      />
-    </Layout>
+    <FlashcardProvider state={card}>
+      <Layout>
+        <FlashCard card={card} deckName={deck.name} isBack={isBack} />
+        <FlipCard
+          {...props}
+          flipCard={flipCard}
+          isBack={isBack}
+          getCard={getCard}
+        />
+      </Layout>
+    </FlashcardProvider>
   );
 }
 
@@ -45,7 +55,6 @@ function mapStateToProps(state) {
   };
 }
 const mapDispatchToProps = {
-  // getCard,
   flipCard,
   setCurrentDeck
 };
