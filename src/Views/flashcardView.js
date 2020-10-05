@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import FlashCard from '../components/flashcard/Flashcard';
 import { FlashcardProvider } from './flashcardView-context';
 import Layout from '../components/Layout';
@@ -9,44 +8,56 @@ import { useDeck } from '../utils/useClient';
 import { useParams, Redirect } from 'react-router-dom';
 import useFlashcard from '../utils/useFlashcard';
 import DeckCompleted from '../components/DeckCompleted';
+import EditCard from '../components/addEditForm/EditCard';
 
-function Flashcard(props) {
-  const { deck } = props;
+function Flashcard() {
   const { deckId } = useParams();
   const { data, isLoading, isFetchedAfterMount } = useDeck(deckId);
   const {
     flashcard,
     getCard,
+    clearCard,
     isBack,
     flipCard,
     noCardsLeftToStudy,
     setDeck,
-    deckIsEmpty
-  } = useFlashcard(data);
+    deckIsEmpty,
+    isEditing,
+    editFlashcard
+  } = useFlashcard(data?.cards);
+
   if (noCardsLeftToStudy) {
-    return <DeckCompleted deckName={deck.name} resetDeck={setDeck} />;
+    return <DeckCompleted deckName={data?.deckName} resetDeck={setDeck} />;
   }
-  if (!flashcard || isLoading || !isFetchedAfterMount) {
-    return <Loading />;
-  }
-  if (deckIsEmpty) {
+
+  if (deckIsEmpty && isFetchedAfterMount) {
     return <Redirect to="/decks" />;
   }
 
+  if (!flashcard || isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <FlashcardProvider state={flashcard}>
-      <Layout>
-        <FlashCard flashcard={flashcard} deckName={deck.name} isBack={isBack} />
-        <FlipCard flipCard={flipCard} isBack={isBack} getCard={getCard} />
+    <FlashcardProvider
+      state={{ deckName: data.deckName, flashcard, editFlashcard, clearCard }}
+    >
+      <Layout flashcardView>
+        {isEditing ? (
+          <EditCard getCard={getCard} />
+        ) : (
+          <>
+            <FlashCard
+              flashcard={flashcard}
+              deckName={data?.deckName}
+              isBack={isBack}
+            />
+            <FlipCard flipCard={flipCard} isBack={isBack} getCard={getCard} />
+          </>
+        )}
       </Layout>
     </FlashcardProvider>
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    deck: state.deck
-  };
-}
-
-export default connect(mapStateToProps)(Flashcard);
+export default Flashcard;

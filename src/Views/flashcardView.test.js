@@ -11,8 +11,17 @@ import {
 import { makeServer } from '../server';
 import userEvent from '@testing-library/user-event';
 
+let server;
+
+beforeEach(() => {
+  server = makeServer();
+});
+
+afterEach(() => {
+  server.shutdown();
+});
+
 it('should redirect to home page when all cards are deleted from deck', async () => {
-  const server = makeServer();
   server
     .create('deck')
     .update({ data: server.createList('flashcard', 2), cardCount: 2 });
@@ -24,20 +33,20 @@ it('should redirect to home page when all cards are deleted from deck', async ()
   userEvent.click(screen.getByTestId('delete-button'));
   await waitFor(() => screen.getAllByTestId('flashcard'));
   userEvent.click(screen.getByTestId('delete-button'));
-  await waitFor(() => screen.getByTestId('deck-list'));
+  // await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
+  // await waitFor(() => screen.getByTestId('deck-list'));
 
   expect(history.location.pathname).toBe('/decks');
-  expect(screen.getByTestId('test-deck')).toHaveClass('disabled');
-
-  server.shutdown();
+  waitFor(() =>
+    expect(screen.getByTestId('test-deck')).toHaveClass('disabled')
+  );
 });
 
 it('should show Completed page', async () => {
-  const server = makeServer();
   server
     .create('deck')
     .update({ data: server.createList('flashcard', 2), cardCount: 2 });
-  const { history } = renderWithRedux(<App />);
+  const { history, container } = renderWithRedux(<App />);
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   userEvent.click(screen.getByTestId('test-deck'));
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
@@ -50,11 +59,9 @@ it('should show Completed page', async () => {
   await waitFor(() =>
     expect(screen.getByTestId('deck-complete')).toBeInTheDocument()
   );
-  server.shutdown();
 });
 
-it.skip('should successfully edit a flashcard', async () => {
-  const server = makeServer();
+it('should successfully edit a flashcard', async () => {
   server
     .create('deck')
     .update({ data: server.createList('flashcard', 1), cardCount: 1 });
@@ -62,7 +69,8 @@ it.skip('should successfully edit a flashcard', async () => {
 
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   userEvent.click(screen.getByTestId('test-deck'));
-  await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
+  // await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
+  await waitFor(() => screen.getAllByTestId('flashcard'));
 
   userEvent.click(screen.getByTestId('edit-button'));
   userEvent.type(screen.getByLabelText(/front/i), 'updated front text');
@@ -75,6 +83,4 @@ it.skip('should successfully edit a flashcard', async () => {
 
   expect(flashcardFront).toHaveTextContent('updated front text');
   expect(flashcardBack).toHaveTextContent('updated back text');
-
-  server.shutdown();
 });

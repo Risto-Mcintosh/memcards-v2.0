@@ -2,24 +2,15 @@ import { connect } from 'react-redux';
 import React from 'react';
 import Layout from '../components/Layout';
 import AllDecks from '../components/AllDecks';
-import {
-  setCurrentDeck,
-  clearCard,
-  deleteDeck,
-  getCard
-} from '../actions/actionCreator';
+import { setCurrentDeck } from '../actions/actionCreator';
 import Loading from '../components/loading';
 import { useDeckList } from '../utils/useClient';
 
 function AllDecksView(props) {
   const { user } = props;
-  const { data, isLoading, isFetchedAfterMount } = useDeckList();
-  // console.log(data);
-  // useEffect(() => {
-  //   clearCard();
-  // });
+  const { data, isLoading, isFetching } = useDeckList();
 
-  if (!user.isAuthenticated || isLoading || !isFetchedAfterMount) {
+  if (!user.isAuthenticated || isLoading || isFetching) {
     return <Loading loader />;
   }
 
@@ -32,15 +23,11 @@ function AllDecksView(props) {
 
 function mapStateToProps(state) {
   return {
-    // decks: state.decks,
     deck: state.deck,
     user: state.user
   };
 }
 
 export default connect(mapStateToProps, {
-  setCurrentDeck,
-  clearCard,
-  deleteDeck,
-  getCard
+  setCurrentDeck
 })(AllDecksView);

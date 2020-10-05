@@ -11,7 +11,7 @@ function useDeckList() {
 
 function useDeck(deckId) {
   return useQuery({
-    queryKey: 'deck',
+    queryKey: `deck ${deckId}`,
     queryFn: () => client(URLS.getDeck(deckId))
   });
 }
@@ -38,12 +38,12 @@ function useDeckDelete() {
 }
 
 const onFlashcardDelete = (card) => {
-  const prevData = queryCache.getQueryData('deck');
+  const prevData = queryCache.getQueryData(`deck ${card.deckId}`);
   if (prevData) {
-    queryCache.setQueryData(
-      'deck',
-      prevData.filter((deck) => deck.id !== card.id)
-    );
+    queryCache.setQueryData(`deck ${card.deckId}`, {
+      ...prevData,
+      cards: prevData.cards.filter((deck) => deck.id !== card.id)
+    });
   }
   return prevData;
 };
@@ -59,4 +59,42 @@ function useFlashcardDelete() {
     }
   );
 }
-export { useDeckList, useDeck, useDeckDelete, useFlashcardDelete };
+
+const onFlashcardEdit = (card) => {
+  // queryCache.invalidateQueries('deck', {
+  //   refetchActive: false
+  // });
+  const prevData = queryCache.getQueryData(`deck ${card.deckId}`);
+  if (prevData) {
+    function editCardInCache(cardInCache) {
+      if (cardInCache.id === card.id) return { ...cardInCache, ...card };
+      return cardInCache;
+    }
+
+    queryCache.setQueryData(`deck ${card.deckId}`, {
+      ...prevData,
+      cards: prevData.cards.map(editCardInCache)
+    });
+  }
+  return prevData;
+};
+
+function useFlashcardEdit() {
+  return useMutation(
+    (card) =>
+      client(URLS.editORDeleteCard(card.deckId, card.id), {
+        data: card,
+        method: 'put'
+      }),
+    {
+      onMutate: onFlashcardEdit
+    }
+  );
+}
+export {
+  useDeckList,
+  useDeck,
+  useDeckDelete,
+  useFlashcardDelete,
+  useFlashcardEdit
+};

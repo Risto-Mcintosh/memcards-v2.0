@@ -1,7 +1,7 @@
-import { createServer, Model, belongsTo, hasMany, Factory } from 'miragejs';
+import { Server, Model, belongsTo, hasMany, Factory } from 'miragejs';
 
 export function makeServer({ environment = 'test' } = {}) {
-  return createServer({
+  let server = new Server({
     environment,
     models: {
       user: Model,
@@ -52,7 +52,11 @@ export function makeServer({ environment = 'test' } = {}) {
       });
 
       this.get('/deck/:id', (schema, request) => {
-        return schema.db.flashcards.where({ deckId: request.params.id });
+        const deck = schema.db.decks.find(request.params.id);
+        return {
+          deckName: deck.name,
+          cards: schema.db.flashcards.where({ deckId: request.params.id })
+        };
       });
 
       this.post('/deck', (schema, request) => {
@@ -95,4 +99,5 @@ export function makeServer({ environment = 'test' } = {}) {
       });
     }
   });
+  return server;
 }

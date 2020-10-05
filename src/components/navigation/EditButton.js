@@ -1,28 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Nav } from 'react-bootstrap';
 import { Edit } from '@styled-icons/material/Edit';
-import { Link } from 'react-router-dom';
+import { useFlashcardContext } from '../../Views/flashcardView-context';
 
-export default function editButton({ card, deck, match }) {
-  if (match.path !== '/decks/:deckName') {
-    return null;
-  }
+export default function EditButton() {
+  const { editFlashcard } = useFlashcardContext();
   return (
-    <Link
+    <Nav.Link
+      className="text-white mr-2 p-0 bg-transparent border-0"
+      as="button"
       data-testid="edit-button"
-      className="text-white mr-2"
-      to={{
-        pathname: `/edit/card/${card.id}`,
-        state: { selectedDeckName: deck.name }
-      }}
+      onClick={() => editFlashcard(true)}
     >
       <Edit style={{ width: '30px' }} />
-    </Link>
+    </Nav.Link>
   );
 }
-
-editButton.propTypes = {
-  card: PropTypes.object.isRequired,
-  deck: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
-};

@@ -6,6 +6,7 @@ function useFlashcard(deck = []) {
   const [shuffledDeck, setShuffleDeck] = React.useState(shuffle(deck));
   const [flashcard, setCard] = React.useState(null);
   const [isBack, flipCard] = React.useState(false);
+  const [isEditing, editFlashcard] = React.useState(false);
   const [noCardsLeftToStudy, setComplete] = React.useState(false);
   const deckIsEmpty = deck.length <= 0;
   const setDeck = () => {
@@ -16,51 +17,48 @@ function useFlashcard(deck = []) {
     flipCard(false);
     setComplete(false);
   };
-  // const [state, setState] = React.useState({
-  //   shuffledDeck: shuffle(deck),
-  //   card: null,
-  //   isBack: false
-  // });
+
   React.useEffect(() => {
+    if (deck.length && !!flashcard) return;
+
     if (deck.length) {
       const sDeck = shuffle(deck);
       const firstCard = sDeck.pop();
       setShuffleDeck(sDeck);
       setCard(firstCard);
       flipCard(false);
-      // setState({
-      //   card: firstCard,
-      //   shuffledDeck: sDeck
-      // });
     }
-  }, [deck, setShuffleDeck, setCard, flipCard, setComplete]);
+  }, [deck, setShuffleDeck, setCard, flipCard, setComplete, flashcard]);
 
-  const getCard = () => {
-    const cards = shuffledDeck;
-    const card = cards.pop();
-    if (deck.length >= 1 && !card) {
-      setComplete(true);
+  const getCard = (flashcard = null) => {
+    if (flashcard) {
+      setCard(flashcard);
+      editFlashcard(false);
+    } else {
+      const cards = shuffledDeck;
+      const card = cards.pop();
+      if (deck.length >= 1 && !card) {
+        setComplete(true);
+      }
+      setShuffleDeck(cards);
+      setCard(card);
+      flipCard((s) => !s);
     }
-    setShuffleDeck(cards);
-    setCard(card);
-    flipCard((s) => !s);
-    // console.log({ noCardsLeftToStudy });
-    // setState((s) => ({
-    //   shuffledDeck: cards,
-    //   flashcard,
-    //   isBack: !s.isBack
-    // }));
   };
   // const flipCard = () => setState((s) => ({ ...s, isBack: !s.isBack }));
+  const clearCard = () => setCard(null);
 
   return {
     flashcard,
     isBack,
     flipCard,
     getCard,
+    clearCard,
     setDeck,
     deckIsEmpty,
-    noCardsLeftToStudy
+    noCardsLeftToStudy,
+    isEditing,
+    editFlashcard
   };
 }
 

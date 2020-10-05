@@ -13,10 +13,10 @@ const GridLayout = styled.div`
   }
 `;
 
-export default function Layout({ children }) {
+export default function Layout({ children, flashcardView }) {
   return (
     <GridLayout>
-      <Navigation />
+      <Navigation flashcardView={flashcardView} />
       {children}
     </GridLayout>
   );

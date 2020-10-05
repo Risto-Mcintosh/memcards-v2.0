@@ -2,20 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, useLocation, useRouteMatch, withRouter } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-import { useFlashcardContext } from '../../Views/flashcardView-context';
 import { logOutUser } from '../../service/auth';
-import {
-  deleteDeckToggle,
-  deleteCard,
-  getCard,
-  logout
-} from '../../actions/actionCreator';
+import { deleteDeckToggle, logout } from '../../actions/actionCreator';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import DeleteToggle from './DeleteToggle';
 
 function Navigation(props) {
-  const card = useFlashcardContext();
   const { pathname } = useLocation();
   const match = useRouteMatch('/decks/:deckId');
   function renderDeleteButton() {
@@ -26,8 +19,8 @@ function Navigation(props) {
           deleteDeckToggle={props.deleteDeckToggle}
         />
       );
-    } else if (match?.isExact) {
-      return <DeleteButton flashcard={card} />;
+    } else if (match?.isExact && props.flashcardView) {
+      return <DeleteButton />;
     } else {
       return null;
     }
@@ -43,7 +36,7 @@ function Navigation(props) {
             <Nav.Link className="text-white mr-2" as={Link} to="/decks">
               Decks
             </Nav.Link>
-            <EditButton {...props} />
+            {match?.isExact && props.flashcardView && <EditButton />}
             {renderDeleteButton()}
             <Nav.Link
               className="text-white px-1"
@@ -66,13 +59,10 @@ function Navigation(props) {
 
 function mapStateToProps(state) {
   return {
-    deck: state.deck,
-    card: state.card
+    deck: state.deck
   };
 }
 
 export default withRouter(
-  connect(mapStateToProps, { deleteDeckToggle, deleteCard, getCard, logout })(
-    Navigation
-  )
+  connect(mapStateToProps, { deleteDeckToggle, logout })(Navigation)
 );
