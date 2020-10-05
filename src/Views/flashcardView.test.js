@@ -11,21 +11,24 @@ import {
 import { makeServer } from '../server';
 import userEvent from '@testing-library/user-event';
 
-it.skip('should redirect to home page when all cards are deleted from deck', async () => {
+it('should redirect to home page when all cards are deleted from deck', async () => {
   const server = makeServer();
   server
     .create('deck')
     .update({ data: server.createList('flashcard', 2), cardCount: 2 });
   const { history } = renderWithRedux(<App />);
+
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   userEvent.click(screen.getByTestId('test-deck'));
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   userEvent.click(screen.getByTestId('delete-button'));
+  await waitFor(() => screen.getAllByTestId('flashcard'));
   userEvent.click(screen.getByTestId('delete-button'));
   await waitFor(() => screen.getByTestId('deck-list'));
 
   expect(history.location.pathname).toBe('/decks');
   expect(screen.getByTestId('test-deck')).toHaveClass('disabled');
+
   server.shutdown();
 });
 
@@ -40,13 +43,13 @@ it('should show Completed page', async () => {
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   userEvent.click(screen.getByTestId('flip-card'));
   userEvent.click(screen.getByTestId('flip-card'));
+  await waitFor(() => screen.getAllByTestId('flashcard'));
   userEvent.click(screen.getByTestId('flip-card'));
   userEvent.click(screen.getByTestId('flip-card'));
 
   await waitFor(() =>
     expect(screen.getByTestId('deck-complete')).toBeInTheDocument()
   );
-  expect(history.location.pathname).toBe('/completed');
   server.shutdown();
 });
 

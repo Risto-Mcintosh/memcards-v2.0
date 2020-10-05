@@ -12,7 +12,7 @@ const StyledContainer = styled(Container)`
   }
 `;
 
-export default function FlashCard({ card, deckName, isBack }) {
+export default function FlashCard({ flashcard, deckName, isBack }) {
   const { transform } = useSpring({
     transform: `perspective(600px) rotateY(${isBack ? 180 : 0}deg)`
   });
@@ -28,18 +28,24 @@ export default function FlashCard({ card, deckName, isBack }) {
           className="position-relative"
           style={{ width: '250px', height: '250px' }}
         >
-          <FlashcardBody
-            cardText={card.front}
-            style={{ transform, backfaceVisibility: 'hidden' }}
-          />
-          <FlashcardBody
-            cardText={card.back}
-            cardImage={card.image}
-            style={{
-              transform: transform.interpolate((t) => `${t} rotateY(180deg)`),
-              opacity: isBack ? 1 : 0
-            }}
-          />
+          {flashcard && (
+            <>
+              <FlashcardBody
+                cardText={flashcard.front}
+                style={{ transform, backfaceVisibility: 'hidden' }}
+              />
+              <FlashcardBody
+                cardText={flashcard.back}
+                cardImage={flashcard.image}
+                style={{
+                  transform: transform.interpolate(
+                    (t) => `${t} rotateY(180deg)`
+                  ),
+                  opacity: isBack ? 1 : 0
+                }}
+              />
+            </>
+          )}
         </div>
       </StyledContainer>
     </Container>

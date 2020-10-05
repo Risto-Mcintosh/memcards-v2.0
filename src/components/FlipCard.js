@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 
-export default function FlipCard({ flipCard, isBack, card, getCard }) {
+export default function FlipCard({ flipCard, isBack, getCard }) {
   return (
     <Container fluid className=" bg-primary">
       <Row className="h-100 mx-n3 d-flex justify-content-center">
@@ -33,9 +32,3 @@ export default function FlipCard({ flipCard, isBack, card, getCard }) {
     </Container>
   );
 }
-
-FlipCard.propTypes = {
-  flipCard: PropTypes.func.isRequired,
-  card: PropTypes.object.isRequired,
-  getCard: PropTypes.func.isRequired
-};

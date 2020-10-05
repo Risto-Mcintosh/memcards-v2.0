@@ -13,13 +13,13 @@ import { useDeckList } from '../utils/useClient';
 
 function AllDecksView(props) {
   const { user } = props;
-  const { data, isLoading } = useDeckList();
+  const { data, isLoading, isFetchedAfterMount } = useDeckList();
   // console.log(data);
   // useEffect(() => {
   //   clearCard();
   // });
 
-  if (!user.isAuthenticated || isLoading) {
+  if (!user.isAuthenticated || isLoading || !isFetchedAfterMount) {
     return <Loading loader />;
   }
 

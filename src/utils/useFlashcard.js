@@ -3,10 +3,19 @@ import shuffle from 'lodash.shuffle';
 
 function useFlashcard(deck = []) {
   //TODO use useReducer or an Object instead
-  const [shuffledDeck, setDeck] = React.useState(shuffle(deck));
-  const [card, setCard] = React.useState(null);
+  const [shuffledDeck, setShuffleDeck] = React.useState(shuffle(deck));
+  const [flashcard, setCard] = React.useState(null);
   const [isBack, flipCard] = React.useState(false);
   const [noCardsLeftToStudy, setComplete] = React.useState(false);
+  const deckIsEmpty = deck.length <= 0;
+  const setDeck = () => {
+    const sDeck = shuffle(deck);
+    const firstCard = sDeck.pop();
+    setShuffleDeck(sDeck);
+    setCard(firstCard);
+    flipCard(false);
+    setComplete(false);
+  };
   // const [state, setState] = React.useState({
   //   shuffledDeck: shuffle(deck),
   //   card: null,
@@ -16,7 +25,7 @@ function useFlashcard(deck = []) {
     if (deck.length) {
       const sDeck = shuffle(deck);
       const firstCard = sDeck.pop();
-      setDeck(sDeck);
+      setShuffleDeck(sDeck);
       setCard(firstCard);
       flipCard(false);
       // setState({
@@ -24,8 +33,7 @@ function useFlashcard(deck = []) {
       //   shuffledDeck: sDeck
       // });
     }
-  }, [deck, setDeck, setCard, flipCard]);
-  const deckIsEmpty = deck.length <= 0;
+  }, [deck, setShuffleDeck, setCard, flipCard, setComplete]);
 
   const getCard = () => {
     const cards = shuffledDeck;
@@ -33,23 +41,24 @@ function useFlashcard(deck = []) {
     if (deck.length >= 1 && !card) {
       setComplete(true);
     }
-    setDeck(cards);
+    setShuffleDeck(cards);
     setCard(card);
     flipCard((s) => !s);
     // console.log({ noCardsLeftToStudy });
     // setState((s) => ({
     //   shuffledDeck: cards,
-    //   card,
+    //   flashcard,
     //   isBack: !s.isBack
     // }));
   };
   // const flipCard = () => setState((s) => ({ ...s, isBack: !s.isBack }));
 
   return {
-    card,
+    flashcard,
     isBack,
     flipCard,
     getCard,
+    setDeck,
     deckIsEmpty,
     noCardsLeftToStudy
   };

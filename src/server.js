@@ -87,9 +87,11 @@ export function makeServer({ environment = 'test' } = {}) {
 
       this.del('/deck/:deckId/card/:cardId', (schema, request) => {
         const card = schema.flashcards.find(request.params.cardId);
+        if (!card) return 'card not found';
         card.destroy();
         const deck = schema.decks.find(request.params.deckId);
         deck.update({ cardCount: --deck.cardCount });
+        return 'card deleted!';
       });
     }
   });

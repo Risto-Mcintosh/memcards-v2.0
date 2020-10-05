@@ -4,44 +4,40 @@ import FlashCard from '../components/flashcard/Flashcard';
 import { FlashcardProvider } from './flashcardView-context';
 import Layout from '../components/Layout';
 import FlipCard from '../components/FlipCard';
-import { flipCard, setCurrentDeck } from '../actions/actionCreator';
 import Loading from '../components/loading';
 import { useDeck } from '../utils/useClient';
 import { useParams, Redirect } from 'react-router-dom';
 import useFlashcard from '../utils/useFlashcard';
+import DeckCompleted from '../components/DeckCompleted';
 
 function Flashcard(props) {
   const { deck } = props;
   const { deckId } = useParams();
-  const { data, isLoading } = useDeck(deckId);
+  const { data, isLoading, isFetchedAfterMount } = useDeck(deckId);
   const {
-    card,
+    flashcard,
     getCard,
     isBack,
     flipCard,
     noCardsLeftToStudy,
+    setDeck,
     deckIsEmpty
   } = useFlashcard(data);
   if (noCardsLeftToStudy) {
-    return <Redirect to="/completed" />;
+    return <DeckCompleted deckName={deck.name} resetDeck={setDeck} />;
   }
-  if (!card || isLoading) {
+  if (!flashcard || isLoading || !isFetchedAfterMount) {
     return <Loading />;
   }
   if (deckIsEmpty) {
-    return <Redirect to="/" />;
+    return <Redirect to="/decks" />;
   }
 
   return (
-    <FlashcardProvider state={card}>
+    <FlashcardProvider state={flashcard}>
       <Layout>
-        <FlashCard card={card} deckName={deck.name} isBack={isBack} />
-        <FlipCard
-          {...props}
-          flipCard={flipCard}
-          isBack={isBack}
-          getCard={getCard}
-        />
+        <FlashCard flashcard={flashcard} deckName={deck.name} isBack={isBack} />
+        <FlipCard flipCard={flipCard} isBack={isBack} getCard={getCard} />
       </Layout>
     </FlashcardProvider>
   );
@@ -49,14 +45,8 @@ function Flashcard(props) {
 
 function mapStateToProps(state) {
   return {
-    decks: state.decks,
-    deck: state.deck,
-    card: state.card
+    deck: state.deck
   };
 }
-const mapDispatchToProps = {
-  flipCard,
-  setCurrentDeck
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Flashcard);
+export default connect(mapStateToProps)(Flashcard);
