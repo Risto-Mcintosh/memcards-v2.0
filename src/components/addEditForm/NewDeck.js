@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import FlashcardFrom from './FlashcardForm';
 import { DeckNameInput } from './DeckNameInputs';
+import { useDeckCreate } from '../../utils/useClient';
 
-export default function NewDeckForm({ createDeck }) {
+export default function NewDeckForm() {
+  const [createDeck] = useDeckCreate();
   const [formValue, setFormValue] = useState({
     deckName: '',
     frontOfCard: '',
@@ -12,7 +14,14 @@ export default function NewDeckForm({ createDeck }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createDeck(formValue);
+    createDeck({
+      deckName: formValue.deckName,
+      card: {
+        front: formValue.frontOfCard,
+        image: formValue.cardImage,
+        back: formValue.backOfCard
+      }
+    });
     setFormValue({
       deckName: formValue.deckName,
       frontOfCard: '',

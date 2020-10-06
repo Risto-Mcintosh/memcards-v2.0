@@ -19,10 +19,6 @@ export default function AllDecks({ decks, setCurrentDeck, deck: toggle }) {
               state: { deckName: deck.name }
             }}
             key={deck.id}
-            onClick={async (e) => {
-              e.stopPropagation();
-              await setCurrentDeck(deck);
-            }}
             action
             className={`d-flex justify-content-between ${
               deck.cardCount <= 0 ? 'text-muted' : null

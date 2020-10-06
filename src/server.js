@@ -64,6 +64,7 @@ export function makeServer({ environment = 'test' } = {}) {
         const newDeck = schema.create('deck', {
           name: data.deckName,
           editable: true,
+          cardCount: 1,
           data: []
         });
         schema.create('flashcard', { deckId: newDeck.id, ...data.card });

@@ -4,7 +4,7 @@ import { FlashcardProvider } from './flashcardView-context';
 import Layout from '../components/Layout';
 import FlipCard from '../components/FlipCard';
 import Loading from '../components/loading';
-import { useDeck } from '../utils/useClient';
+import { useFlashcards } from '../utils/useClient';
 import { useParams, Redirect } from 'react-router-dom';
 import useFlashcard from '../utils/useFlashcard';
 import DeckCompleted from '../components/DeckCompleted';
@@ -12,7 +12,7 @@ import EditCard from '../components/addEditForm/EditCard';
 
 function Flashcard() {
   const { deckId } = useParams();
-  const { data, isLoading, isFetchedAfterMount } = useDeck(deckId);
+  const { data, isLoading, isFetchedAfterMount } = useFlashcards(deckId);
   const {
     flashcard,
     getCard,
