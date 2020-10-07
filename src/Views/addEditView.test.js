@@ -4,7 +4,7 @@ import App from '../App';
 import {
   prettyDOM,
   waitForElementToBeRemoved,
-  waitForElement,
+  waitFor,
   fireEvent
 } from '@testing-library/react';
 import { makeServer } from '../server';
@@ -28,16 +28,14 @@ it('should add new deck to DB and navigate to "Add New Card" page', async () => 
       route: '/add/newdeck'
     }
   );
-  await waitForElementToBeRemoved(() => getByTestId('loading'));
 
   userEvent.type(getByLabelText(/deck/i), 'Test Deck');
   userEvent.type(getByLabelText(/Front/i), 'front text');
   userEvent.type(getByLabelText(/Back/i), 'back text');
   fireEvent.submit(container.querySelector('form'));
-  await waitForElementToBeRemoved(() => getByTestId('deck-name-input'));
+  await waitFor(() => expect(history.location.pathname).toContain('add/card'));
 
   expect(server.db.decks.length).toBe(2);
-  expect(history.location.pathname).toContain('add/card');
 });
 
 it.skip('should add 1 new card to "Test Deck 1"', async () => {

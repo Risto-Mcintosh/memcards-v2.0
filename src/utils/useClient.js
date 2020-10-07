@@ -117,11 +117,40 @@ function useFlashcardEdit() {
     }
   );
 }
+
+const onFlashcardCreate = ({ deckId }) => {
+  queryCache.cancelQueries('deckList');
+
+  const prevData = queryCache.getQueryData('deckList');
+  if (prevData) {
+    function updateCardCount(deck) {
+      if (deck.id === deckId) return { ...deck, cardCount: deck.cardCount++ };
+      return deck;
+    }
+    queryCache.setQueryData('deckList', prevData.map(updateCardCount));
+  }
+
+  return prevData;
+};
+
+function useFlashcardCreate() {
+  return useMutation(
+    ({ card, deckId }) => {
+      client(URLS.createCard(deckId), { data: card });
+    },
+    {
+      onMutate: onFlashcardCreate,
+      onSettled: (response, error, { deckId }) =>
+        queryCache.removeQueries(`deck ${deckId}`)
+    }
+  );
+}
 export {
   useDeckList,
   useDeckCreate,
   useDeckDelete,
   useFlashcards,
   useFlashcardDelete,
-  useFlashcardEdit
+  useFlashcardEdit,
+  useFlashcardCreate
 };

@@ -37,7 +37,7 @@ export const DeckSelectInput = ({ handleChange, value, deckList = [] }) => {
     >
       <option />
       {deckList.map((deck) => (
-        <option value={deck.name} key={deck.id}>
+        <option value={deck.name} key={deck.id} data-deckid={deck.id}>
           {deck.name}
         </option>
       ))}

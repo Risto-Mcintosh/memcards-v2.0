@@ -74,8 +74,11 @@ export function makeServer({ environment = 'test' } = {}) {
       this.post('/deck/:id/card', (schema, request) => {
         const deckId = request.params.id;
         const data = JSON.parse(request.requestBody);
-        console.log({ data, deckId });
-        return schema.create('flashcard', { deckId, ...data });
+        const deck = schema.decks.find(deckId);
+        deck.update({ cardCount: ++deck.cardCount });
+        console.log({ deck });
+        schema.create('flashcard', { deckId, ...data });
+        return 'card created!';
       });
 
       this.put('/deck/:deckId/card/:cardId', (schema, request) => {

@@ -2,12 +2,19 @@ import React, { useState } from 'react';
 import FlashcardFrom from './FlashcardForm';
 import { DeckSelectInput } from './DeckNameInputs';
 import SnackBar from '../SnackBar';
+import { useLocation } from 'react-router-dom';
+import { useDeckList, useFlashcardCreate } from '../../utils/useClient';
+import Loading from '../loading';
 
-export default function NewCard({ addNewCard, location, decks }) {
+export default function NewCard() {
+  const { data, isLoading } = useDeckList();
+  const [addNewCard] = useFlashcardCreate();
+  const location = useLocation();
+
   let deckName = '';
   let showSnackBar = false;
   let snackBarMessage;
-
+  // Todo  need to add deckId in select input (data-deckid) when new deck is created
   if (location.state) {
     deckName = location.state.selectedDeckName;
     showSnackBar = location.state.snackBar.show;
@@ -16,6 +23,7 @@ export default function NewCard({ addNewCard, location, decks }) {
 
   const [formValue, setFormValue] = useState({
     deckName,
+    deckId: null,
     frontOfCard: '',
     backOfCard: '',
     cardImage: null
@@ -28,7 +36,14 @@ export default function NewCard({ addNewCard, location, decks }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addNewCard(formValue);
+    addNewCard({
+      card: {
+        front: formValue.frontOfCard,
+        image: formValue.cardImage,
+        back: formValue.backOfCard
+      },
+      deckId: formValue.deckId
+    });
     setSnackBar({ show: true, message: 'New Card Added!' });
     setFormValue({
       deckName: formValue.deckName,
@@ -39,8 +54,23 @@ export default function NewCard({ addNewCard, location, decks }) {
   };
 
   const handleChange = (e) => {
-    setFormValue({ ...formValue, [e.target.name]: e.target.value });
+    const selectedIndex = e.target.options?.selectedIndex;
+
+    if (selectedIndex) {
+      const deckId = e.target.options[selectedIndex].dataset.deckid;
+      setFormValue({
+        ...formValue,
+        [e.target.name]: e.target.value,
+        deckId: deckId
+      });
+    } else {
+      setFormValue({
+        ...formValue,
+        [e.target.name]: e.target.value
+      });
+    }
   };
+  if (isLoading) return <Loading />;
 
   return (
     <FlashcardFrom
@@ -51,7 +81,7 @@ export default function NewCard({ addNewCard, location, decks }) {
         <DeckSelectInput
           handleChange={handleChange}
           value={formValue.deckName}
-          deckList={decks}
+          deckList={data}
         />
       }
       formValue={formValue}

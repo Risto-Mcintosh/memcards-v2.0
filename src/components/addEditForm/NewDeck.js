@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import FlashcardFrom from './FlashcardForm';
 import { DeckNameInput } from './DeckNameInputs';
 import { useDeckCreate } from '../../utils/useClient';
+import { useHistory } from 'react-router-dom';
 
 export default function NewDeckForm() {
   const [createDeck] = useDeckCreate();
+  const history = useHistory();
   const [formValue, setFormValue] = useState({
     deckName: '',
     frontOfCard: '',
@@ -22,11 +24,9 @@ export default function NewDeckForm() {
         back: formValue.backOfCard
       }
     });
-    setFormValue({
-      deckName: formValue.deckName,
-      frontOfCard: '',
-      backOfCard: '',
-      cardImage: null
+    history.push('/add/card', {
+      selectedDeckName: formValue.deckName,
+      snackBar: { show: true, message: 'New Deck Created!' }
     });
   };
 
