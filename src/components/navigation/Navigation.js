@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, useLocation, useRouteMatch, withRouter } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import { logOutUser } from '../../service/auth';
-import { deleteDeckToggle, logout } from '../../actions/actionCreator';
+import { logout } from '../../actions/actionCreator';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import DeleteToggle from './DeleteToggle';
@@ -57,12 +57,4 @@ function Navigation(props) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    deck: state.deck
-  };
-}
-
-export default withRouter(
-  connect(mapStateToProps, { deleteDeckToggle, logout })(Navigation)
-);
+export default connect('', { logout })(Navigation);

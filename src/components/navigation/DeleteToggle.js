@@ -1,8 +1,10 @@
 import React from 'react';
 import { Delete } from '@styled-icons/material/Delete';
 import { Nav } from 'react-bootstrap';
+import { useDecksViewContext } from '../../Views/allDecksView-context';
 
-function DeleteToggle({ deck, deleteDeckToggle }) {
+function DeleteToggle() {
+  const { toggleDeckDelete } = useDecksViewContext();
   return (
     <Nav.Link
       className="text-white mr-2 p-0 bg-transparent border-0"
@@ -10,7 +12,7 @@ function DeleteToggle({ deck, deleteDeckToggle }) {
     >
       <Delete
         data-testid="delete-button"
-        onClick={() => deleteDeckToggle(deck.toggleDelete)}
+        onClick={() => toggleDeckDelete((s) => !s)}
         style={{ width: '30px' }}
       />
     </Nav.Link>

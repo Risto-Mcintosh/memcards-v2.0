@@ -4,9 +4,11 @@ import { Delete } from '@styled-icons/material/Delete';
 import { Link } from 'react-router-dom';
 import AddNewButtons from './AddNewButtons';
 import { useDeckDelete } from '../utils/useClient';
+import { useDecksViewContext } from '../Views/allDecksView-context';
 
-export default function AllDecks({ decks, setCurrentDeck, deck: toggle }) {
+export default function AllDecks({ decks }) {
   const [deleteDeck] = useDeckDelete();
+  const { showDeckDelete } = useDecksViewContext();
   return (
     <Container className="d-flex flex-column position-relative">
       <ListGroup variant="flush" className="mt-3" data-testid="deck-list">
@@ -26,7 +28,7 @@ export default function AllDecks({ decks, setCurrentDeck, deck: toggle }) {
             disabled={deck.cardCount <= 0 ? true : false}
           >
             <div className="d-flex align-items-center">
-              {toggle.toggleDelete && (
+              {showDeckDelete && (
                 <Delete
                   data-testid="delete-deck"
                   className="text-danger"
