@@ -1,5 +1,5 @@
 import React from 'react';
-import { loginUser } from '../../service/auth';
+import { login } from '../../service/auth';
 import { Formik, Form } from 'formik';
 import { TextFormField } from '../../elements/TextFormField';
 import * as Yup from 'yup';
@@ -23,7 +23,7 @@ function LogInForm({ setAuthenticatedUser, hydrate }) {
         validateOnChange={false}
         validationSchema={LoginSchema}
         onSubmit={(values, { setErrors }) => {
-          loginUser(values)
+          login(values)
             .then((response) => {
               setAuthenticatedUser(true, response.data);
               hydrate();

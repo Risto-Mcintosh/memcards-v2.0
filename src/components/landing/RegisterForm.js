@@ -1,5 +1,5 @@
 import React from 'react';
-import { registerUser } from '../../service/auth';
+import { register } from '../../service/auth';
 import { Formik, Form } from 'formik';
 import { TextFormField } from '../../elements/TextFormField';
 import * as Yup from 'yup';
@@ -29,7 +29,7 @@ function RegisterForm({ setAuthenticatedUser }) {
         validationSchema={RegisterSchema}
         validateOnChange={false}
         onSubmit={(values, { setFieldError }) => {
-          registerUser(values)
+          register(values)
             .then((response) => setAuthenticatedUser(true, response.data))
             .catch((err) => setFieldError('email', err.response.data));
         }}

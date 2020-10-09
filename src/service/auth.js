@@ -1,19 +1,20 @@
 import axios from 'axios';
 import API from './urls';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+import client from '../utils/api-client';
 
-export async function loginUser({ email, password }) {
+// TODO update these functions to use api-client
+async function login({ email, password }) {
   return axios.post(API.login, {
     email,
     password
   });
 }
 
-export async function logOutUser() {
+async function logOut() {
   await axios.post(API.logout);
 }
 
-export async function registerUser({ email, userName, password }) {
+async function register({ email, userName, password }) {
   console.log('post');
   return axios.post(API.register, {
     email,
@@ -21,3 +22,5 @@ export async function registerUser({ email, userName, password }) {
     password
   });
 }
+
+export { login, logOut, register };

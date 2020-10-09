@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-import { logOutUser } from '../../service/auth';
 import { logout } from '../../actions/actionCreator';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
@@ -44,7 +43,6 @@ function Navigation(props) {
               aria-label="logout"
               variant="secondary"
               onClick={async () => {
-                await logOutUser();
                 props.logout();
               }}
             >
