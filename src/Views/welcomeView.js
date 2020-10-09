@@ -1,8 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { setAuthenticatedUser, hydrate } from '../actions/actionCreator';
 import Landing from '../components/landing/Landing';
 import LogInForm from '../components/landing/LogInForm';
 import RegisterForm from '../components/landing/RegisterForm';
@@ -17,7 +14,7 @@ function selectForm(props) {
   }
 }
 
-function welcomeView({ user, ...props }) {
+function WelcomeView({ user, ...props }) {
   return (
     <>
       {!Object.entries(user).length ? (
@@ -31,20 +28,4 @@ function welcomeView({ user, ...props }) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state.user
-  };
-}
-
-export default connect(mapStateToProps, { setAuthenticatedUser, hydrate })(
-  welcomeView
-);
-
-welcomeView.propTypes = {
-  user: PropTypes.object
-};
-
-welcomeView.defaultProps = {
-  user: {}
-};
+export default WelcomeView;

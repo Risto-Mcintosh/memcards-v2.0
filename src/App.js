@@ -7,6 +7,7 @@ import WelcomeView from './Views/welcomeView';
 
 const App = () => (
   <>
+    {/* TODO remove "WelcomeView"  */}
     <Route exact path="/login" component={WelcomeView} />
     <Route exact path="/register" component={WelcomeView} />
     <Route exact path="/" component={AllDecksView} />
