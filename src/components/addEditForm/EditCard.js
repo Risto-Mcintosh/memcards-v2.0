@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FlashcardFrom from './FlashcardForm';
 import { DeckNameReadOnly } from './DeckNameInputs';
 import { useFlashcardContext } from '../../Views/flashcardView-context';
-import { useFlashcardEdit } from '../../utils/useClient';
+import { useFlashcardEdit } from '../../utils/client';
 
 export default function EditCard({ getCard }) {
   const { deckName, flashcard } = useFlashcardContext();

@@ -1,5 +1,5 @@
 import React from 'react';
-import renderWithRedux from '../utils/testWithRedux';
+import renderWithRouter from 'test/testWithRouter';
 import App from '../App';
 import {
   screen,
@@ -25,7 +25,7 @@ it('should redirect to home page when all cards are deleted from deck', async ()
   server
     .create('deck')
     .update({ data: server.createList('flashcard', 2), cardCount: 2 });
-  const { history } = renderWithRedux(<App />);
+  const { history } = renderWithRouter(<App />);
 
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   userEvent.click(screen.getByTestId('test-deck'));
@@ -46,7 +46,7 @@ it('should show Completed page', async () => {
   server
     .create('deck')
     .update({ data: server.createList('flashcard', 2), cardCount: 2 });
-  const { history, container } = renderWithRedux(<App />);
+  const { history, container } = renderWithRouter(<App />);
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   userEvent.click(screen.getByTestId('test-deck'));
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
@@ -65,7 +65,7 @@ it('should successfully edit a flashcard', async () => {
   server
     .create('deck')
     .update({ data: server.createList('flashcard', 1), cardCount: 1 });
-  const { history, container } = renderWithRedux(<App />);
+  const { history, container } = renderWithRouter(<App />);
 
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   userEvent.click(screen.getByTestId('test-deck'));

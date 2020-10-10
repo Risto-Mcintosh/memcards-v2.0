@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FlashcardFrom from './FlashcardForm';
 import { DeckNameInput } from './DeckNameInputs';
-import { useDeckCreate } from '../../utils/useClient';
+import { useDeckCreate } from '../../utils/client';
 import { useHistory } from 'react-router-dom';
 
 export default function NewDeckForm() {

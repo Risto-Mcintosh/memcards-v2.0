@@ -1,7 +1,7 @@
 import React from 'react';
 import { Delete } from '@styled-icons/material/Delete';
 import { Nav } from 'react-bootstrap';
-import { useFlashcardDelete } from '../../utils/useClient';
+import { useFlashcardDelete } from '../../utils/client';
 import { useFlashcardContext } from '../../Views/flashcardView-context';
 
 export default function DeleteButton() {

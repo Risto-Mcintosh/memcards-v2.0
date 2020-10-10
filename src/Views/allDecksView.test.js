@@ -1,5 +1,5 @@
 import React from 'react';
-import renderWithRedux from '../utils/testWithRedux';
+import renderWithRouter from 'test/testWithRouter';
 import App from '../App';
 import {
   prettyDOM,
@@ -23,7 +23,7 @@ afterEach(() => {
 
 it('should load with 5 test decks', async () => {
   server.createList('deck', 5);
-  const { getAllByTestId, getByTestId, container } = renderWithRedux(<App />);
+  const { getAllByTestId, getByTestId, container } = renderWithRouter(<App />);
   await waitForElementToBeRemoved(() => getByTestId('loading'));
   // await waitFor(() => getAllByTestId('test-deck'));
   const decks = getAllByTestId('test-deck');
@@ -32,14 +32,14 @@ it('should load with 5 test decks', async () => {
 
 it('deck with no flashcards should be disable', async () => {
   server.create('deck');
-  const { getByTestId } = renderWithRedux(<App />);
+  const { getByTestId } = renderWithRouter(<App />);
   await waitForElementToBeRemoved(() => getByTestId('loading'));
   expect(getByTestId('test-deck')).toHaveClass('disabled');
 });
 
 it('should delete deck', async () => {
   server.create('deck');
-  const { getByTestId, container } = renderWithRedux(<App />);
+  const { getByTestId, container } = renderWithRouter(<App />);
   await waitForElementToBeRemoved(() => getByTestId('loading'));
   const testDeck = getByTestId('test-deck');
   userEvent.click(getByTestId('delete-button'));

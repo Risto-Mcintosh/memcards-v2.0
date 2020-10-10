@@ -1,5 +1,5 @@
 import React from 'react';
-import renderWithRedux from '../test/testWithRouter';
+import renderWithRouter from 'test/testWithRouter';
 import App from '../App';
 import {
   prettyDOM,
@@ -22,7 +22,7 @@ afterEach(() => {
 
 it('should add new deck to DB and navigate to "Add New Card" page', async () => {
   server.createList('deck', 1);
-  const { getByTestId, getByLabelText, history, container } = renderWithRedux(
+  const { getByTestId, getByLabelText, history, container } = renderWithRouter(
     <App />,
     {
       route: '/add/newdeck'
@@ -46,7 +46,7 @@ it.skip('should add 1 new card to "Test Deck 1"', async () => {
     container,
     getByLabelText,
     store
-  } = renderWithRedux(<App />, { route: '/add/card' });
+  } = renderWithRouter(<App />, { route: '/add/card' });
   await waitForElementToBeRemoved(() => getByTestId('loading'));
 
   userEvent.selectOptions(

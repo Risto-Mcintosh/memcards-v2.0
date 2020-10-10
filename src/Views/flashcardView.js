@@ -4,7 +4,7 @@ import { FlashcardProvider } from './flashcardView-context';
 import Layout from '../components/Layout';
 import FlipCard from '../components/FlipCard';
 import Loading from '../components/loading';
-import { useFlashcards } from '../utils/useClient';
+import { useFlashcards } from '../utils/client';
 import { useParams, Redirect } from 'react-router-dom';
 import useFlashcard from '../utils/useFlashcard';
 import DeckCompleted from '../components/DeckCompleted';

@@ -3,7 +3,7 @@ import { Container, ListGroup } from 'react-bootstrap';
 import { Delete } from '@styled-icons/material/Delete';
 import { Link } from 'react-router-dom';
 import AddNewButtons from './AddNewButtons';
-import { useDeckDelete } from '../utils/useClient';
+import { useDeckDelete } from '../utils/client';
 import { useDecksViewContext } from '../Views/allDecksView-context';
 
 export default function AllDecks({ decks }) {

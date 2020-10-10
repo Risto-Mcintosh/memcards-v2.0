@@ -1,8 +1,8 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import Layout from 'components/Layout';
 import AllDecks from '../components/AllDecks';
 import Loading from '../components/loading';
-import { useDeckList } from '../utils/useClient';
+import { useDeckList } from '../utils/client';
 import { DecksViewProvider } from './allDecksView-context';
 
 function AllDecksView(props) {

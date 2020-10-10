@@ -3,7 +3,7 @@ import FlashcardFrom from './FlashcardForm';
 import { DeckSelectInput } from './DeckNameInputs';
 import SnackBar from '../SnackBar';
 import { useLocation } from 'react-router-dom';
-import { useDeckList, useFlashcardCreate } from '../../utils/useClient';
+import { useDeckList, useFlashcardCreate } from '../../utils/client';
 import Loading from '../loading';
 
 export default function NewCard() {
