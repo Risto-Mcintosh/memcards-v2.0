@@ -13,10 +13,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 ReactDOM.render(
-  <Provider store={store}>
-    <AppProviders>
-      <App />
-    </AppProviders>
-  </Provider>,
+  <AppProviders>
+    <App />
+  </AppProviders>,
   document.getElementById('root')
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { login } from '../../service/auth';
+import * as auth from '../../service/auth';
 import { Formik, Form } from 'formik';
 import { TextFormField } from '../../elements/TextFormField';
 import * as Yup from 'yup';
@@ -11,7 +11,7 @@ const LoginSchema = Yup.object().shape({
   password: Yup.string().required('password is required')
 });
 
-function LogInForm({ setAuthenticatedUser, hydrate }) {
+function LogInForm() {
   const initialValues = {
     email: '',
     password: ''
@@ -23,11 +23,9 @@ function LogInForm({ setAuthenticatedUser, hydrate }) {
         validateOnChange={false}
         validationSchema={LoginSchema}
         onSubmit={(values, { setErrors }) => {
-          login(values)
-            .then((response) => {
-              setAuthenticatedUser(true, response.data);
-              hydrate();
-            })
+          auth
+            .login(values)
+            .then((response) => console.log(response))
             .catch((err) => {
               console.log(err);
               setErrors({

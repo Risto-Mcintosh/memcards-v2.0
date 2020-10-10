@@ -1,5 +1,5 @@
 import React from 'react';
-import { register } from '../../service/auth';
+import * as auth from '../../service/auth';
 import { Formik, Form } from 'formik';
 import { TextFormField } from '../../elements/TextFormField';
 import * as Yup from 'yup';
@@ -15,7 +15,7 @@ const RegisterSchema = Yup.object().shape({
   password: Yup.string().required('password is required').min(5)
 });
 
-function RegisterForm({ setAuthenticatedUser }) {
+function RegisterForm() {
   const initialValues = {
     userName: '',
     email: '',
@@ -29,8 +29,9 @@ function RegisterForm({ setAuthenticatedUser }) {
         validationSchema={RegisterSchema}
         validateOnChange={false}
         onSubmit={(values, { setFieldError }) => {
-          register(values)
-            .then((response) => setAuthenticatedUser(true, response.data))
+          auth
+            .register(values)
+            .then((response) => console.log(response))
             .catch((err) => setFieldError('email', err.response.data));
         }}
       >

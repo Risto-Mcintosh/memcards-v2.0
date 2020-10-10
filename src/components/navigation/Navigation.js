@@ -1,24 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-import { logout } from '../../actions/actionCreator';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import DeleteToggle from './DeleteToggle';
 
-function Navigation(props) {
+function Navigation({ flashcardView }) {
   const { pathname } = useLocation();
   const match = useRouteMatch('/decks/:deckId');
   function renderDeleteButton() {
     if (pathname === '/decks' || pathname === '/') {
-      return (
-        <DeleteToggle
-          deck={props.deck}
-          deleteDeckToggle={props.deleteDeckToggle}
-        />
-      );
-    } else if (match?.isExact && props.flashcardView) {
+      return <DeleteToggle />;
+    } else if (match?.isExact && flashcardView) {
       return <DeleteButton />;
     } else {
       return null;
@@ -35,16 +28,14 @@ function Navigation(props) {
             <Nav.Link className="text-white mr-2" as={Link} to="/decks">
               Decks
             </Nav.Link>
-            {match?.isExact && props.flashcardView && <EditButton />}
+            {match?.isExact && flashcardView && <EditButton />}
             {renderDeleteButton()}
             <Nav.Link
               className="text-white px-1"
               as={Button}
               aria-label="logout"
               variant="secondary"
-              onClick={async () => {
-                props.logout();
-              }}
+              onClick={() => console.log('logging out')}
             >
               Logout
             </Nav.Link>
@@ -55,4 +46,4 @@ function Navigation(props) {
   );
 }
 
-export default connect('', { logout })(Navigation);
+export default Navigation;

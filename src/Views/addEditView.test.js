@@ -1,5 +1,5 @@
 import React from 'react';
-import renderWithRedux from '../utils/testWithRedux';
+import renderWithRedux from '../test/testWithRouter';
 import App from '../App';
 import {
   prettyDOM,
