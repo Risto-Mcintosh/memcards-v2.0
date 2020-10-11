@@ -15,19 +15,21 @@ function Flashcard() {
   const { data, isLoading, isFetchedAfterMount } = useFlashcards(deckId);
   const {
     flashcard,
-    getCard,
+    nextCard,
     clearCard,
-    isBack,
+    showBackOfCard,
     flipCard,
     noCardsLeftToStudy,
-    setDeck,
+    initializeDeck,
     deckIsEmpty,
     isEditing,
     editFlashcard
   } = useFlashcard(data?.cards);
 
   if (noCardsLeftToStudy) {
-    return <DeckCompleted deckName={data?.deckName} resetDeck={setDeck} />;
+    return (
+      <DeckCompleted deckName={data?.deckName} resetDeck={initializeDeck} />
+    );
   }
 
   if (deckIsEmpty && isFetchedAfterMount) {
@@ -44,15 +46,19 @@ function Flashcard() {
     >
       <Layout flashcardView>
         {isEditing ? (
-          <EditCard getCard={getCard} />
+          <EditCard editFlashcard={editFlashcard} />
         ) : (
           <>
             <FlashCard
               flashcard={flashcard}
               deckName={data?.deckName}
-              isBack={isBack}
+              showBackOfCard={showBackOfCard}
             />
-            <FlipCard flipCard={flipCard} isBack={isBack} getCard={getCard} />
+            <FlipCard
+              flipCard={flipCard}
+              showBackOfCard={showBackOfCard}
+              nextCard={nextCard}
+            />
           </>
         )}
       </Layout>

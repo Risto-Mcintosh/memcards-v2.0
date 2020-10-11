@@ -12,9 +12,9 @@ const StyledContainer = styled(Container)`
   }
 `;
 
-export default function FlashCard({ flashcard, deckName, isBack }) {
+export default function FlashCard({ flashcard, deckName, showBackOfCard }) {
   const { transform } = useSpring({
-    transform: `perspective(600px) rotateY(${isBack ? 180 : 0}deg)`
+    transform: `perspective(600px) rotateY(${showBackOfCard ? 180 : 0}deg)`
   });
 
   return (
@@ -41,7 +41,7 @@ export default function FlashCard({ flashcard, deckName, isBack }) {
                   transform: transform.interpolate(
                     (t) => `${t} rotateY(180deg)`
                   ),
-                  opacity: isBack ? 1 : 0
+                  opacity: showBackOfCard ? 1 : 0
                 }}
               />
             </>

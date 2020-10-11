@@ -10,7 +10,7 @@ export default function EditButton() {
       className="text-white mr-2 p-0 bg-transparent border-0"
       as="button"
       data-testid="edit-button"
-      onClick={() => editFlashcard(true)}
+      onClick={() => editFlashcard()}
     >
       <Edit style={{ width: '30px' }} />
     </Nav.Link>

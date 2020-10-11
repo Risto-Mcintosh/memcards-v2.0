@@ -13,7 +13,7 @@ const App = () => (
     <Route exact path="/" component={AllDecksView} />
     <Route exact path="/decks" component={AllDecksView} />
     <Route exact path="/decks/:deckId" component={FlashcardView} />
-    {/* update this route to /add/deck */}
+    {/* TODO update this route to /add/deck */}
     <Route exact path="/add/newdeck" component={AddEditView} />
     <Route exact path="/add/card" component={AddEditView} />
     <Route exact path="/edit/card/:cardId" component={AddEditView} />

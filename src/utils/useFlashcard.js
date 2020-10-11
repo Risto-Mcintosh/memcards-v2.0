@@ -1,64 +1,119 @@
 import React from 'react';
 import shuffle from 'lodash.shuffle';
 
-function useFlashcard(deck = []) {
-  //TODO use useReducer or an Object instead
-  const [shuffledDeck, setShuffleDeck] = React.useState(shuffle(deck));
-  const [flashcard, setCard] = React.useState(null);
-  const [isBack, flipCard] = React.useState(false);
-  const [isEditing, editFlashcard] = React.useState(false);
-  const [noCardsLeftToStudy, setComplete] = React.useState(false);
-  const deckIsEmpty = deck.length <= 0;
-  const setDeck = () => {
-    const sDeck = shuffle(deck);
-    const firstCard = sDeck.pop();
-    setShuffleDeck(sDeck);
-    setCard(firstCard);
-    flipCard(false);
-    setComplete(false);
+const actionTypes = {
+  initialize: 'INITIALIZE_DECK',
+  flip: 'FLIP_CARD',
+  edit: 'EDIT_FLASHCARD',
+  nextCard: 'GET_NEXT_FLASHCARD',
+  clear: 'CLEAR_CARD'
+};
+
+function getFlashCardFromDeck(deck) {
+  const shuffledDeck = deck;
+  const flashcard = shuffledDeck.pop();
+  return {
+    shuffledDeck,
+    flashcard
   };
+}
+
+function flashcardReducer(state, action) {
+  switch (action.type) {
+    case actionTypes.initialize: {
+      let currentDeck = state.currentDeck;
+      if (action.initialDeck.length) {
+        currentDeck = action.initialDeck;
+      }
+      const { shuffledDeck, flashcard } = getFlashCardFromDeck(
+        shuffle(currentDeck)
+      );
+      return {
+        ...state,
+        currentDeck,
+        shuffledDeck,
+        flashcard,
+        isEditing: false,
+        showBackOfCard: false,
+        noCardsLeftToStudy: false
+      };
+    }
+    case actionTypes.nextCard: {
+      const { shuffledDeck, flashcard } = getFlashCardFromDeck(
+        state.shuffledDeck
+      );
+      return {
+        ...state,
+        shuffledDeck,
+        flashcard,
+        showBackOfCard: false,
+        noCardsLeftToStudy:
+          state.currentDeck.length >= 1 && !flashcard ? true : false
+      };
+    }
+    case actionTypes.edit: {
+      if (action.flashcard) {
+        return {
+          ...state,
+          flashcard: action.flashcard,
+          isEditing: false
+        };
+      }
+      return { ...state, isEditing: true };
+    }
+    case actionTypes.clear:
+      return { ...state, flashcard: null };
+    case actionTypes.flip:
+      return { ...state, showBackOfCard: !state.showBackOfCard };
+    default: {
+      throw new Error(`Unhandled type: ${action.type}`);
+    }
+  }
+}
+
+function useFlashcard(deck = []) {
+  const deckIsEmpty = deck.length <= 0;
+
+  const [
+    { flashcard, isEditing, noCardsLeftToStudy, showBackOfCard },
+    dispatch
+  ] = React.useReducer(flashcardReducer, {
+    currentDeck: deck,
+    shuffledDeck: [],
+    flashcard: null,
+    showBackOfCard: false,
+    isEditing: false,
+    noCardsLeftToStudy: false
+  });
+
+  const initializeDeck = React.useCallback(
+    (initialDeck = []) =>
+      dispatch({ type: actionTypes.initialize, initialDeck }),
+    [dispatch]
+  );
+  const nextCard = () => dispatch({ type: actionTypes.nextCard });
+  const editFlashcard = (flashcard = null) =>
+    dispatch({ type: actionTypes.edit, flashcard });
+  const flipCard = () => dispatch({ type: actionTypes.flip });
+  const clearCard = () => dispatch({ type: actionTypes.clear });
 
   React.useEffect(() => {
-    if (deck.length && !!flashcard) return;
-
     if (deck.length) {
-      const sDeck = shuffle(deck);
-      const firstCard = sDeck.pop();
-      setShuffleDeck(sDeck);
-      setCard(firstCard);
-      flipCard(false);
+      initializeDeck(deck);
     }
-  }, [deck, setShuffleDeck, setCard, flipCard, setComplete, flashcard]);
-
-  const getCard = (flashcard = null) => {
-    if (flashcard) {
-      setCard(flashcard);
-      editFlashcard(false);
-    } else {
-      const cards = shuffledDeck;
-      const card = cards.pop();
-      if (deck.length >= 1 && !card) {
-        setComplete(true);
-      }
-      setShuffleDeck(cards);
-      setCard(card);
-      flipCard((s) => !s);
-    }
-  };
-  // const flipCard = () => setState((s) => ({ ...s, isBack: !s.isBack }));
-  const clearCard = () => setCard(null);
+  }, [deck, initializeDeck]);
 
   return {
     flashcard,
-    isBack,
+    showBackOfCard,
     flipCard,
-    getCard,
+    nextCard,
     clearCard,
-    setDeck,
     deckIsEmpty,
     noCardsLeftToStudy,
     isEditing,
-    editFlashcard
+    editFlashcard,
+    initializeDeck
   };
 }
 

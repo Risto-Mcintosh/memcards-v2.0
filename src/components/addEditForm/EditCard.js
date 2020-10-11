@@ -4,9 +4,9 @@ import { DeckNameReadOnly } from './DeckNameInputs';
 import { useFlashcardContext } from '../../Views/flashcardView-context';
 import { useFlashcardEdit } from '../../utils/client';
 
-export default function EditCard({ getCard }) {
+export default function EditCard({ editFlashcard }) {
   const { deckName, flashcard } = useFlashcardContext();
-  const [updateCard] = useFlashcardEdit();
+  const [updateCardInDb] = useFlashcardEdit();
 
   const [formValue, setFormValue] = useState({
     deckName,
@@ -25,9 +25,12 @@ export default function EditCard({ getCard }) {
       deckId: flashcard.deckId
     };
 
-    updateCard(newCard);
+    updateCardInDb(newCard, {
+      onSuccess(data, card) {
+        editFlashcard(card);
+      }
+    });
 
-    getCard({ ...newCard, edited: true });
     setFormValue({
       deckName: formValue.deckName,
       frontOfCard: '',
