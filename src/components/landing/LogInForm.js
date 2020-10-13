@@ -11,7 +11,7 @@ const LoginSchema = Yup.object().shape({
   password: Yup.string().required('password is required')
 });
 
-function LogInForm() {
+function LogInForm({ showRegisterForm }) {
   const initialValues = {
     email: '',
     password: ''
@@ -50,19 +50,19 @@ function LogInForm() {
         </Form>
       </Formik>
       <div className="d-flex flex-column justify-content-center mt-2">
-        <Link
+        <Button
           className=" bg-white text-secondary text-center font-weight-bold p-1 mb-2 rounded"
-          to="/register"
+          onClick={() => showRegisterForm(true)}
         >
           Sign Up
-        </Link>
+        </Button>
 
-        <Link
+        {/* <Link
           className=" bg-white text-secondary text-center font-weight-bold p-1 rounded"
           to="/register"
         >
           Sign In As Guest
-        </Link>
+        </Link> */}
       </div>
     </>
   );

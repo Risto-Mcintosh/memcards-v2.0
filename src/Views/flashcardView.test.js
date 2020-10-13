@@ -6,6 +6,7 @@ import {
   waitFor,
   waitForElementToBeRemoved,
   prettyDOM,
+  cleanup,
   fireEvent
 } from '@testing-library/react';
 import { makeServer } from '../server';
@@ -19,35 +20,47 @@ beforeEach(() => {
 
 afterEach(() => {
   server.shutdown();
+  cleanup();
 });
 
+function render({ flashcardCount } = {}) {
+  const user = server.create('user');
+  server.create('deck').update({
+    data: server.createList('flashcard', flashcardCount),
+    cardCount: flashcardCount
+  });
+
+  const utils = renderWithRouter(<App />, {
+    user: user.id
+  });
+
+  return {
+    ...utils
+  };
+}
+
 it('should redirect to home page when all cards are deleted from deck', async () => {
-  server
-    .create('deck')
-    .update({ data: server.createList('flashcard', 2), cardCount: 2 });
-  const { history } = renderWithRouter(<App />);
+  const { history } = render({ flashcardCount: 2 });
 
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
+  await waitFor(() => screen.getByTestId('test-deck'));
   userEvent.click(screen.getByTestId('test-deck'));
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   userEvent.click(screen.getByTestId('delete-button'));
   await waitFor(() => screen.getAllByTestId('flashcard'));
   userEvent.click(screen.getByTestId('delete-button'));
-  // await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
-  // await waitFor(() => screen.getByTestId('deck-list'));
 
   expect(history.location.pathname).toBe('/decks');
-  waitFor(() =>
+  await waitFor(() =>
     expect(screen.getByTestId('test-deck')).toHaveClass('disabled')
   );
 });
 
 it('should show Completed page', async () => {
-  server
-    .create('deck')
-    .update({ data: server.createList('flashcard', 2), cardCount: 2 });
-  const { history, container } = renderWithRouter(<App />);
+  const { history, container } = render({ flashcardCount: 2 });
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
+  await waitFor(() => screen.getByTestId('test-deck'));
+
   userEvent.click(screen.getByTestId('test-deck'));
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   userEvent.click(screen.getByTestId('flip-card'));
@@ -62,14 +75,13 @@ it('should show Completed page', async () => {
 });
 
 it('should successfully edit a flashcard', async () => {
-  server
-    .create('deck')
-    .update({ data: server.createList('flashcard', 1), cardCount: 1 });
-  const { history, container } = renderWithRouter(<App />);
+  const { history, container } = render({ flashcardCount: 1 });
 
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
+  await waitFor(() => screen.getByTestId('test-deck'));
+
   userEvent.click(screen.getByTestId('test-deck'));
-  // await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
+  await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   await waitFor(() => screen.getAllByTestId('flashcard'));
 
   userEvent.click(screen.getByTestId('edit-button'));

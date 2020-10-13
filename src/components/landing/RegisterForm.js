@@ -15,7 +15,7 @@ const RegisterSchema = Yup.object().shape({
   password: Yup.string().required('password is required').min(5)
 });
 
-function RegisterForm() {
+function RegisterForm({ showRegisterForm }) {
   const initialValues = {
     userName: '',
     email: '',
@@ -50,12 +50,12 @@ function RegisterForm() {
         </Form>
       </Formik>
       <div className="mt-2">
-        <Link
+        <Button
           className=" d-block w-100 bg-white text-secondary text-center font-weight-bold p-1 rounded"
-          to="/login"
+          onClick={() => showRegisterForm(false)}
         >
           Login
-        </Link>
+        </Button>
       </div>
     </>
   );

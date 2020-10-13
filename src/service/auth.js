@@ -32,4 +32,4 @@ function register({ email, userName, password }) {
   }).then(handleUserResponse);
 }
 
-export { login, logout, register, getToken };
+export { login, logout, register, getToken, localStorageKey };
