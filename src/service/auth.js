@@ -1,24 +1,35 @@
 import API from './urls';
 import client from '../utils/api-client';
 
-async function login({ email, password }) {
+const localStorageKey = '__memcards-app__';
+
+function handleUserResponse({ userId }) {
+  window.localStorage.setItem(localStorageKey, userId);
+  return userId;
+}
+
+async function getToken() {
+  return window.localStorage.getItem(localStorageKey);
+}
+
+function login({ email, password }) {
   return client(API.login, {
     data: {
       email,
       password
     }
-  });
+  }).then(handleUserResponse);
 }
 
-async function logOut() {
-  await client(API.logout);
+async function logout() {
+  client(API.logout);
+  window.localStorage.removeItem(localStorageKey);
 }
 
-async function register({ email, userName, password }) {
-  console.log('post');
+function register({ email, userName, password }) {
   return client(API.register, {
     data: { email, userName, password }
-  });
+  }).then(handleUserResponse);
 }
 
-export { login, logOut, register };
+export { login, logout, register, getToken };

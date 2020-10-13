@@ -4,8 +4,11 @@ export function makeServer({ environment = 'test' } = {}) {
   let server = new Server({
     environment,
     models: {
-      user: Model,
+      user: Model.extend({
+        deck: hasMany()
+      }),
       deck: Model.extend({
+        user: belongsTo(),
         data: hasMany('flashcard')
       }),
       flashcard: Model.extend({
@@ -38,8 +41,8 @@ export function makeServer({ environment = 'test' } = {}) {
     },
 
     seeds(server) {
-      server.create('user', { userId: '123', isAuthenticated: true });
-      server.createList('deck', 4).forEach((deck) => {
+      const user = server.create('user', { id: '123' });
+      server.createList('deck', 4, { user }).forEach((deck) => {
         deck.update({ data: server.createList('flashcard', 3), cardCount: 3 });
       });
     },

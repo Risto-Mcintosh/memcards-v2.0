@@ -29,6 +29,7 @@ it('should add new deck to DB and navigate to "Add New Card" page', async () => 
     }
   );
 
+  await waitForElementToBeRemoved(() => getByTestId('loading'));
   userEvent.type(getByLabelText(/deck/i), 'Test Deck');
   userEvent.type(getByLabelText(/Front/i), 'front text');
   userEvent.type(getByLabelText(/Back/i), 'back text');
