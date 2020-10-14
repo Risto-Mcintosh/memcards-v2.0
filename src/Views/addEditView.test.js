@@ -20,14 +20,27 @@ afterEach(() => {
   server.shutdown();
 });
 
+function render({ deckCount, ...options } = {}) {
+  const user = server.create('user');
+  if (deckCount) {
+    server.createList('deck', deckCount, { user });
+  } else {
+    server.create('deck', { user });
+  }
+
+  const utils = renderWithRouter(<App />, {
+    ...options,
+    user: user.id
+  });
+
+  return {
+    ...utils
+  };
+}
 it('should add new deck to DB and navigate to "Add New Card" page', async () => {
-  server.createList('deck', 1);
-  const { getByTestId, getByLabelText, history, container } = renderWithRouter(
-    <App />,
-    {
-      route: '/add/newdeck'
-    }
-  );
+  const { getByTestId, getByLabelText, history, container } = render({
+    route: '/add/newdeck'
+  });
 
   await waitForElementToBeRemoved(() => getByTestId('loading'));
   userEvent.type(getByLabelText(/deck/i), 'Test Deck');
@@ -39,15 +52,10 @@ it('should add new deck to DB and navigate to "Add New Card" page', async () => 
   expect(server.db.decks.length).toBe(2);
 });
 
-it.skip('should add 1 new card to "Test Deck 1"', async () => {
-  server.createList('deck', 3);
-  const {
-    getByTestId,
-    getByText,
-    container,
-    getByLabelText,
-    store
-  } = renderWithRouter(<App />, { route: '/add/card' });
+it('should add 1 new card to "Test Deck 1"', async () => {
+  const { getByTestId, getByText, container, getByLabelText } = render({
+    route: '/add/card'
+  });
   await waitForElementToBeRemoved(() => getByTestId('loading'));
 
   userEvent.selectOptions(
@@ -58,6 +66,5 @@ it.skip('should add 1 new card to "Test Deck 1"', async () => {
   userEvent.type(getByLabelText(/Front/i), 'front text');
   userEvent.type(getByLabelText(/Back/i), 'back text');
   fireEvent.submit(container.querySelector('form'));
-  const deck = server.db.decks.findBy({ name: 'Test Deck 1' });
-  const flashcards = server.db.flashcards.findBy({ deckId: deck.id });
+  await waitFor(() => expect(getByTestId('snackbar')).toBeInTheDocument());
 });

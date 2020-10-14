@@ -7,6 +7,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 export default function SnackBar({ message, showState, setSnackBar }) {
   return (
     <Snackbar
+      data-testid="snackbar"
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'left'

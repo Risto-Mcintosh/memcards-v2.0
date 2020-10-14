@@ -23,7 +23,7 @@ afterEach(() => {
   cleanup();
 });
 
-function render({ flashcardCount } = {}) {
+async function render({ flashcardCount } = {}) {
   const user = server.create('user');
   server.create('deck').update({
     data: server.createList('flashcard', flashcardCount),
@@ -40,7 +40,7 @@ function render({ flashcardCount } = {}) {
 }
 
 it('should redirect to home page when all cards are deleted from deck', async () => {
-  const { history } = render({ flashcardCount: 2 });
+  const { history, container } = await render({ flashcardCount: 2 });
 
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   await waitFor(() => screen.getByTestId('test-deck'));
@@ -49,15 +49,13 @@ it('should redirect to home page when all cards are deleted from deck', async ()
   userEvent.click(screen.getByTestId('delete-button'));
   await waitFor(() => screen.getAllByTestId('flashcard'));
   userEvent.click(screen.getByTestId('delete-button'));
+  await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
 
   expect(history.location.pathname).toBe('/decks');
-  await waitFor(() =>
-    expect(screen.getByTestId('test-deck')).toHaveClass('disabled')
-  );
 });
 
 it('should show Completed page', async () => {
-  const { history, container } = render({ flashcardCount: 2 });
+  const { history, container } = await render({ flashcardCount: 2 });
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   await waitFor(() => screen.getByTestId('test-deck'));
 
@@ -75,11 +73,10 @@ it('should show Completed page', async () => {
 });
 
 it('should successfully edit a flashcard', async () => {
-  const { history, container } = render({ flashcardCount: 1 });
+  const { history, container } = await render({ flashcardCount: 1 });
 
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
-  await waitFor(() => screen.getByTestId('test-deck'));
-
+  // await waitFor(() => screen.getByTestId('test-deck'));
   userEvent.click(screen.getByTestId('test-deck'));
   await waitForElementToBeRemoved(() => screen.getByTestId('loading'));
   await waitFor(() => screen.getAllByTestId('flashcard'));

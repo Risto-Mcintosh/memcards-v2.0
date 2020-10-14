@@ -10,16 +10,15 @@ async function bootstrapAppData() {
   let user = null;
   const token = await auth.getToken();
   if (token) {
-    const data = await client(URLS.getAllDecks, {
-      params: {
-        userId: token
-      }
-    });
+    // const data = await client(URLS.getAllDecks, {
+    //   params: {
+    //     userId: token
+    //   }
+    // });
 
-    queryCache.setQueryData('deckList', data);
+    // queryCache.setQueryData('deckList', data);
     user = token;
   }
-  console.log({ user });
   return user;
 }
 

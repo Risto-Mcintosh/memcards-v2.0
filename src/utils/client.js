@@ -64,9 +64,12 @@ const onFlashcardDelete = (card) => {
 
   const prevData = queryCache.getQueryData(`deck ${card.deckId}`);
   if (prevData) {
+    const newFlashcardSet = prevData.cards.filter(
+      (deck) => deck.id !== card.id
+    );
     queryCache.setQueryData(`deck ${card.deckId}`, {
       ...prevData,
-      cards: prevData.cards.filter((deck) => deck.id !== card.id)
+      cards: newFlashcardSet
     });
   }
   return prevData;
@@ -79,7 +82,7 @@ function useFlashcardDelete() {
     {
       onMutate: onFlashcardDelete,
       onError: (error, deck, prevData) => queryCache.setQueryData(prevData)
-      // onSettled: () => queryCache.invalidateQueries('deck')
+      // onSuccess: (res, card ) => queryCache.invalidateQueries(`deck ${card.deckId}`)
     }
   );
 }

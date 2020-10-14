@@ -79,7 +79,6 @@ export function makeServer({ environment = 'test' } = {}) {
         const data = JSON.parse(request.requestBody);
         const deck = schema.decks.find(deckId);
         deck.update({ cardCount: ++deck.cardCount });
-        console.log({ deck });
         schema.create('flashcard', { deckId, ...data });
         return 'card created!';
       });

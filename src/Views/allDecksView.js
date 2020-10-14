@@ -6,9 +6,9 @@ import { useDeckList } from '../utils/client';
 import { DecksViewProvider } from './allDecksView-context';
 
 function AllDecksView(props) {
-  const { data, isLoading, isFetching } = useDeckList();
+  const { data, isLoading, isFetching, isFetchedAfterMount } = useDeckList();
 
-  if (isLoading || isFetching) {
+  if (isLoading || isFetching || !isFetchedAfterMount) {
     return <Loading loader />;
   }
 

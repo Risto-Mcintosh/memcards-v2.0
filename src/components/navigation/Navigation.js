@@ -25,7 +25,12 @@ function Navigation({ flashcardView }) {
             Memcards
           </Navbar.Brand>
           <Nav className=" flex-row align-items-center">
-            <Nav.Link className="text-white mr-2" as={Link} to="/decks">
+            <Nav.Link
+              className="text-white mr-2"
+              as={Link}
+              to="/decks"
+              data-testid="link-to-home"
+            >
               Decks
             </Nav.Link>
             {match?.isExact && flashcardView && <EditButton />}
