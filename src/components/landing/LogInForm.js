@@ -1,10 +1,9 @@
 import React from 'react';
-import * as auth from '../../service/auth';
 import { Formik, Form } from 'formik';
 import { TextFormField } from '../../elements/TextFormField';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { useAuth } from 'context/auth-context';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('invalid email').required('email is required'),
@@ -12,6 +11,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 function LogInForm({ showRegisterForm }) {
+  const { login } = useAuth();
   const initialValues = {
     email: '',
     password: ''
@@ -23,17 +23,13 @@ function LogInForm({ showRegisterForm }) {
         validateOnChange={false}
         validationSchema={LoginSchema}
         onSubmit={(values, { setErrors }) => {
-          auth
-            .login(values)
-            .then((response) => console.log(response))
-            .catch((err) => {
-              console.log(err);
-              setErrors({
-                email: err.response.data,
-                password: err.response.data
-              });
+          login(values).catch((err) => {
+            console.log(err);
+            setErrors({
+              email: err.response.data,
+              password: err.response.data
             });
-          return;
+          });
         }}
       >
         <Form>

@@ -4,6 +4,7 @@ import client from '../utils/api-client';
 const localStorageKey = '__memcards-app__';
 
 function handleUserResponse({ userId }) {
+  console.log('logging in ??');
   window.localStorage.setItem(localStorageKey, userId);
   return userId;
 }
@@ -22,7 +23,7 @@ function login({ email, password }) {
 }
 
 async function logout() {
-  client(API.logout);
+  client(API.logout, { method: 'delete' });
   window.localStorage.removeItem(localStorageKey);
 }
 

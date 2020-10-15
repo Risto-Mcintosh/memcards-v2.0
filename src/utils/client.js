@@ -1,11 +1,13 @@
 import client from './api-client';
 import URLS from '../service/urls';
 import { useQuery, useMutation, queryCache } from 'react-query';
+import { useAuth } from 'context/auth-context';
 
 function useDeckList() {
+  const userId = useAuth().user;
   return useQuery({
     queryKey: 'deckList',
-    queryFn: () => client(URLS.getAllDecks)
+    queryFn: () => client(URLS.getAllDecks, { params: { userId } })
   });
 }
 
@@ -28,8 +30,14 @@ const onDeckCreate = (responseData, deck) => {
 };
 
 function useDeckCreate() {
+  const userId = useAuth().user;
   return useMutation(
-    (deck) => client(URLS.createDeck, { data: deck, method: 'post' }),
+    (deck) =>
+      client(URLS.createDeck, {
+        data: deck,
+        method: 'post',
+        params: { userId }
+      }),
     {
       onSuccess: onDeckCreate,
       onError: (error, deck, prevData) => queryCache.setQueryData(prevData),

@@ -7,7 +7,7 @@ export default async function client(url, { data, ...config } = {}) {
     data: data,
     ...config
   });
-  if (response.statusText === 'OK') {
+  if (response.statusText === 'OK' || response.statusText === 'Created') {
     return response.data;
   } else {
     return Promise.reject(response.data);

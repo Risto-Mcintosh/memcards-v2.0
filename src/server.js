@@ -41,7 +41,7 @@ export function makeServer({ environment = 'test' } = {}) {
     },
 
     seeds(server) {
-      const user = server.create('user', { id: '123' });
+      const user = server.create('user');
       server.createList('deck', 4, { user }).forEach((deck) => {
         deck.update({ data: server.createList('flashcard', 3), cardCount: 3 });
       });
@@ -103,6 +103,21 @@ export function makeServer({ environment = 'test' } = {}) {
         const deck = schema.decks.find(request.params.deckId);
         deck.update({ cardCount: --deck.cardCount });
         return 'card deleted!';
+      });
+
+      this.post('/login', (schema, request) => {
+        const user = schema.users.find(1);
+        return { userId: user.id };
+      });
+
+      this.delete('/logout', () => {
+        return 'logged out';
+      });
+
+      this.post('/register', (schema, request) => {
+        const { userName } = request.requestBody;
+        const user = schema.users.create({ name: userName });
+        return { userId: user.id };
       });
     }
   });

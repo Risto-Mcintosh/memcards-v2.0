@@ -1,7 +1,5 @@
 import React from 'react';
 import * as auth from 'service/auth';
-import client from 'utils/api-client';
-import URLS from 'service/urls';
 import { useAsync } from 'utils/useAsync';
 import { queryCache } from 'react-query';
 import Loading from 'components/loading';

@@ -1,10 +1,9 @@
 import React from 'react';
-import * as auth from '../../service/auth';
 import { Formik, Form } from 'formik';
 import { TextFormField } from '../../elements/TextFormField';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { useAuth } from 'context/auth-context';
 
 const RegisterSchema = Yup.object().shape({
   userName: Yup.string()
@@ -16,6 +15,7 @@ const RegisterSchema = Yup.object().shape({
 });
 
 function RegisterForm({ showRegisterForm }) {
+  const { register } = useAuth();
   const initialValues = {
     userName: '',
     email: '',
@@ -29,10 +29,9 @@ function RegisterForm({ showRegisterForm }) {
         validationSchema={RegisterSchema}
         validateOnChange={false}
         onSubmit={(values, { setFieldError }) => {
-          auth
-            .register(values)
-            .then((response) => console.log(response))
-            .catch((err) => setFieldError('email', err.response.data));
+          register(values).catch((err) =>
+            setFieldError('email', err.response.data)
+          );
         }}
       >
         <Form>

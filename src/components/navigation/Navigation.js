@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { useAuth } from 'context/auth-context';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import DeleteToggle from './DeleteToggle';
 
 function Navigation({ flashcardView }) {
   const { pathname } = useLocation();
+  const { logout } = useAuth();
+
   const match = useRouteMatch('/decks/:deckId');
   function renderDeleteButton() {
     if (pathname === '/decks' || pathname === '/') {
@@ -40,7 +43,7 @@ function Navigation({ flashcardView }) {
               as={Button}
               aria-label="logout"
               variant="secondary"
-              onClick={() => console.log('logging out')}
+              onClick={() => logout()}
             >
               Logout
             </Nav.Link>
