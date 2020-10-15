@@ -16,18 +16,24 @@ export default function NewDeckForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createDeck({
-      deckName: formValue.deckName,
-      card: {
-        front: formValue.frontOfCard,
-        image: formValue.cardImage,
-        back: formValue.backOfCard
+    createDeck(
+      {
+        deckName: formValue.deckName,
+        card: {
+          front: formValue.frontOfCard,
+          image: formValue.cardImage,
+          back: formValue.backOfCard
+        }
+      },
+      {
+        onSuccess(deckId) {
+          history.push('/add/card', {
+            selectedDeck: { name: formValue.deckName, id: deckId },
+            snackBar: { show: true, message: 'New Deck Created!' }
+          });
+        }
       }
-    });
-    history.push('/add/card', {
-      selectedDeckName: formValue.deckName,
-      snackBar: { show: true, message: 'New Deck Created!' }
-    });
+    );
   };
 
   const handleChange = (e) => {

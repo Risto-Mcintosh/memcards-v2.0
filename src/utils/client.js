@@ -21,10 +21,11 @@ function useFlashcards(deckId) {
 const onDeckCreate = (responseData, deck) => {
   const prevData = queryCache.getQueryData('deckList');
   if (prevData) {
-    queryCache.setQueryData(
-      'deck',
-      prevData.push({ name: deck.deckName, id: responseData, cardCount: 1 })
-    );
+    const newDeckList = [
+      ...prevData,
+      { name: deck.deckName, id: responseData, cardCount: 1 }
+    ];
+    queryCache.setQueryData('deckList', newDeckList);
   }
   return prevData;
 };

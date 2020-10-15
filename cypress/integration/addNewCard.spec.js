@@ -15,7 +15,7 @@ describe('Add new card to existing deck', () => {
   //   const backOfCard = chance.animal({ type: 'forest' });
 
   //   cy.getByTestId('add-new-button').click();
-  //   cy.get('a[href*="/add/newdeck').click();
+  //   cy.get('a[href*="/add/deck').click();
   //   cy.get('input[name="deckName"]').type(deckName);
   //   cy.get('input[name="frontOfCard"]').type(frontOfCard);
   //   cy.get('input[name="backOfCard"]').type(backOfCard);

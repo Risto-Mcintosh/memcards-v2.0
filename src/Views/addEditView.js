@@ -8,7 +8,7 @@ import Layout from '../components/Layout';
 function loadComponent(props) {
   // brake these into there own "views"
   switch (props.match.path) {
-    case '/add/newdeck':
+    case '/add/deck':
       return <NewDeckForm {...props} />;
     case '/edit/card/:cardId':
       return <EditCardForm {...props} />;

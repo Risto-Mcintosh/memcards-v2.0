@@ -39,7 +39,7 @@ function render({ deckCount, ...options } = {}) {
 }
 it('should add new deck to DB and navigate to "Add New Card" page', async () => {
   const { getByTestId, getByLabelText, history, container } = render({
-    route: '/add/newdeck'
+    route: '/add/deck'
   });
 
   await waitForElementToBeRemoved(() => getByTestId('loading'));

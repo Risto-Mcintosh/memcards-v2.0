@@ -42,7 +42,7 @@ export default function AddNewButtons() {
           >
             Add new deck
           </p>
-          <Link to="/add/newdeck" style={{ width: '32px' }}>
+          <Link to="/add/deck" style={{ width: '32px' }}>
             <Folder style={{ width: '100%' }} />
           </Link>
         </div>

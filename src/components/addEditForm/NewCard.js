@@ -12,18 +12,19 @@ export default function NewCard() {
   const location = useLocation();
 
   let deckName = '';
+  let deckId = null;
   let showSnackBar = false;
   let snackBarMessage;
-  // Todo  need to add deckId in select input (data-deckid) when new deck is created
   if (location.state) {
-    deckName = location.state.selectedDeckName;
+    deckName = location.state.selectedDeck.name;
+    deckId = location.state.selectedDeck.id;
     showSnackBar = location.state.snackBar.show;
     snackBarMessage = location.state.snackBar.message;
   }
 
   const [formValue, setFormValue] = useState({
     deckName,
-    deckId: null,
+    deckId,
     frontOfCard: '',
     backOfCard: '',
     cardImage: null
@@ -55,7 +56,6 @@ export default function NewCard() {
 
   const handleChange = (e) => {
     const selectedIndex = e.target.options?.selectedIndex;
-
     if (selectedIndex) {
       const deckId = e.target.options[selectedIndex].dataset.deckid;
       setFormValue({
