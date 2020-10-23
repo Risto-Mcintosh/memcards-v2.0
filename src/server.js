@@ -48,7 +48,9 @@ export function makeServer({ environment = 'test' } = {}) {
     },
 
     routes() {
-      this.namespace = '/api';
+      this.urlPrefix = process.env.REACT_APP_SERVER_URL;
+      // this.namespace = `${process.env.REACT_APP_SERVER_URL}`;
+      // console.log(process.env.REACT_APP_SERVER_URL);
       this.passthrough('https://api.unsplash.com/search/**');
       this.get('/decks', (schema) => {
         return schema.db.decks;

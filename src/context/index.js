@@ -6,7 +6,14 @@ import { AuthProvider } from './auth-context';
 export default function AppProviders({ children }) {
   return (
     <ReactQueryConfigProvider
-      config={{ queries: { refetchOnWindowFocus: false } }}
+      config={{
+        queries: {
+          refetchOnWindowFocus: false,
+          onError(error) {
+            console.log(error);
+          }
+        }
+      }}
     >
       <Router>
         <AuthProvider>{children}</AuthProvider>
