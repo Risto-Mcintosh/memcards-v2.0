@@ -1,14 +1,21 @@
 import axios from 'axios';
-import { localStorageKey } from 'service/auth';
+import { localStorageKey, getToken } from 'service/auth';
 
 export default async function client(url, { data, ...config } = {}) {
   try {
+    // TODO Get Token from memory (if you can) instead of pulling from localStorage
+    const { token } = await getToken();
     const response = await axios({
       url,
       method: data ? 'post' : 'get',
       data: data,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
       ...config
     });
+
     return response.data;
   } catch (error) {
     console.log({ error });
@@ -17,12 +24,4 @@ export default async function client(url, { data, ...config } = {}) {
     }
     return Promise.reject(error.response);
   }
-
-  // if (response.statusText === 'OK' || response.statusText === 'Created') {
-  //   console.log(response, 'from client');
-  //   return response.data;
-  // } else {
-  //   console.log(response, 'from client');
-  //   return Promise.reject(response.data);
-  // }
 }

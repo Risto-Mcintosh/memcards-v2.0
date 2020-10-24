@@ -1,16 +1,17 @@
 import API from './urls';
-import client from '../utils/api-client';
+import axios from 'axios';
+// import client from '../utils/api-client';
 
 const localStorageKey = '__memcards-app__';
 
-function handleUserResponse({ userId }) {
+function handleUserResponse(user) {
   console.log('logging in ??');
-  window.localStorage.setItem(localStorageKey, userId);
-  return userId;
+  window.localStorage.setItem(localStorageKey, JSON.stringify(user));
+  return user;
 }
 
 async function getToken() {
-  return window.localStorage.getItem(localStorageKey);
+  return JSON.parse(window.localStorage.getItem(localStorageKey));
 }
 
 function login({ email, password }) {
@@ -31,6 +32,28 @@ function register({ email, userName, password }) {
   return client(API.register, {
     data: { email, userName, password }
   }).then(handleUserResponse);
+}
+
+async function client(url, { data, ...config } = {}) {
+  try {
+    const response = await axios({
+      url,
+      method: data ? 'post' : 'get',
+      data: data,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      ...config
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log({ error });
+    if (error.response.statusText === 'Unauthorized') {
+      window.localStorage.removeItem(localStorageKey);
+    }
+    return Promise.reject(error.response);
+  }
 }
 
 export { login, logout, register, getToken, localStorageKey };

@@ -4,7 +4,8 @@ import { useQuery, useMutation, queryCache } from 'react-query';
 import { useAuth } from 'context/auth-context';
 
 function useDeckList() {
-  const userId = useAuth().user;
+  const { userId } = useAuth().user;
+  console.log({ userId });
   return useQuery({
     queryKey: 'deckList',
     queryFn: () => client(URLS.getAllDecks, { params: { userId } })
@@ -31,7 +32,7 @@ const onDeckCreate = (responseData, deck) => {
 };
 
 function useDeckCreate() {
-  const userId = useAuth().user;
+  const { userId } = useAuth().user;
   return useMutation(
     (deck) =>
       client(URLS.createDeck, {
