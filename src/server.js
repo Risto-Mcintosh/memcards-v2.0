@@ -88,8 +88,8 @@ export function makeServer({ environment = 'test' } = {}) {
       this.put('/deck/:deckId/card/:cardId', (schema, request) => {
         const data = JSON.parse(request.requestBody);
         const card = schema.flashcards.find(request.params.cardId);
-        card.update({ ...data });
-        return 'card edited!';
+        const newCard = card.update({ ...data });
+        return newCard;
       });
 
       this.del('/deck/:id', (schema, request) => {

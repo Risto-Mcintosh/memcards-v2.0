@@ -5,7 +5,6 @@ import { useAuth } from 'context/auth-context';
 
 function useDeckList() {
   const { userId } = useAuth().user;
-  console.log({ userId });
   return useQuery({
     queryKey: 'deckList',
     queryFn: () => client(URLS.getAllDecks, { params: { userId } })
@@ -97,20 +96,20 @@ function useFlashcardDelete() {
   );
 }
 
-const onFlashcardEdit = (card) => {
+const onFlashcardEdit = ({ card, cardId, deckId }) => {
   // queryCache.invalidateQueries('deck', {
   //   refetchActive: false
   // });
-  queryCache.cancelQueries(`deck ${card.deckId}`);
+  queryCache.cancelQueries(`deck ${deckId}`);
 
-  const prevData = queryCache.getQueryData(`deck ${card.deckId}`);
+  const prevData = queryCache.getQueryData(`deck ${deckId}`);
   if (prevData) {
     function editCardInCache(cardInCache) {
-      if (cardInCache.id === card.id) return { ...cardInCache, ...card };
+      if (cardInCache.id === cardId) return { ...cardInCache, ...card };
       return cardInCache;
     }
 
-    queryCache.setQueryData(`deck ${card.deckId}`, {
+    queryCache.setQueryData(`deck ${deckId}`, {
       ...prevData,
       cards: prevData.cards.map(editCardInCache)
     });
@@ -120,8 +119,8 @@ const onFlashcardEdit = (card) => {
 
 function useFlashcardEdit() {
   return useMutation(
-    (card) =>
-      client(URLS.editORDeleteCard(card.deckId, card.id), {
+    ({ card, cardId, deckId }) =>
+      client(URLS.editORDeleteCard(deckId, cardId), {
         data: card,
         method: 'put'
       }),

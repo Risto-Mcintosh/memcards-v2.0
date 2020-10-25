@@ -7,7 +7,6 @@ import { useFlashcardEdit } from '../../utils/client';
 export default function EditCard({ editFlashcard }) {
   const { deckName, flashcard } = useFlashcardContext();
   const [updateCardInDb] = useFlashcardEdit();
-
   const [formValue, setFormValue] = useState({
     deckName,
     frontOfCard: flashcard.front,
@@ -18,16 +17,17 @@ export default function EditCard({ editFlashcard }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newCard = {
-      id: flashcard.id,
-      front: formValue.frontOfCard,
-      back: formValue.backOfCard,
-      image: formValue.cardImage,
+      card: {
+        front: formValue.frontOfCard,
+        back: formValue.backOfCard,
+        image: formValue.cardImage
+      },
+      cardId: flashcard.id,
       deckId: flashcard.deckId
     };
-
     updateCardInDb(newCard, {
-      onSuccess(data, card) {
-        editFlashcard(card);
+      onSuccess(data) {
+        editFlashcard(data);
       }
     });
 
