@@ -5,16 +5,17 @@ import Loading from '../components/loading';
 import { useDeckList } from '../utils/client';
 import { DecksViewProvider } from './allDecksView-context';
 
-function AllDecksView(props) {
+function AllDecksView() {
   const {
     data,
     isLoading,
     isFetching,
     isFetchedAfterMount,
-    isError
+    isError,
+    isStale
   } = useDeckList();
 
-  if (isLoading || isFetching || !isFetchedAfterMount) {
+  if (isLoading || isFetching) {
     return <Loading loader />;
   }
 
@@ -22,10 +23,11 @@ function AllDecksView(props) {
     return <h1>Something Went Wrong :(</h1>;
   }
 
+  console.log({ isStale });
   return (
     <DecksViewProvider>
       <Layout>
-        <AllDecks decks={data} {...props} />
+        <AllDecks decks={data} />
       </Layout>
     </DecksViewProvider>
   );

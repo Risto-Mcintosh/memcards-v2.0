@@ -9,6 +9,7 @@ export default function AppProviders({ children }) {
       config={{
         queries: {
           refetchOnWindowFocus: false,
+          staleTime: Infinity,
           onError(error) {
             console.log(error);
           }
