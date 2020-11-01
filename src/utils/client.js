@@ -62,8 +62,7 @@ function useDeckDelete() {
     (deckId) => client(URLS.deleteDeck(deckId), { method: 'delete' }),
     {
       onMutate: onDeckDelete,
-      onError: (error, deck, prevData) => queryCache.setQueryData(prevData),
-      onSettled: () => queryCache.invalidateQueries('deckList')
+      onError: (error, deck, prevData) => queryCache.setQueryData(prevData)
     }
   );
 }

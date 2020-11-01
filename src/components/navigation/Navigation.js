@@ -1,20 +1,16 @@
 import React from 'react';
-import { Link, useLocation, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import { useAuth } from 'context/auth-context';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
-import DeleteToggle from './DeleteToggle';
 
 function Navigation({ flashcardView }) {
-  const { pathname } = useLocation();
   const { logout } = useAuth();
 
   const match = useRouteMatch('/decks/:deckId');
   function renderDeleteButton() {
-    if (pathname === '/decks' || pathname === '/') {
-      return <DeleteToggle />;
-    } else if (match?.isExact && flashcardView) {
+    if (match?.isExact && flashcardView) {
       return <DeleteButton />;
     } else {
       return null;

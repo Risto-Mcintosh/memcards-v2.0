@@ -1,10 +1,8 @@
 import React from 'react';
 import { Container, Dropdown, ListGroup } from 'react-bootstrap';
-import { Delete } from '@styled-icons/material/Delete';
 import { Link } from 'react-router-dom';
 import AddNewButtons from './AddNewButtons';
 import { useDeckDelete } from '../utils/client';
-import { useDecksViewContext } from '../Views/allDecksView-context';
 import styled from 'styled-components';
 
 const IconButton = styled.button`
@@ -49,7 +47,6 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => (
 
 export default function AllDecks({ decks }) {
   const [deleteDeck] = useDeckDelete();
-  const { showDeckDelete } = useDecksViewContext();
   return (
     <Container className="d-flex flex-column position-relative">
       <ListGroup variant="flush" className="mt-3" data-testid="deck-list">
@@ -69,18 +66,6 @@ export default function AllDecks({ decks }) {
             disabled={deck.cardCount <= 0 ? true : false}
           >
             <div className="d-flex align-items-center">
-              {showDeckDelete && (
-                <Delete
-                  data-testid="delete-deck"
-                  className="text-danger"
-                  style={{ width: '30px', pointerEvents: 'auto' }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    deleteDeck(deck.id);
-                  }}
-                />
-              )}
               <div className="h5 mb-0">{deck.name}</div>
             </div>
 
@@ -89,8 +74,9 @@ export default function AllDecks({ decks }) {
               <Dropdown>
                 <Dropdown.Toggle id="deck options" as={CustomToggle} />
                 <Dropdown.Menu>
-                  <Dropdown.Item>Edit</Dropdown.Item>
-                  <Dropdown.Item>Delete</Dropdown.Item>
+                  <Dropdown.Item onClick={() => deleteDeck(deck.id)}>
+                    Delete
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
